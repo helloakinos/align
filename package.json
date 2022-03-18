@@ -1,0 +1,33 @@
+{
+  "name": "align",
+  "version": "1.0.0",
+  "description": "Hello Team!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/helloakinos/align.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/helloakinos/align/issues"
+  },
+  "homepage": "https://github.com/helloakinos/align#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "express": "^4.17.3",
+    "express-handlebars": "^6.0.3",
+    "express-session": "^1.17.2",
+    "knex": "^1.0.4",
+    "passport": "^0.5.2",
+    "pg": "^8.7.3",
+    "supertest": "^6.2.2"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.0"
+  }
+}
