@@ -1,0 +1,153 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+a {
+    text-decoration: none;
+    color:inherit;
+}
+/* NAVBAR */
+nav{
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgb(26, 24, 24);
+}
+.nav-links{
+    display:inline-block;
+    font-family: 'Poppins';
+    font-size: 28px;
+    font-weight:bold;
+    color:#FFB545;
+    margin-right:25px;
+}
+/* LOGO */
+.logo{
+    font-size:100px;
+    color:#228478;
+    font-weight:bolder;
+    font-family: 'Poppins';
+    margin-left:15px;
+}
+
+.menu{
+    display: flex;
+    gap:8em;
+}
+
+.menu li:hover{
+    background-color: white;
+    border-radius: 20px;
+    transition:0.3s ease;
+}
+
+.menu li{
+    padding: 0px 14px;
+    list-style: none;
+}
+
+/* DROPDOWN MENU */
+.explore{
+    position:relative;
+    z-index:2;
+}
+
+.dropdown{
+    padding:1em 0;
+    left:0;
+    position:absolute;
+    display:none;
+    border-radius:5px;
+    font-size:20px;
+    background:white;
+    width:300px;
+    text-align:left;
+    opacity: 0.9;
+    /* transition:1s ease; */
+}
+
+.dropdown li{
+    text-align:center;
+}
+
+.dropdown li:hover{
+    background-color: 228478;
+}
+
+.explore:hover .dropdown{
+    display:block
+}
+
+/* COPYRIGHT */
+.copyright{
+    margin-top:20px;
+    display:flex;
+    justify-content: center;
+}
+
+/* HomePage Carousell */
+.carousel-item{
+    width:100%;
+    height:80%;
+    z-index:-1;
+}
+
+img{
+    object-fit:cover;
+}
+
+/* SignupPage */
+.signup{
+    margin-left:25px;
+}
+
+/* loginPage */
+.headDiv{
+    display: flex;
+    justify-content: space-between;
+}
+
+.heading{
+    margin-top:20px;
+    margin-left:25px;
+}
+
+.signupButton{
+    border-radius: 20px;
+    font-size: 30px;
+    padding:5px;
+    align-self:center;
+    margin-right: 25px;
+    width:fit-content;
+}
+
+.loginPage{
+    display:flex;
+    justify-content:space-evenly;
+}
+
+.login{
+    width:400px;
+    height:400px;
+}
+
+form{
+    margin-top:20px;
+}
+
+/* jobBoard && companyPreview  */
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    background-color: #2196F3;
+    padding: 10px;
+  }
+  .grid-item {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    font-size: 30px;
+    text-align: center;
+  }

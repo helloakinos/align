@@ -34,7 +34,7 @@ app.engine(
     layoutsDir: "",
     defaultLayout: "",
     extname: "hbs",
-    partialsDir: `${__dirname}/views/partials`,
+    // partialsDir: `${__dirname}/views/partials`,
   })
 );
 
@@ -64,8 +64,8 @@ const jobService = new JobService(knex);
 app.get(
   "/",
   /*isloggedin, */ (req, res) => {
-    console.log(`current user: `);
-    res.render("index", {
+    // console.log(`current user: `);
+    res.render("home", {
       layout: "main",
       //   applicant: applicant,
       //   company: company,
@@ -73,20 +73,46 @@ app.get(
   }
 );
 
+app.get("/login",(req,res)=>{
+  res.render("login",{
+    layout:"main"
+  })
+})
+
+app.get("/signup",(req,res)=>{
+  res.render("signup",{
+    layout:"main"
+  })
+})
+
+app.get("/companypreview",(req,res)=>{
+  res.render("companyPreview",{
+    layout:"main"
+  })
+})
+
+app.get("/jobBoard",(req,res)=>{
+  res.render("jobBoard",{
+    layout:"main"
+  })
+})
+
 // ========= Set up Routers ================
 
 // Routers not active yet, awaiting implementation
 // app.use("/", new AuthRouter(express, passport).router());
 // app.use("/api/jobs", new JobRouter(jobService, express).router());
 
-const options = {
-  cert: fs.readFileSync("./localhost-align.crt"),
-  key: fs.readFileSync("./localhost-align.key"),
-};
+// const options = {
+//   cert: fs.readFileSync("./localhost-align.crt"),
+//   key: fs.readFileSync("./localhost-align.key"),
+// };
 
 // ============ Activate Server ===============
-https
-  .createServer(options, app)
-  .listen(port, () => console.log("listening on port: " + port));
+
+app.listen("5001",()=>{})
+// https
+//   .createServer(options, app)
+//   .listen(port, () => console.log("listening on port: " + port));
 
 module.exports = app;
