@@ -4,6 +4,11 @@ require("dotenv").config();
 
 const express = require("express");
 const { engine } = require("express-handlebars");
+const msal = require('@azure/msal-node');
+const passportFunctions = require("./passport");
+const cookieParser = require("cookie-parser");
+const expressSession = require("express-session");
+
 
 const knexConfig = require("./knexfile").development;
 const knex = require("knex")(knexConfig);
@@ -13,21 +18,39 @@ const passport = require("passport");
 const session = require("express-session");
 
 const app = express();
-port = 5001;
+port = 3000;
 
 // ========== In-built Node Modules ================
 const fs = require("fs");
 const path = require("path");
 const https = require("https");
 
+
 // =========== Local Modules ===================
 const JobRouter = require("./Routers/JobRouter");
 const AuthRouter = require("./Routers/AuthRouter");
+const authRouter = new AuthRouter();
 const JobService = require("./Service/JobService");
+const ViewRouter = require("./Routers/ViewRouter");
+const viewRouter = new ViewRouter();
+
+const REDIRECT_URI = "http://localhost:3000/redirect";
 // import passportconfig and isLogged in function here
 
 // ========= Set up Express Handlebars ==============
+app.use(cookieParser());
 app.set("view engine", "hbs");
+app.use(
+  // Creating a new session generates a new session id, stores that in a session cookie, and
+  expressSession({
+    secret: "secret",
+    // save the user
+    // if false, will not save session to browser
+    resave: true,
+    // if saveUninitialized is false, session object will not be stored in sesion store
+    saveUninitialized: true,
+  })
+);
 app.engine(
   "hbs",
   engine({
