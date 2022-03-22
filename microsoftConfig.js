@@ -3,9 +3,9 @@ const msal = require('@azure/msal-node');
 
 const microsoftoAuthconfig = {
     auth: {
-        clientId: process.env.CLIENTID,
+        clientId: process.env.MICROSOFTCLIENTID,
         authority: "https://login.microsoftonline.com/common",
-        clientSecret: process.env.CLIENTSECRET
+        clientSecret: process.env.MICROSOFTCLIENTSECRET
     },
     system: {
         loggerOptions: {

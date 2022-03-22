@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const msal = require('@azure/msal-node');
-const micConfig = require("./microsoftConfig");
+const micConfig = require("../microsoftConfig.js");
 const pca = new msal.ConfidentialClientApplication(micConfig);
 const passportFunctions = require("../passport");
 const REDIRECT_URI = "http://localhost:3000/microsoftredirect";
@@ -54,7 +54,7 @@ class AuthRouter {
       }).catch((error) => console.log(JSON.stringify(error)));
   });
   
-  app.get('/microsoftredirect', (req, res) => {
+  router.get('/microsoftredirect', (req, res) => {
       const tokenRequest = {
           code: req.query.code,
           scopes: ["user.read"],
