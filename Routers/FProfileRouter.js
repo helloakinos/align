@@ -1,6 +1,6 @@
-// ================ Router for  job postings ===================
-const isLoggedIn = require("../authFuncs/auth.js").isLoggedIn;
-
+// ================ Router for  Finder profile ===================
+const isLoggedInFinder = require("../authFuncs/auth.js").isLoggedInFinder;
+// const express = require("express");
 class FProfileRouter {
   constructor(finderService, express) {
     this.finderService = finderService;
@@ -9,10 +9,7 @@ class FProfileRouter {
 
   router() {
     let router = this.express.Router();
-    router.get(
-      "/myfinderprofile",
-      /*isLoggedIn,*/ this.getFinderProfile.bind(this)
-    );
+    router.get("/finderprofile", this.getFinderProfile.bind(this));
     router.post("/", this.post.bind(this));
     router.put("/:id", this.put.bind(this));
     router.delete("/:id", this.delete.bind(this));
@@ -24,9 +21,17 @@ class FProfileRouter {
     console.log(`Current Finder ID: ${finderId}`);
     return this.finderService.profile(finderId).then((profile) => {
       res.json(profile);
+      res.render("finderProfile");
     });
-
-    res.render("finderProfile");
+  }
+  post(req, res) {
+    console.log("FProfile Router: POST Method");
+  }
+  put(req, res) {
+    console.log("FProfile Router: PUT Method");
+  }
+  delete(req, res) {
+    console.log("FProfile Router: DELETE Method");
   }
 }
 
