@@ -4,9 +4,10 @@
  */
 exports.up = function(knex) {
     return knex.schema.createTable("job", function(table){
-        table.increments("job_id").notNullable().unique().primary();
-        table.integer("finder_id").primary();
+        table.increments("job_id").unique();
+        table.integer("finder_id").unique();
         table.foreign("finder_id").references("finder.finder_id");
+        table.primary(["job_id"])
         table.string("job_title");
         table.string("location");
         table.boolean("vetted");
