@@ -13,6 +13,7 @@ label{
     display:inline-block;
     width:200px;
 }
+
 /* NAVBAR */
 nav{
     display:flex;
@@ -133,6 +134,7 @@ img{
     justify-content:space-evenly;
 }
 
+
 .loginHeading{
     font-size:40px;
     font-weight: bold;
@@ -182,3 +184,4 @@ form{
 .description:hover{
     opacity:1
 }
+

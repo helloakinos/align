@@ -4,6 +4,10 @@ require("dotenv").config();
 
 const express = require("express");
 const { engine } = require("express-handlebars");
+const msal = require("@azure/msal-node");
+const passportFunctions = require("./passport");
+const cookieParser = require("cookie-parser");
+const expressSession = require("express-session");
 
 const knexConfig = require("./knexfile").development;
 const knex = require("knex")(knexConfig);
@@ -13,7 +17,7 @@ const passport = require("passport");
 const session = require("express-session");
 
 const app = express();
-port = 5001;
+port = 3000;
 
 // ========== In-built Node Modules ================
 const fs = require("fs");
@@ -21,13 +25,28 @@ const path = require("path");
 const https = require("https");
 
 // =========== Local Modules ===================
-const JobRouter = require("./Routers/JobRouter");
-const AuthRouter = require("./Routers/AuthRouter");
-const JobService = require("./Service/JobService");
+const FinderRouter = require("./Routers/FinderRouter");
+// const AuthRouter = require("./Routers/AuthRouter");
+const FinderService = require("./Service/FinderService");
+const ViewRouter = require("./Routers/ViewRouter");
+const FProfileRouter = require("./Routers/FProfileRouter");
+
 // import passportconfig and isLogged in function here
 
 // ========= Set up Express Handlebars ==============
+app.use(cookieParser());
 app.set("view engine", "hbs");
+app.use(
+  // Creating a new session generates a new session id, stores that in a session cookie, and
+  expressSession({
+    secret: "secret",
+    // save the user
+    // if false, will not save session to browser
+    resave: true,
+    // if saveUninitialized is false, session object will not be stored in sesion store
+    saveUninitialized: true,
+  })
+);
 app.engine(
   "hbs",
   engine({
@@ -56,22 +75,28 @@ app.use(express.json());
 // app.use(passport.initialize());
 // app.use(passport.session());
 
-// =========== Set up JobService ============
-const jobService = new JobService(knex);
+// =========== Set up Instances for Routers & Services ============
+const finderService = new FinderService(knex);
+const viewRouter = new ViewRouter();
+const fprofileRouter = new FProfileRouter(finderService, express);
+// const authRouter = new AuthRouter();
 
 // =========== Homepage set up ============
 // can add isLoggedin function in here when implementing authentications
-app.get(
-  "/",
-  /*isloggedin, */ (req, res) => {
-    // console.log(`current user: `);
-    res.render("home", {
-      layout: "main",
-      //   applicant: applicant,
-      //   company: company,
-    });
-  }
-);
+// app.get(
+//   "/",
+//   /*isloggedin, */ (req, res) => {
+//     console.log(`current user: `);
+
+//     res.render("home", {
+//       layout: "main",
+//       //   applicant: applicant,
+//       //   company: company,
+
+//     });
+//   }
+// );
+
 
 app.get("/login",(req,res)=>{
   res.render("login",{
@@ -107,13 +132,18 @@ app.get("/jobBoard",(req,res)=>{
 // ========= Set up Routers ================
 
 // Routers not active yet, awaiting implementation
+app.use("/", viewRouter.router());
+// app.use("/", authRouter.router());
 // app.use("/", new AuthRouter(express, passport).router());
-// app.use("/api/jobs", new JobRouter(jobService, express).router());
+app.use("/api/finderprofile", new fprofileRouter());
+app.use("/api/profile", new FinderRouter(finderService, express).router());
 
-// const options = {
-//   cert: fs.readFileSync("./localhost-align.crt"),
-//   key: fs.readFileSync("./localhost-align.key"),
-// };
+
+const options = {
+  cert: fs.readFileSync("./localhost.crt"),
+  key: fs.readFileSync("./localhost.key"),
+};
+
 
 // ============ Activate Server ===============
 
