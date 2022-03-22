@@ -1,12 +1,9 @@
-
-const express = require("express");
 const isLoggedInSeeker = require("../authFuncs/auth.js").isLoggedInSeeker;
 const isLoggedInFinder = require("../authFuncs/auth.js").isLoggedInFinder;
 
-
 // ================ Router for  job postings ===================
 
-class FinderRouter {
+class ViewRouter {
   constructor(finderService, express) {
     this.finderService = finderService;
     this.express = express;
@@ -17,19 +14,19 @@ class FinderRouter {
     router.get("/", this.getHome.bind(this));
     router.get("/login", this.getLogin.bind(this));
     router.get("/signup", this.getSignup.bind(this));
-
+    router.get("/impactFinderPreview", this.getImpactFinderPreview.bind(this));
     router.get(
       "/myfinderprofile",
-      isLoggedIn,
+      /*isLoggedInFinder,*/
       this.getFinderProfile.bind(this)
     );
-
-
     return router;
   }
 
   getHome(req, res) {
-    res.render("home");
+    res.render("home", {
+      layout: "main",
+    });
   }
   getLogin(req, res) {
     res.render("login");
@@ -37,12 +34,17 @@ class FinderRouter {
   getSignup(req, res) {
     res.render("signup");
   }
-
+  getImpactFinderPreview(req, res) {
+    res.render("impactFinderPreview", {
+      layout: "main",
+    });
+  }
 
   getFinderProfile(req, res) {
-    res.render("finderProfile");
-
+    res.render("impactFinderProfile", {
+      layout: "main",
+    });
   }
 }
 
-module.exports = FinderRouter;
+module.exports = ViewRouter;
