@@ -4,11 +4,10 @@ require("dotenv").config();
 
 const express = require("express");
 const { engine } = require("express-handlebars");
-const msal = require('@azure/msal-node');
+const msal = require("@azure/msal-node");
 const passportFunctions = require("./passport");
 const cookieParser = require("cookie-parser");
 const expressSession = require("express-session");
-
 
 const knexConfig = require("./knexfile").development;
 const knex = require("knex")(knexConfig);
@@ -25,14 +24,12 @@ const fs = require("fs");
 const path = require("path");
 const https = require("https");
 
-
 // =========== Local Modules ===================
-const JobRouter = require("./Routers/JobRouter");
-const AuthRouter = require("./Routers/AuthRouter");
-const authRouter = new AuthRouter();
-const JobService = require("./Service/JobService");
+const FinderRouter = require("./Routers/FinderRouter");
+// const AuthRouter = require("./Routers/AuthRouter");
+const FinderService = require("./Service/FinderService");
 const ViewRouter = require("./Routers/ViewRouter");
-const viewRouter = new ViewRouter();
+const FProfileRouter = require("./Routers/FProfileRouter");
 
 // import passportconfig and isLogged in function here
 
@@ -78,8 +75,11 @@ app.use(express.json());
 // app.use(passport.initialize());
 // app.use(passport.session());
 
-// =========== Set up JobService ============
-const jobService = new JobService(knex);
+// =========== Set up Instances for Routers & Services ============
+const finderService = new FinderService(knex);
+const viewRouter = new ViewRouter();
+const fprofileRouter = new FProfileRouter(finderService, express);
+// const authRouter = new AuthRouter();
 
 // =========== Homepage set up ============
 // can add isLoggedin function in here when implementing authentications
@@ -87,10 +87,12 @@ const jobService = new JobService(knex);
 //   "/",
 //   /*isloggedin, */ (req, res) => {
 //     console.log(`current user: `);
+
 //     res.render("home", {
 //       layout: "main",
 //       //   applicant: applicant,
 //       //   company: company,
+
 //     });
 //   }
 // );
@@ -98,8 +100,11 @@ const jobService = new JobService(knex);
 // ========= Set up Routers ================
 
 // Routers not active yet, awaiting implementation
+app.use("/", viewRouter.router());
+// app.use("/", authRouter.router());
 // app.use("/", new AuthRouter(express, passport).router());
-// app.use("/api/jobs", new JobRouter(jobService, express).router());
+app.use("/api/finderprofile", new fprofileRouter());
+app.use("/api/profile", new FinderRouter(finderService, express).router());
 
 const options = {
   cert: fs.readFileSync("./localhost.crt"),
