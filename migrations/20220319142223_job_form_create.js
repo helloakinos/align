@@ -7,8 +7,8 @@ exports.up = function(knex) {
         table.integer("seeker_id");
         table.foreign("seeker_id").references("seeker.seeker_id");
         table.integer("job_id").notNullable().unique().unsigned();;
-        table.foreign("job_id").references("job.job_id");
-        table.primary(["company_id", "job_id"]);
+        // table.foreign("job_id").references("job.job_id");
+        table.primary(["seeker_id", "job_id"]);
         table.string("question1");
         table.string("question2");
         table.string("question3");
