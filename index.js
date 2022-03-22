@@ -34,7 +34,6 @@ const JobService = require("./Service/JobService");
 const ViewRouter = require("./Routers/ViewRouter");
 const viewRouter = new ViewRouter();
 
-const REDIRECT_URI = "http://localhost:3000/redirect";
 // import passportconfig and isLogged in function here
 
 // ========= Set up Express Handlebars ==============
@@ -84,17 +83,17 @@ const jobService = new JobService(knex);
 
 // =========== Homepage set up ============
 // can add isLoggedin function in here when implementing authentications
-app.get(
-  "/",
-  /*isloggedin, */ (req, res) => {
-    console.log(`current user: `);
-    res.render("index", {
-      layout: "main",
-      //   applicant: applicant,
-      //   company: company,
-    });
-  }
-);
+// app.get(
+//   "/",
+//   /*isloggedin, */ (req, res) => {
+//     console.log(`current user: `);
+//     res.render("home", {
+//       layout: "main",
+//       //   applicant: applicant,
+//       //   company: company,
+//     });
+//   }
+// );
 
 // ========= Set up Routers ================
 
@@ -103,8 +102,8 @@ app.get(
 // app.use("/api/jobs", new JobRouter(jobService, express).router());
 
 const options = {
-  cert: fs.readFileSync("./localhost-align.crt"),
-  key: fs.readFileSync("./localhost-align.key"),
+  cert: fs.readFileSync("./localhost.crt"),
+  key: fs.readFileSync("./localhost.key"),
 };
 
 // ============ Activate Server ===============

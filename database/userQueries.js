@@ -11,6 +11,16 @@ function postFacebook(username, facebookId) {
     })
     .returning("id");
 }
+
+function postMicrosoft(username, microsoftId) {
+  return knex(TABLE_NAME)
+    .insert({
+      username: username,
+      facebook_id: microsoftId,
+    })
+    .returning("id");
+}
+
 function postGmail(username, gmailId) {
   return knex(TABLE_NAME)
     .insert({
@@ -120,7 +130,7 @@ function getAllUsers() {
   let allUsers = knex(TABLE_NAME).select(
     "id",
     "username",
-    "twitter_id",
+    "microsoft_id",
     "facebook_id",
     "password"
   );
@@ -129,7 +139,7 @@ function getAllUsers() {
       return eachRow.map((eachUser) => ({
         id: eachUser.id,
         username: eachUser.username,
-        twitter_id: eachUser.twitter_id,
+        twitter_id: eachUser.microsoft_id,
         facebook_id: eachUser.facebook_id,
         password: eachUser.password,
       }));
@@ -156,12 +166,20 @@ function gmailIdExists(gmailId) {
       return count[0].n > 0;
     });
 }
+function microsoftIdExists(microsoftId) {
+  return knex(TABLE_NAME)
+    .count("id as n")
+    .where("microsoft_id", microsoftId)
+    .then((count) => {
+      return count[0].n > 0;
+    });
+}
 function getById(id) {
   return knex(TABLE_NAME).select("id", "username").where("id", id);
 }
 function getByUsername(username) {
   return knex(TABLE_NAME)
-    .select("id", "username", "twitter_id", "facebook_id", "hash", "password")
+    .select("id", "username", "microsoft_id", "facebook_id", "hash", "password")
     .where("username", username);
 }
 
@@ -172,16 +190,22 @@ function getByGmailId(gmailId) {
 function getByFacebookId(facebookId) {
   return knex(TABLE_NAME).select().where("facebook_id", facebookId);
 }
+function getByMicrosoftId(microsoftId) {
+  return knex(TABLE_NAME).select().where("microsoft_id", microsoftId);
+}
 module.exports = {
   //   postUser: postUser,
   verify: verify,
   postFacebook: postFacebook,
+  postMicrosoft: postMicrosoft,
   postGmail: postGmail,
   createUser: createUser,
   gmailIdExists: gmailIdExists,
   facebookIdExists: facebookIdExists,
+  microsoftIdExists: microsoftIdExists,
   getById: getById,
   getByFacebookId: getByFacebookId,
+  getByMicrosoftId: getByMicrosoftId,
   getByGmailId: getByGmailId,
   postFacebook: postFacebook,
 };

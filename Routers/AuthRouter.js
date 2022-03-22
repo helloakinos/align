@@ -16,7 +16,7 @@ class AuthRouter {
     router.post(
       "/login",
       passportFunctions.authenticate("local-login", {
-        successRedirect: "/todolist",
+        successRedirect: "/home",
         failureRedirect: "/error",
       })
     );
@@ -31,7 +31,7 @@ class AuthRouter {
     router.get(
       "/auth/gmail/callback",
       passportFunctions.authenticate("google", {
-        successRedirect: "/todolist",
+        successRedirect: "/home",
         failureRedirect: "/error",
       })
     );
@@ -46,7 +46,7 @@ class AuthRouter {
     router.get(
       "/auth/facebook/callback",
       passportFunctions.authenticate("facebook", {
-        successRedirect: "/todolist",
+        successRedirect: "/home",
         failureRedirect: "/error",
       })
     );
