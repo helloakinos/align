@@ -11,7 +11,7 @@ exports.up = function(knex) {
       table.date("date_joined");
       table.string("gender");
       table.integer("cv_id").unique();
-      table.string("favourite_companies");
+      table.string("favourite_finders");
       table.string("favourite_jobs");
       table.string("current_location");
   })

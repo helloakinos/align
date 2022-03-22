@@ -3,30 +3,30 @@
  * Licensed under the MIT License.
  */
 require("dotenv").config();
-const express = require("express");
+
+
 const msal = require('@azure/msal-node');
 
-const SERVER_PORT = process.env.PORT;
-const REDIRECT_URI = "http://localhost:3000/microsoftredirect";
+
 
 // Before running the sample, you will need to replace the values in the config, 
 // including the clientSecret
-const config = {
-    auth: {
-        clientId: process.env.CLIENTID,
-        authority: "https://login.microsoftonline.com/common",
-        clientSecret: process.env.CLIENTSECRET
-    },
-    system: {
-        loggerOptions: {
-            loggerCallback(loglevel, message, containsPii) {
-                console.log(message);
-            },
-            piiLoggingEnabled: false,
-            logLevel: msal.LogLevel.Verbose,
-        }
-    }
-};
+// const config = {
+//     auth: {
+//         clientId: process.env.CLIENTID,
+//         authority: "https://login.microsoftonline.com/common",
+//         clientSecret: process.env.CLIENTSECRET
+//     },
+//     system: {
+//         loggerOptions: {
+//             loggerCallback(loglevel, message, containsPii) {
+//                 console.log(message);
+//             },
+//             piiLoggingEnabled: false,
+//             logLevel: msal.LogLevel.Verbose,
+//         }
+//     }
+// };
 
 // Create msal application object
 const pca = new msal.ConfidentialClientApplication(config);

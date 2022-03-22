@@ -3,10 +3,10 @@
  * @returns { Promise<void> }
  */
 exports.up = function(knex) {
-    return knex.schema.createTable("company_contact", function(table){
+    return knex.schema.createTable("finder_contact", function(table){
         table.increments("contact_id").notNullable().primary();
-        table.integer("company_id");
-        table.foreign("company_id").references("company.company_id");
+        table.integer("finder_id");
+        table.foreign("finder_id").references("finder.finder_id");
         table.string("first_name");
         table.string("surname");
         table.integer("telephone_number").unique();
@@ -22,5 +22,5 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-    return knex.schema.dropTable("company_contact");
+    return knex.schema.dropTable("finder_contact");
 };

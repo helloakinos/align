@@ -3,11 +3,11 @@
  * @returns { Promise<void> }
  */
 exports.up = function(knex) {
-    return knex.schema.createTable("company_login", function(table){
-        table.integer("company_id").primary();
-        table.foreign("company_id").references("company.company_id");
+    return knex.schema.createTable("finder_login", function(table){
+        table.integer("finder_id").primary();
+        table.foreign("finder_id").references("finder.finder_id");
         table.string("password");
-        table.string("company_name").unique();
+        table.string("finder_name").unique();
     })
 };
 
@@ -16,5 +16,5 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-    return knex.schema.dropTable("company_login");
+    return knex.schema.dropTable("finder_login");
 };

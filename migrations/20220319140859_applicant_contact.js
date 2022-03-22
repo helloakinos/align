@@ -3,9 +3,9 @@
  * @returns { Promise<void> }
  */
 exports.up = function(knex) {
-    return knex.schema.createTable("applicant_contact", function(table){
-        table.integer("applicant_id").notNullable().unique().unsigned().primary();
-        table.foreign("applicant_id").references("applicant.applicant_id");
+    return knex.schema.createTable("seeker_contact", function(table){
+        table.integer("seeker_id").notNullable().unique().unsigned().primary();
+        table.foreign("seeker_id").references("seeker.seeker_id");
         table.integer("mobile_number").unique().unsigned();
         table.integer("home_number").unique().unsigned();
         table.string("email1").notNullable().unique();
@@ -18,5 +18,5 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-    return knex.schema.dropTable("applicant_contact");
+    return knex.schema.dropTable("seeker_contact");
 };
