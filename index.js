@@ -85,8 +85,14 @@ app.get("/signup",(req,res)=>{
   })
 })
 
-app.get("/companypreview",(req,res)=>{
-  res.render("companyPreview",{
+app.get("/impactFinderPreview",(req,res)=>{
+  res.render("impactFinderPreview",{
+    layout:"main"
+  })
+})
+
+app.get("/impactFinderProfile",(req,res)=>{
+  res.render("impactFinderProfile",{
     layout:"main"
   })
 })
@@ -96,6 +102,7 @@ app.get("/jobBoard",(req,res)=>{
     layout:"main"
   })
 })
+
 
 // ========= Set up Routers ================
 
