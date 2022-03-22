@@ -1,5 +1,8 @@
-const { router } = require("../Index.js");
-const isLoggedIn = require("../authFuncs/auth.js").isLoggedIn;
+
+const express = require("express");
+const isLoggedInSeeker = require("../authFuncs/auth.js").isLoggedInSeeker;
+const isLoggedInFinder = require("../authFuncs/auth.js").isLoggedInFinder;
+
 
 // ================ Router for  job postings ===================
 
@@ -14,11 +17,13 @@ class FinderRouter {
     router.get("/", this.getHome.bind(this));
     router.get("/login", this.getLogin.bind(this));
     router.get("/signup", this.getSignup.bind(this));
+
     router.get(
       "/myfinderprofile",
       isLoggedIn,
       this.getFinderProfile.bind(this)
     );
+
 
     return router;
   }
@@ -33,8 +38,10 @@ class FinderRouter {
     res.render("signup");
   }
 
+
   getFinderProfile(req, res) {
     res.render("finderProfile");
+
   }
 }
 

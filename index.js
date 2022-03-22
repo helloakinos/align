@@ -31,7 +31,6 @@ const FinderService = require("./Service/FinderService");
 const ViewRouter = require("./Routers/ViewRouter");
 const FProfileRouter = require("./Routers/FProfileRouter");
 
-const REDIRECT_URI = "http://localhost:3000/redirect";
 // import passportconfig and isLogged in function here
 
 // ========= Set up Express Handlebars ==============
@@ -88,8 +87,12 @@ const fprofileRouter = new FProfileRouter(finderService, express);
 //   "/",
 //   /*isloggedin, */ (req, res) => {
 //     console.log(`current user: `);
-//     res.render("index", {
+
+//     res.render("home", {
 //       layout: "main",
+//       //   applicant: applicant,
+//       //   company: company,
+
 //     });
 //   }
 // );
@@ -104,8 +107,8 @@ app.use("/api/finderprofile", new fprofileRouter());
 app.use("/api/profile", new FinderRouter(finderService, express).router());
 
 const options = {
-  cert: fs.readFileSync("./localhost-align.crt"),
-  key: fs.readFileSync("./localhost-align.key"),
+  cert: fs.readFileSync("./localhost.crt"),
+  key: fs.readFileSync("./localhost.key"),
 };
 
 // ============ Activate Server ===============
