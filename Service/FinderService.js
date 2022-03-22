@@ -1,9 +1,9 @@
 // ================ posting and editting jobs ==================
 
-class JobService {
+class FinderService {
   constructor(knex) {
     this.knex = knex;
   }
 }
 
-module.exports = JobService;
+module.exports = FinderService;
