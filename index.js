@@ -53,7 +53,7 @@ app.engine(
     layoutsDir: "",
     defaultLayout: "",
     extname: "hbs",
-    partialsDir: `${__dirname}/views/partials`,
+    // partialsDir: `${__dirname}/views/partials`,
   })
 );
 
@@ -97,6 +97,38 @@ const fprofileRouter = new FProfileRouter(finderService, express);
 //   }
 // );
 
+
+app.get("/login",(req,res)=>{
+  res.render("login",{
+    layout:"main"
+  })
+})
+
+app.get("/signup",(req,res)=>{
+  res.render("signup",{
+    layout:"main"
+  })
+})
+
+app.get("/impactFinderPreview",(req,res)=>{
+  res.render("impactFinderPreview",{
+    layout:"main"
+  })
+})
+
+app.get("/impactFinderProfile",(req,res)=>{
+  res.render("impactFinderProfile",{
+    layout:"main"
+  })
+})
+
+app.get("/jobBoard",(req,res)=>{
+  res.render("jobBoard",{
+    layout:"main"
+  })
+})
+
+
 // ========= Set up Routers ================
 
 // Routers not active yet, awaiting implementation
@@ -106,14 +138,18 @@ app.use("/", viewRouter.router());
 app.use("/api/finderprofile", new fprofileRouter());
 app.use("/api/profile", new FinderRouter(finderService, express).router());
 
+
 const options = {
   cert: fs.readFileSync("./localhost.crt"),
   key: fs.readFileSync("./localhost.key"),
 };
 
+
 // ============ Activate Server ===============
-https
-  .createServer(options, app)
-  .listen(port, () => console.log("listening on port: " + port));
+
+app.listen("5001",()=>{})
+// https
+//   .createServer(options, app)
+//   .listen(port, () => console.log("listening on port: " + port));
 
 module.exports = app;
