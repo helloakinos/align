@@ -1,8 +1,8 @@
 require("dotenv").config();
 const express = require("express");
-const msal = require('@azure/msal-node');
-const micConfig = require("../microsoftConfig.js");
-const pca = new msal.ConfidentialClientApplication(micConfig);
+const msal = require("@azure/msal-node");
+// const micConfig = require("../microsoftConfig.js");
+// const pca = new msal.ConfidentialClientApplication(micConfig);
 const passportFunctions = require("../passport");
 const REDIRECT_URI = "http://localhost:3000/microsoftredirect";
 
@@ -41,35 +41,34 @@ class AuthRouter {
       })
     );
 
+    //   router.get('/auth/microsoft', (req, res) => {
+    //     const authCodeUrlParameters = {
+    //         scopes: ["user.read"],
+    //         redirectUri: REDIRECT_URI,
+    //     };
 
-  //   router.get('/auth/microsoft', (req, res) => {
-  //     const authCodeUrlParameters = {
-  //         scopes: ["user.read"],
-  //         redirectUri: REDIRECT_URI,
-  //     };
-  
-  //     // get url to sign user in and consent to scopes needed for application
-  //     pca.getAuthCodeUrl(authCodeUrlParameters).then((response) => {
-  //         res.redirect(response);
-  //     }).catch((error) => console.log(JSON.stringify(error)));
-  // });
-  
-  // router.get('/microsoftredirect', (req, res) => {
-  //     const tokenRequest = {
-  //         code: req.query.code,
-  //         scopes: ["user.read"],
-  //         redirectUri: REDIRECT_URI,
-  //     };
-  
-  //     pca.acquireTokenByCode(tokenRequest).then((response) => {
-  //         console.log("\nResponse: \n:", response);
-  //         res.sendStatus(200);
-  //         // res.send("OK");
-  //     }).catch((error) => {
-  //         console.log(error);
-  //         res.status(500).send(error);
-  //     });
-  // });
+    //     // get url to sign user in and consent to scopes needed for application
+    //     pca.getAuthCodeUrl(authCodeUrlParameters).then((response) => {
+    //         res.redirect(response);
+    //     }).catch((error) => console.log(JSON.stringify(error)));
+    // });
+
+    // router.get('/microsoftredirect', (req, res) => {
+    //     const tokenRequest = {
+    //         code: req.query.code,
+    //         scopes: ["user.read"],
+    //         redirectUri: REDIRECT_URI,
+    //     };
+
+    //     pca.acquireTokenByCode(tokenRequest).then((response) => {
+    //         console.log("\nResponse: \n:", response);
+    //         res.sendStatus(200);
+    //         // res.send("OK");
+    //     }).catch((error) => {
+    //         console.log(error);
+    //         res.status(500).send(error);
+    //     });
+    // });
 
     router.get(
       "/auth/facebook",
