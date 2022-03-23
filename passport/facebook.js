@@ -3,7 +3,7 @@ const FacebookStrategy = require("passport-facebook").Strategy;
 const facebookConfig = {
   clientID: process.env.FACEBOOK_APP_ID,
   clientSecret: process.env.FACEBOOK_SECRET,
-  callbackURL: "https://localhost:8080/auth/facebook/callback",
+  callbackURL: "https://localhost:3000/auth/facebook/callback",
   profileFields: ["id", "email", "name", "gender", "displayName"],
 };
 function facebookCallback(accessToken, refreshToken, profile, done) {

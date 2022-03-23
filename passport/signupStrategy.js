@@ -1,7 +1,7 @@
 const development = require("../knexfile").development;
 const hashFunction = require("./hashFunction");
 const knex = require("knex")(development);
-const TABLE_NAME = "passport_users";
+const TABLE_NAME = "finder";
 const LocalStrategy = require("passport-local").Strategy;
 module.exports = new LocalStrategy(async (username, password, done) => {
   console.log("signing up");
@@ -11,7 +11,7 @@ module.exports = new LocalStrategy(async (username, password, done) => {
   try {
     // get the user
     let users = await knex(TABLE_NAME).where({
-      username: username,
+      finder_name: username,
     });
     // if there is a user
     if (users.length > 0) {
@@ -24,7 +24,7 @@ module.exports = new LocalStrategy(async (username, password, done) => {
     let hashedPassword = await hashFunction.hashPassword(password);
     // get the new user
     const newUser = {
-      username: username,
+      finder_name: username,
       hash: hashedPassword,
     };
     //insert the new user, get the id

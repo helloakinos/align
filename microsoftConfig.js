@@ -10,7 +10,7 @@ const microsoftoAuthconfig = {
     system: {
         loggerOptions: {
             loggerCallback(loglevel, message, containsPii) {
-                console.log(message);
+                console.log("cant miss it, message is: "+ message);
             },
             piiLoggingEnabled: false,
             logLevel: msal.LogLevel.Verbose,

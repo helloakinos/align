@@ -10,7 +10,7 @@
 const development = require("../knexfile").development;
 const hashFunction = require("./hashFunction");
 const knex = require("knex")(development);
-const TABLE_NAME = "passport_users";
+const TABLE_NAME = "finder";
 const LocalStrategy = require("passport-local").Strategy;
 /**********************************************
 
@@ -20,7 +20,7 @@ module.exports = new LocalStrategy(async (username, password, done) => {
   // try putting the username in
   try {
     let users = await knex(TABLE_NAME).where({
-      username: username,
+      finder_name: username,
     });
     // if user doesn't exist, then return false - it doesn't exist
     if (users.length == 0) {

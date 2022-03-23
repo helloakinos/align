@@ -1,7 +1,7 @@
 const development = require("../knexfile").development;
 const knex = require("knex")(development);
 const hashFunction = require("../passport/hashFunction");
-const TABLE_NAME = "passport_users";
+const TABLE_NAME = "seeker_login";
 
 function postFacebook(username, facebookId) {
   return knex(TABLE_NAME)
@@ -16,12 +16,14 @@ function postMicrosoft(username, microsoftId) {
   return knex(TABLE_NAME)
     .insert({
       username: username,
-      facebook_id: microsoftId,
+      microsoft_id: microsoftId,
     })
     .returning("id");
 }
 
 function postGmail(username, gmailId) {
+  console.log(gmailId);
+  console.log(username);
   return knex(TABLE_NAME)
     .insert({
       username: username,
