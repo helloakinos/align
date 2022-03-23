@@ -29,10 +29,14 @@ class ViewRouter {
     });
   }
   getLogin(req, res) {
-    res.render("login");
+    res.render("login", {
+      layout: "main",
+    });
   }
   getSignup(req, res) {
-    res.render("signup");
+    res.render("signup", {
+      layout: "main",
+    });
   }
   getImpactFinderPreview(req, res) {
     res.render("impactFinderPreview", {
@@ -41,7 +45,7 @@ class ViewRouter {
   }
 
   getFinderProfile(req, res) {
-    res.render("impactFinderProfile", {
+    res.render("finderProfile", {
       layout: "main",
     });
   }
