@@ -21,7 +21,7 @@ class AuthRouter {
     router.post(
       "/login",
       passportFunctions.authenticate("local-login", {
-        successRedirect: "/home",
+        successRedirect: "/",
         failureRedirect: "/error",
       })
     );
@@ -36,40 +36,40 @@ class AuthRouter {
     router.get(
       "/auth/gmail/callback",
       passportFunctions.authenticate("google", {
-        successRedirect: "/home",
+        successRedirect: "/",
         failureRedirect: "/error",
       })
     );
 
 
-    router.get('/auth/microsoft', (req, res) => {
-      const authCodeUrlParameters = {
-          scopes: ["user.read"],
-          redirectUri: REDIRECT_URI,
-      };
+  //   router.get('/auth/microsoft', (req, res) => {
+  //     const authCodeUrlParameters = {
+  //         scopes: ["user.read"],
+  //         redirectUri: REDIRECT_URI,
+  //     };
   
-      // get url to sign user in and consent to scopes needed for application
-      pca.getAuthCodeUrl(authCodeUrlParameters).then((response) => {
-          res.redirect(response);
-      }).catch((error) => console.log(JSON.stringify(error)));
-  });
+  //     // get url to sign user in and consent to scopes needed for application
+  //     pca.getAuthCodeUrl(authCodeUrlParameters).then((response) => {
+  //         res.redirect(response);
+  //     }).catch((error) => console.log(JSON.stringify(error)));
+  // });
   
-  router.get('/microsoftredirect', (req, res) => {
-      const tokenRequest = {
-          code: req.query.code,
-          scopes: ["user.read"],
-          redirectUri: REDIRECT_URI,
-      };
+  // router.get('/microsoftredirect', (req, res) => {
+  //     const tokenRequest = {
+  //         code: req.query.code,
+  //         scopes: ["user.read"],
+  //         redirectUri: REDIRECT_URI,
+  //     };
   
-      pca.acquireTokenByCode(tokenRequest).then((response) => {
-          console.log("\nResponse: \n:", response);
-          // res.sendStatus(200);
-          res.sendFile("home");
-      }).catch((error) => {
-          console.log(error);
-          res.status(500).send(error);
-      });
-  });
+  //     pca.acquireTokenByCode(tokenRequest).then((response) => {
+  //         console.log("\nResponse: \n:", response);
+  //         res.sendStatus(200);
+  //         // res.send("OK");
+  //     }).catch((error) => {
+  //         console.log(error);
+  //         res.status(500).send(error);
+  //     });
+  // });
 
     router.get(
       "/auth/facebook",
@@ -81,7 +81,7 @@ class AuthRouter {
     router.get(
       "/auth/facebook/callback",
       passportFunctions.authenticate("facebook", {
-        successRedirect: "/home",
+        successRedirect: "/",
         failureRedirect: "/error",
       })
     );

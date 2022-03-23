@@ -4,7 +4,7 @@ const userQueries = require("../database/userQueries");
 const googleConfig = {
   clientID: process.env.GOOGLE_ID,
   clientSecret: process.env.GOOGLE_SECRET,
-  callbackURL: "https://localhost:8080/auth/gmail/callback",
+  callbackURL: "https://localhost:3000/auth/gmail/callback",
 };
 
 function googleCallback(accessToken, refreshToken, profile, done) {
@@ -33,7 +33,7 @@ function googleCallback(accessToken, refreshToken, profile, done) {
       }
     })
     .catch((error) => {
-      return done(eror, false, {
+      return done(error, false, {
         message: "Couldn't access database",
       });
     });

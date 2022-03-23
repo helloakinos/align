@@ -15,7 +15,17 @@ const microsoftoAuthconfig = {
       piiLoggingEnabled: false,
       logLevel: msal.LogLevel.Verbose,
     },
-  },
+
+    system: {
+        loggerOptions: {
+            loggerCallback(loglevel, message, containsPii) {
+                console.log("cant miss it, message is: "+ message);
+            },
+            piiLoggingEnabled: false,
+            logLevel: msal.LogLevel.Verbose,
+        }
+    }
+
 };
 
 module.exports = microsoftoAuthconfig;
