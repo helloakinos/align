@@ -20,6 +20,11 @@ class ViewRouter {
       /*isLoggedInFinder,*/
       this.getFinderProfile.bind(this)
     );
+    router.get("/impactFinderProfile", this.getImpactFinderProfile.bind(this));
+    router.get("/jobBoard", this.getJobBoard.bind(this));
+    router.get("/ImpactSeekerPreview", this.getImpactSeekerPreview.bind(this));
+    router.get("/ImpactSeekerProfile", this.getImpactSeekerProfile.bind(this));
+    router.get("/jobApplicationForm", this.getJobApplicationForm.bind(this));
     return router;
   }
 
@@ -46,6 +51,43 @@ class ViewRouter {
 
   getFinderProfile(req, res) {
     res.render("finderProfile", {
+      layout: "main",
+    });
+  }
+
+  getImpactFinderProfile(req, res) {
+    res.render("impactFinderProfile", {
+      layout: "main",
+      finder_name: "Xccelerate",
+      impactFinderLogo: "Impact Finder Logo",
+      vetted: "false",
+      finder_description: "A coding bootcamp academy",
+      telephone_number: "12345678",
+      mobile_number: "87654321",
+      email: "hihi@gmail.com",
+    });
+  }
+
+  getJobBoard(req, res) {
+    res.render("jobBoard", {
+      layout: "main",
+    });
+  }
+
+  getImpactSeekerPreview(req, res) {
+    res.render("impactSeekerPreview", {
+      layout: "main",
+    });
+  }
+
+  getImpactSeekerProfile(req, res) {
+    res.render("impactSeekerProfile", {
+      layout: "main",
+    });
+  }
+
+  getJobApplicationForm(Req, res) {
+    res.render("jobApplicationForm", {
       layout: "main",
     });
   }
