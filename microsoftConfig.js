@@ -1,12 +1,21 @@
 require("dotenv").config();
-const msal = require('@azure/msal-node');
+const msal = require("@azure/msal-node");
 
 const microsoftoAuthconfig = {
-    auth: {
-        clientId: process.env.MICROSOFTCLIENTID,
-        authority: "https://login.microsoftonline.com/common",
-        clientSecret: process.env.MICROSOFTCLIENTSECRET
+  auth: {
+    clientId: process.env.MICROSOFTCLIENTID,
+    authority: "https://login.microsoftonline.com/common",
+    clientSecret: process.env.MICROSOFTCLIENTSECRET,
+  },
+  system: {
+    loggerOptions: {
+      loggerCallback(loglevel, message, containsPii) {
+        console.log(message);
+      },
+      piiLoggingEnabled: false,
+      logLevel: msal.LogLevel.Verbose,
     },
+
     system: {
         loggerOptions: {
             loggerCallback(loglevel, message, containsPii) {
@@ -16,6 +25,7 @@ const microsoftoAuthconfig = {
             logLevel: msal.LogLevel.Verbose,
         }
     }
+
 };
 
 module.exports = microsoftoAuthconfig;
