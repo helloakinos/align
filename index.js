@@ -26,7 +26,7 @@ const https = require("https");
 
 // =========== Local Modules ===================
 const AuthRouter = require("./Routers/AuthRouter");
-const FinderService = require("./Service/FinderService");
+const FinderProfileService = require("./Service/FinderProfileService");
 const ViewRouter = require("./Routers/ViewRouter");
 const FProfileRouter = require("./Routers/FProfileRouter");
 
@@ -73,9 +73,9 @@ app.use(express.json());
 // app.use(passport.session());
 
 // =========== Set up Instances for Routers & Services ============
-const finderService = new FinderService(knex);
-const viewRouter = new ViewRouter(finderService, express);
-const fprofileRouter = new FProfileRouter(finderService, express);
+const finderProfileService = new FinderProfileService(knex);
+const viewRouter = new ViewRouter(finderProfileService, express);
+const fprofileRouter = new FProfileRouter(finderProfileService, express);
 const authRouter = new AuthRouter();
 
 // =========== Homepage set up ============
