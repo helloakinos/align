@@ -4,23 +4,36 @@
     box-sizing:border-box;
 }
 
-a {
+body {
+    background-image: url("img/background.jpg");
+    background-size: cover;
+  }
+
+a,a:hover {
     text-decoration: none;
     color:inherit;
 }
 
 label{
     display:inline-block;
-    width:200px;
+    font-size:30px;
+}
+
+textarea{
+    width:80%
+}
+
+li{
+    list-style: none;
 }
 
 /* NAVBAR */
 nav{
     display:flex;
     align-items: center;
-    justify-content: space-between;
-    background-color: rgb(26, 24, 24);
-}
+    justify-content: space-between; 
+    background-color: black;
+} 
 .nav-links{
     display:inline-block;
     font-family: 'Poppins';
@@ -28,7 +41,7 @@ nav{
     font-weight:bold;
     color:#FFB545;
     margin-right:25px;
-}
+} 
 /* LOGO */
 .logo{
     font-size:100px;
@@ -43,15 +56,10 @@ nav{
     gap:8em;
 }
 
-.menu li:hover{
+li:hover{
     background-color: white;
     border-radius: 20px;
     transition:0.3s ease;
-}
-
-.menu li{
-    padding: 0px 14px;
-    list-style: none;
 }
 
 /* DROPDOWN MENU */
@@ -59,6 +67,7 @@ nav{
     position:relative;
     z-index:2;
 }
+
 
 .dropdown{
     padding:1em 0;
@@ -71,11 +80,12 @@ nav{
     width:300px;
     text-align:left;
     opacity: 0.9;
-    /* transition:1s ease; */
+    transition:1s ease;
 }
 
 .dropdown li{
     text-align:center;
+    padding: 0px 14px;
 }
 
 .dropdown li:hover{
@@ -84,6 +94,10 @@ nav{
 
 .explore:hover .dropdown{
     display:block
+}
+
+.form-outline{
+    /* display:none */
 }
 
 /* COPYRIGHT */
@@ -134,7 +148,6 @@ img{
     justify-content:space-evenly;
 }
 
-
 .loginHeading{
     font-size:40px;
     font-weight: bold;
@@ -183,5 +196,57 @@ form{
 
 .description:hover{
     opacity:1
+}
+
+/* Company Profile Page */
+.impactFinderLogo{
+    font-size:30px;
+    margin-top:30px;
+    margin-left:30px;
+    border-radius: 10px solid black;
+    padding:0px;
+}
+
+.impactFinderName{
+    font-size:30px;
+    margin-top:30px;
+    margin-left:30px;
+    padding:0px;
+}
+
+.impactFinder{
+    margin-left:30px;
+    display:flex;
+    justify-content: space-around;
+}
+
+.impactFinderInfo{
+    margin-top:30px;
+    height:60%;
+    width:45%;
+}
+
+.impactFinderInfoLeft,.impactFinderInfoRight{
+    border:1px solid black;
+    border-radius: 20px;
+    padding:10px;
+    width:100%
+}
+
+.submitButton{
+    margin-top: 5px;
+    justify-self: end;
+}
+
+.reviews{
+    display: flex;
+    justify-content: center;
+}
+
+.reviewElement{
+    margin:15px;
+    padding:10px;
+    width:30%;
+    text-align: center;
 }
 
