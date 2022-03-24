@@ -4,8 +4,8 @@ const isLoggedInFinder = require("../authFuncs/auth.js").isLoggedInFinder;
 // ================ Router for  job postings ===================
 
 class ViewRouter {
-  constructor(finderService, express) {
-    this.finderService = finderService;
+  constructor(finderProfileService, express) {
+    this.finderProfileService = finderProfileService;
     this.express = express;
   }
 
@@ -56,15 +56,13 @@ class ViewRouter {
   }
 
   getImpactFinderProfile(req, res) {
-    res.render("impactFinderProfile", {
-      layout: "main",
-      finder_name: "Xccelerate",
-      impactFinderLogo: "Impact Finder Logo",
-      vetted: "false",
-      finder_description: "A coding bootcamp academy",
-      telephone_number: "12345678",
-      mobile_number: "87654321",
-      email: "hihi@gmail.com",
+    let finderId = req.rawHeaders[1];
+    this.finderProfileService.listprofile(finderId).then((profile) => {
+      console.log(profile);
+      res.render("impactFinderProfile", {
+        layout: "main",
+        profile: profile,
+      });
     });
   }
 
