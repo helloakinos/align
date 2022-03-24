@@ -5,10 +5,14 @@ require("dotenv").config();
 const express = require("express");
 const { engine } = require("express-handlebars");
 const msal = require("@azure/msal-node");
-const passportFunctions = require("./passport");
+require("./passport/microsoft");
 const cookieParser = require("cookie-parser");
 const expressSession = require("express-session");
+const methodOverride = require('method-override');
+const morgan = require('morgan');
+// const config = require('./config.js');
 
+const config = require("./config.js");
 const knexConfig = require("./knexfile").development;
 const knex = require("knex")(knexConfig);
 
@@ -17,6 +21,8 @@ const passport = require("passport");
 const session = require("express-session");
 
 const app = express();
+app.use(morgan('dev'));
+app.use(methodOverride());
 port = 3000;
 
 // ========== In-built Node Modules ================
@@ -43,21 +49,38 @@ app.use(
     // if saveUninitialized is false, session object will not be stored in sesion store
     saveUninitialized: true,
   })
-);
-app.engine(
-  "hbs",
-  engine({
-    layoutsDir: "",
-    defaultLayout: "",
-    extname: "hbs",
-    partialsDir: `${__dirname}/views/partials`,
-  })
-);
-
-// ========= Set up Express  ================
-app.use(express.static("public"));
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+  );
+  app.engine(
+    "hbs",
+    engine({
+      layoutsDir: "",
+      defaultLayout: "",
+      extname: "hbs",
+      partialsDir: `${__dirname}/views/partials`,
+    })
+    );
+    
+    // ========= Set up Express  ================
+    app.use(express.static("Public"));
+    app.use(express.urlencoded({ extended: false }));
+    app.use(express.json());
+    app.use(passport.initialize());
+    app.use(passport.session());
+    
+// set up Microsoft session middleware
+if (config.useMongoDBSessionStore) {
+  mongoose.connect(config.databaseUri);
+  app.use(expressSession({
+    secret: 'secret',
+    cookie: {maxAge: config.mongoDBSessionMaxAge * 1000},
+    store: new MongoStore({
+      mongooseConnection: mongoose.connection,
+      clear_interval: config.mongoDBSessionMaxAge
+    })
+  }));
+} else {
+  app.use(expressSession({ secret: 'keyboard cat', resave: true, saveUninitialized: false }));
+}
 
 // =========== Set up Passport ============
 // commented this out for now, so we can implement our  once ready
