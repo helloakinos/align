@@ -4,8 +4,9 @@ const isLoggedInFinder = require("../authFuncs/auth.js").isLoggedInFinder;
 // ================ Router for  job postings ===================
 
 class ViewRouter {
-  constructor(finderProfileService, express) {
+  constructor(finderProfileService, finderPreviewService, express) {
     this.finderProfileService = finderProfileService;
+    this.finderPreviewService = finderPreviewService;
     this.express = express;
   }
 
@@ -20,7 +21,11 @@ class ViewRouter {
       /*isLoggedInFinder,*/
       this.getFinderProfile.bind(this)
     );
-    router.get("/impactFinderProfile", this.getImpactFinderProfile.bind(this));
+    router.get(
+      "/impactFinderProfile",
+      /*isLoggedInFinder,*/
+      this.getImpactFinderProfile.bind(this)
+    );
     router.get("/jobBoard", this.getJobBoard.bind(this));
     router.get("/ImpactSeekerPreview", this.getImpactSeekerPreview.bind(this));
     router.get("/ImpactSeekerProfile", this.getImpactSeekerProfile.bind(this));
@@ -44,23 +49,22 @@ class ViewRouter {
     });
   }
   getImpactFinderPreview(req, res) {
-    let finderId = req.rawHeaders[1];
-    this.finderProfileService.listprofile(finderId).then((profile)=>{
+    this.finderPreviewService.allFinders().then((allFinders) => {
+      console.log(allFinders);
       res.render("impactFinderPreview", {
         layout: "main",
-        profile:[{finder_id:1,finder_name:"Yala"},{customfield_title:"Culture",customfield_content:"Awesome"}]
+        allFinders: allFinders,
       });
-    })
+    });
   }
 
   getFinderProfile(req, res) {
     res.render("finderProfile", {
-      layout: "main"      
+      layout: "main",
     });
   }
 
   getImpactFinderProfile(req, res) {
-
     let finderId = req.rawHeaders[1];
     this.finderProfileService.listprofile(finderId).then((profile) => {
       console.log(profile);
@@ -69,23 +73,21 @@ class ViewRouter {
         profile: profile,
       });
     });
-
   }
 
   getJobBoard(req, res) {
     res.render("jobBoard", {
       layout: "main",
-      job:[
-        {title:"Animal Saver",finder_name:"PUC"},
-        {title:"Food Saver", finder_name:"Precious food"}
-    ]
+      job: [
+        { title: "Animal Saver", finder_name: "PUC" },
+        { title: "Food Saver", finder_name: "Precious food" },
+      ],
     });
   }
 
   getImpactSeekerPreview(req, res) {
     res.render("impactSeekerPreview", {
       layout: "main",
-
     });
   }
 

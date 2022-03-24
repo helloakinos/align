@@ -1,4 +1,4 @@
-// ================ posting and editting jobs ==================
+// ================ Setting up and editting Finder Profile ==================
 
 class FinderProfileService {
   constructor(knex) {
@@ -35,6 +35,7 @@ class FinderProfileService {
       }
     }
   }
+
   // we add the option of adding 2 custom fields into your finderprofile
   async addcustom(infoTitle, infoContent, finderId) {
     console.log(

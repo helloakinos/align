@@ -30,11 +30,13 @@ const fs = require("fs");
 const path = require("path");
 const https = require("https");
 
-// =========== Local Modules ===================
+// =========== Local Routers ===================
 const AuthRouter = require("./Routers/AuthRouter");
-const FinderProfileService = require("./Service/FinderProfileService");
 const ViewRouter = require("./Routers/ViewRouter");
 const FProfileRouter = require("./Routers/FProfileRouter");
+// =========== Local Services ===================
+const FinderProfileService = require("./Service/FinderProfileService");
+const FinderPreviewService = require("./Service/FinderPreviewService");
 
 // ========= Set up Express Handlebars ==============
 app.use(cookieParser());
@@ -97,7 +99,12 @@ if (config.useMongoDBSessionStore) {
 
 // =========== Set up Instances for Routers & Services ============
 const finderProfileService = new FinderProfileService(knex);
-const viewRouter = new ViewRouter(finderProfileService, express);
+const finderPreviewService = new FinderPreviewService(knex);
+const viewRouter = new ViewRouter(
+  finderProfileService,
+  finderPreviewService,
+  express
+);
 const fprofileRouter = new FProfileRouter(finderProfileService, express);
 const authRouter = new AuthRouter();
 
