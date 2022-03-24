@@ -60,24 +60,15 @@ class ViewRouter {
   }
 
   getImpactFinderProfile(req, res) {
-    console.log(req)
+
     let finderId = req.rawHeaders[1];
-    this.finderProfileService.listprofile(finderId).then((profile)=>{
+    this.finderProfileService.listprofile(finderId).then((profile) => {
+      console.log(profile);
       res.render("impactFinderProfile", {
         layout: "main",
-        finder_name: "Xccelerate",
-        impactFinderLogo: "Impact Finder Logo",
-        vetted: "false",
-        finder_description: "A coding bootcamp academy",
-        telephone_number: "12345678",
-        mobile_number: "87654321",
-        email: "hihi@gmail.com",
-        size:'small',
-        profile:[{finder_id:1,finder_name:"Yala"},{customfield_title:"Culture",customfield_content:"Awesome"}]
-        // profile:profile
+        profile: profile,
       });
-
-    })
+    });
 
   }
 

@@ -55,6 +55,32 @@ class FinderProfileService {
       console.log(error);
     }
   }
+
+  async updateProfile(info, finderId) {
+    console.log(
+      `updateProfile method called with info: ${info} and finderId: ${finderId}`
+    );
+    try {
+      let profile = await this.knex
+        .select("*")
+        .from("finder")
+        .fullOuterJoin(
+          "finder_contact",
+          "finder.finder_id",
+          "finder_contact.finder_id"
+        )
+        .where("finder.finder_id", finderId);
+      if (profile.length === 1) {
+        return this.knex("finder")
+          .where("finder.finder_id", finderId)
+          .update(info);
+      } else {
+        console.log(`Error: unable to find the correct profile`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 module.exports = FinderProfileService;

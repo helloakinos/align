@@ -10,7 +10,7 @@ class FProfileRouter {
   router() {
     let router = this.express.Router();
     router.get("/finderprofile", this.getFinderProfile.bind(this));
-    router.post("/finderprofile", this.post.bind(this));
+    router.post("/finderprofile", this.postCustomField.bind(this));
     router.put("/finderprofile/:id", this.put.bind(this));
     router.delete("/finderprofile/:id", this.delete.bind(this));
     return router;
@@ -30,8 +30,7 @@ class FProfileRouter {
       });
   }
 
-  post(req, res) {
-    console.log(req);
+  postCustomField(req, res) {
     let infoTitle = req.body.infoTitle;
     let infoContent = req.body.infoContent;
     let finderId = req.rawHeaders[1];
@@ -57,8 +56,20 @@ class FProfileRouter {
     let info = req.body.info;
     let finderId = req.auth.finder.finderId;
     console.log("FProfile Router: PUT Method");
-    console.log(`Current Finder ID: ${finderId}`);
+    console.log(`Current Finder ID: ${finderId} and info: ${info}`);
+    return this.finderProfileService
+      .updateProfile(info, finderId)
+      .then(() => {
+        return this.finderProfileService.listprofile(finderId);
+      })
+      .then((profile) => {
+        res.json(profile);
+      })
+      .catch((error) => {
+        res.status(500).json(error);
+      });
   }
+
   delete(req, res) {
     console.log("FProfile Router: DELETE Method");
     console.log(`Current Finder ID: ${finderId}`);
