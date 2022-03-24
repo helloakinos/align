@@ -96,9 +96,6 @@ li:hover{
     display:block
 }
 
-.form-outline{
-    /* display:none */
-}
 
 /* COPYRIGHT */
 .copyright{
@@ -224,6 +221,7 @@ form{
     margin-top:30px;
     height:60%;
     width:45%;
+    background-color: white;
 }
 
 .impactFinderInfoLeft,.impactFinderInfoRight{

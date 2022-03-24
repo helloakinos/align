@@ -16,7 +16,8 @@
 <div class="impactFinder">
     <div class="impactFinderInfo">
         <div class="impactFinderInfoLeft">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="float:right;margin-top:30px;">
+            <h3 style="display:inline-block">{{finder_name}}</h3>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="float:right;margin-right:5px;">
             Edit
             </button>   
             {{!-- Edit Form --}}
@@ -28,19 +29,10 @@
                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                         <form action="FILLMEIN">
-                            <label for="impactFinderInfo">Impact Finder information</label>
+                         <form action="/finderprofile/{:id}" method="put">
+                            <label for="impactFinderInfo">{{finder_name}} information</label>
                             <br>
-                            <textarea type="text" name="impactFinderInfo" required></textarea>
-                            <br>
-                            <label for="impactFinderPhone">Phone: </label>
-                            <input type="text" name="impactFinderPhone" placeholder="phone" required style="margin-bottom:5px;padding:5px"></textarea>
-                            <br>
-                            <label for="impactFinderEmail">Email:</label>
-                            <input type="text" name="impactFinderEmail" placeholder="email" required style="margin-bottom:5px;padding:5px"></textarea>
-                            <br>
-                            <label for="impactFinderAddress">Adress</label>
-                            <input type="text" name="impactFinderAddress" placeholder="address" style="margin-bottom:5px;padding:5px"></textarea>
+                            <textarea type="text" name="impactFinderInfo" required>{{finder_description}}</textarea>
                             <br>
                             <label for="small">Impact Finder Size</label>
                             <br>
@@ -52,27 +44,25 @@
                             <input type="radio" name="impactFinderSize" id="large" value="Large">
                             <label for="large">Large</label>
                             <br>
-                            <h3 style="display:inline-block">Custom Fill Area</h3>
-                            <button class="btn btn-warning" type="submit">Add</button>
+                            <label for="impactFinderPhone">Phone: </label>
+                            <input type="text" name="impactFinderPhone" placeholder="phone" value="{{telephone_number}}"required style="margin-bottom:5px;padding:5px"></textarea>
                             <br>
-                            <label for="customeFill">
-                                <input type="text id=customFillTitle" name="customFillTitle" placeholder="Custom Fill Title">
-                            </label>
+                            <label for="impactFinderPhone">Mobile: </label>
+                            <input type="text" name="impactFinderPhone" placeholder="phone" value="{{mobile_number}}"required style="margin-bottom:5px;padding:5px"></textarea>
                             <br>
-                            <textarea type="text" name="customFillText" placeholder="Custom Fill Area" required></textarea>
-                            
+                            <label for="impactFinderEmail">Email:</label>
+                            <input type="text" name="impactFinderEmail" placeholder="email" value="{{email}}" required style="margin-bottom:5px;padding:5px"></textarea>
+                            <br>
                         </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary">Save </button>
+                            <input type="su<button type="button" class="btn btn-primary">Save </button>
                         </div>
                     </div>
                 </div>
             </div>
             {{!-- Edit Form --}}
-            <i class="fas fa-pencil"></i>
-            <form action="">
                 <div class="profileElement">
                     <label for="impactFinderInfo">Impact Finder information</label>
                     <br>
@@ -92,56 +82,79 @@
                      <p style="display:inline-block">Email:</p>
                     {{email}}
                     <br>
-            
-                </div>
-                <div class="profileElement">
-                    <label for="small">Impact Finder Size</label>
+                    <label for="impactFinderSize">Impact Finder Size</label>
                     <br>
-                    <input type="radio" name="impactFinderSize" id="small" value="Small">
-                    <label for="small">Small</label>
-
-                    <input type="radio" name="impactFinderSize" id="medium" value="Medium">
-                    <label for="medium">Medium</label>
-                
-                    <input type="radio" name="impactFinderSize" id="large" value="Large">
-                    <label for="large">Large</label>
-                    <br>
-                    <button class="btn btn-warning submitButton" style="margin-top:10px;">Submit Changes</button>
+                    {{size}}
                 </div>
-            </form>
         </div>
-        <div class="impactFinderInfo impactFinderInfoLeft">
-            <div class="profileElement">
+        <br>
+        <div class="impactFinderInfoLeft">
+            More About {{finder_name}}
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="float:right;margin-top:30px;">
+            Edit
+                </button> 
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="staticBackdropLabel">Edit your profile</h5>
+                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                         <form action="FILLMEIN">
+                            <h3 style="display:inline-block">Custom Fill Area</h3>
+                            <button class="btn btn-warning addButton" type="submit">Add</button>
+                            <br>
+                            <label for="customeFill">
+                                <input type="text id=customFillTitle" name="customFillTitle" placeholder="Custom Fill Title">
+                            </label>
+                            <br>
+                            <textarea type="text" name="customFillText" placeholder="Custom Fill Area" required></textarea>
+                            
+                        </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary">Save </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{#each profile}}
+                <h3>{{customfield_title}}</h3>
+                {{customfield_content}}
+            {{/each}}
+            {{!-- <div class="profileElement">
                 <input type="text" placeholder="Custom Fill Title" style="margin-bottom:5px;padding:5px"></input>
                 <textarea placeholder="Custom Fill Me In" style="margin-bottom:5px;padding:5px"></textarea>
             </div>
             <div class="profileElement">
                 <input type="text" placeholder="Custom Fill Title" style="margin-bottom:5px;padding:5px"></input>
                 <textarea placeholder="Custom Fill Me In" style="margin-bottom:5px;padding:5px"></textarea>
-            </div>
-            <br>
-            <button class="btn btn-warning submitButton" style="margin-top:10px">Submit Changes</button>
+            </div> --}}
         </div>
     </div>
-    <div class="impactFinderInfo impactFinderInfoRight">
-        <i class="fas fa-pencil"></i>
-        <p style="float:right">Edit</p>
-        <div class="profileElement">
-            <h3>Question1</h3>
-            <textarea></textarea>
-        </div>
-        <div class="profileElement">
-            <h3>Question2</h3>
-            <textarea></textarea>
-        </div>
-        <div class="profileElement">
-            <h3>Question3</h3>
-            <textarea></textarea>
-        </div>
+    <div class="impactFinderInfo">
+        <div class="impactFinderInfoRight">
+            <i class="fas fa-pencil"></i>
+            <p style="float:right">Edit</p>
             <div class="profileElement">
-            <h3>Submit Your question</h3>
-            <textarea></textarea>
-            <button class="btn btn-warning submitButton" style="margin-top:10px;float:right">Submit</button>
+                <h3>Question1</h3>
+                <textarea></textarea>
+            </div>
+            <div class="profileElement">
+                <h3>Question2</h3>
+                <textarea></textarea>
+            </div>
+            <div class="profileElement">
+                <h3>Question3</h3>
+                <textarea></textarea>
+            </div>
+                <div class="profileElement">
+                <h3>Submit Your question</h3>
+                <textarea></textarea>
+                <button class="btn btn-warning submitButton" style="margin-top:10px;float:right">Submit</button>
+            </div>
         </div>
     </div>
 </div>

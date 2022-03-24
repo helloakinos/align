@@ -4,8 +4,8 @@ const isLoggedInFinder = require("../authFuncs/auth.js").isLoggedInFinder;
 // ================ Router for  job postings ===================
 
 class ViewRouter {
-  constructor(finderService, express) {
-    this.finderService = finderService;
+  constructor(finderProfileService, express) {
+    this.finderProfileService = finderProfileService;
     this.express = express;
   }
 
@@ -44,39 +44,57 @@ class ViewRouter {
     });
   }
   getImpactFinderPreview(req, res) {
-    res.render("impactFinderPreview", {
-      layout: "main",
-    });
+    let finderId = req.rawHeaders[1];
+    this.finderProfileService.listprofile(finderId).then((profile)=>{
+      res.render("impactFinderPreview", {
+        layout: "main",
+        profile:[{finder_id:1,finder_name:"Yala"},{customfield_title:"Culture",customfield_content:"Awesome"}]
+      });
+    })
   }
 
   getFinderProfile(req, res) {
     res.render("finderProfile", {
-      layout: "main",
+      layout: "main"      
     });
   }
 
   getImpactFinderProfile(req, res) {
-    res.render("impactFinderProfile", {
-      layout: "main",
-      finder_name: "Xccelerate",
-      impactFinderLogo: "Impact Finder Logo",
-      vetted: "false",
-      finder_description: "A coding bootcamp academy",
-      telephone_number: "12345678",
-      mobile_number: "87654321",
-      email: "hihi@gmail.com",
-    });
+    console.log(req)
+    let finderId = req.rawHeaders[1];
+    this.finderProfileService.listprofile(finderId).then((profile)=>{
+      res.render("impactFinderProfile", {
+        layout: "main",
+        finder_name: "Xccelerate",
+        impactFinderLogo: "Impact Finder Logo",
+        vetted: "false",
+        finder_description: "A coding bootcamp academy",
+        telephone_number: "12345678",
+        mobile_number: "87654321",
+        email: "hihi@gmail.com",
+        size:'small',
+        profile:[{finder_id:1,finder_name:"Yala"},{customfield_title:"Culture",customfield_content:"Awesome"}]
+        // profile:profile
+      });
+
+    })
+
   }
 
   getJobBoard(req, res) {
     res.render("jobBoard", {
       layout: "main",
+      job:[
+        {title:"Animal Saver",finder_name:"PUC"},
+        {title:"Food Saver", finder_name:"Precious food"}
+    ]
     });
   }
 
   getImpactSeekerPreview(req, res) {
     res.render("impactSeekerPreview", {
       layout: "main",
+
     });
   }
 

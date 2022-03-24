@@ -3,10 +3,10 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 image">
-            <img src="img/dummypic1.jpg" class="img-fluid" alt="">
+            <img src='img/dummypic1.jpg' class="img-fluid" alt="">
             <a href="impactFinderProfile"><div class="description description--blur">Impact Finder</div></a>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 image">
+        {{!-- <div class="col-lg-3 col-md-6 col-sm-6 image">
             <img src="img/dummypic2.jpg" class="img-fluid" alt="">
             <a href="impactSeeker"><div class="description description--blur">Impact Finder</div></a>
         </div>
@@ -33,17 +33,16 @@
         <div class="col-lg-3 col-md-6 col-sm-6 image">
             <img src="img/dummypic2.jpg" class="img-fluid" alt="">
             <a href="impactSeeker"><div class="description description--blur">Impact Finder</div></a>
-        </div>
+        </div> --}}
+{{!-- Template --}}
+        {{#each profile as |profile|}}
+            {{#if this.finder_id}}
+                <div class="col-lg-3 col-md-6 col-sm-6 image">
+                    <img src="img/dummypic2.jpg" class="img-fluid" alt="">
+                    <a href="impactFinderProfile/{}"><div class="description description--blur">{{this.finder_name}}</div></a>
+                </div>
+            {{/if}}
+        {{/each}}
     </div>
 </div>
-{{!-- Template --}}
-    {{!-- <div class="col-lg-3 col-md-6 col-sm-6 image">
-        <div id="FILLMEIN">
-            {{#each FILLMEIN}}
-            <div class="FILLMEIN">
-                <span class="input"><textarea id={{@index}} data-id="{{@index}}">{{content}}</textarea></span>
-            </div>
-            {{/each}}
-        </div> 
-    </div> --}}
 {{>copyright}}
