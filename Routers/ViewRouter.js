@@ -44,18 +44,23 @@ class ViewRouter {
     });
   }
   getImpactFinderPreview(req, res) {
-    res.render("impactFinderPreview", {
-      layout: "main",
-    });
+    let finderId = req.rawHeaders[1];
+    this.finderProfileService.listprofile(finderId).then((profile)=>{
+      res.render("impactFinderPreview", {
+        layout: "main",
+        profile:[{finder_id:1,finder_name:"Yala"},{customfield_title:"Culture",customfield_content:"Awesome"}]
+      });
+    })
   }
 
   getFinderProfile(req, res) {
     res.render("finderProfile", {
-      layout: "main",
+      layout: "main"      
     });
   }
 
   getImpactFinderProfile(req, res) {
+
     let finderId = req.rawHeaders[1];
     this.finderProfileService.listprofile(finderId).then((profile) => {
       console.log(profile);
@@ -64,17 +69,23 @@ class ViewRouter {
         profile: profile,
       });
     });
+
   }
 
   getJobBoard(req, res) {
     res.render("jobBoard", {
       layout: "main",
+      job:[
+        {title:"Animal Saver",finder_name:"PUC"},
+        {title:"Food Saver", finder_name:"Precious food"}
+    ]
     });
   }
 
   getImpactSeekerPreview(req, res) {
     res.render("impactSeekerPreview", {
       layout: "main",
+
     });
   }
 
