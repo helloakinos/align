@@ -111,18 +111,47 @@ class FinderProfileService {
         .from("finder_customfield")
         .where({
           finder_id: finderId,
-          customfield_Id: customfield_Id,
+          customfield_id: customfield_Id,
         });
       if (customfields.length === 1) {
-        return this.knex("finder_customfield")
+        return await this.knex("finder_customfield")
           .where({
             finder_id: finderId,
-            customfield_Id: customfield_Id,
+            customfield_id: customfield_Id,
           })
           .update({
-            customfield_Title: customfieldInfo.customfield_Title,
-            customfield_Content: customfieldInfo.customfield_Content,
+            customfield_title: customfieldInfo.customfield_Title,
+            customfield_content: customfieldInfo.customfield_Content,
           });
+      } else {
+        console.log(`Error: unable to update customfield`);
+      }
+    } catch (error) {
+      console.log(`there is an error: ${error}`);
+    }
+  }
+
+  async removeCustom(customfield_Id, finderId) {
+    console.log(
+      `removeCustom method called with customfield_id: ${customfield_Id} and finderId: ${finderId}`
+    );
+    try {
+      let customfield = await this.knex
+        .select("*")
+        .from("finder_customfield")
+        .where({
+          finder_id: finderId,
+          customfield_id: customfield_Id,
+        });
+      if (customfield.length === 1) {
+        return await this.knex("finder_customfield")
+          .where({
+            finder_id: finderId,
+            customfield_id: customfield_Id,
+          })
+          .del();
+      } else {
+        console.log(`error in selecting the correct customfield`);
       }
     } catch (error) {
       console.log(error);

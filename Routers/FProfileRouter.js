@@ -1,6 +1,6 @@
 // ================ Router for  Finder profile ===================
 const isLoggedInFinder = require("../authFuncs/auth.js").isLoggedInFinder;
-// const express = require("express");
+
 class FProfileRouter {
   constructor(finderProfileService, express) {
     this.finderProfileService = finderProfileService;
@@ -13,7 +13,7 @@ class FProfileRouter {
     router.post("/finderprofile", this.postCustomField.bind(this)); // needs authentication to even access the edit form
     router.put("/finderprofile", this.putProfileInfo.bind(this)); // needs authentication to even access the edit form
     router.put("/finderprofile/:id", this.putCustomField.bind(this));
-    router.delete("/finderprofile/:id", this.delete.bind(this));
+    router.delete("/finderprofile/:id", this.deleteCustom.bind(this));
     return router;
   }
 
@@ -91,9 +91,22 @@ class FProfileRouter {
       });
   }
 
-  delete(req, res) {
+  deleteCustom(req, res) {
+    let customfield_Id = req.params.id;
+    let finderId = req.rawHeaders[1];
     console.log("FProfile Router: DELETE Method");
     console.log(`Current Finder ID: ${finderId}`);
+    return this.finderProfileService
+      .removeCustom(customfield_Id, finderId)
+      .then(() => {
+        return this.finderProfileService.listprofile(finderId);
+      })
+      .then((profile) => {
+        res.json(profile);
+      })
+      .catch((error) => {
+        res.status(500).json(error);
+      });
   }
 }
 

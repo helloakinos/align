@@ -1,4 +1,4 @@
-class FinderPreviewService {
+class ExploreService {
   constructor(knex) {
     this.knex = knex;
   }
@@ -15,4 +15,4 @@ class FinderPreviewService {
     }
   }
 }
-module.exports = FinderPreviewService;
+module.exports = ExploreService;
