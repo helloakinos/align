@@ -88,8 +88,12 @@ class ViewRouter {
   }
 
   getImpactSeekerPreview(req, res) {
-    res.render("impactSeekerPreview", {
-      layout: "main",
+    this.exploreService.allSeekers().then((allSeekers) => {
+      console.log(allSeekers);
+      res.render("impactFinderPreview", {
+        layout: "main",
+        allSeekers: allSeekers,
+      });
     });
   }
 
