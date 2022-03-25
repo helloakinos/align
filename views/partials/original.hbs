@@ -1,28 +1,44 @@
-<nav>
-    {{!-- LOGO --}}
-    <div class="logo"><a href="/">ALIGN</a></div>
-    {{!-- NAVIGATION MENU --}}
-    <ul class="nav-links">
-        <div class="menu">
-            <li><a href="/">Home</a></li>
-            <li class="explore">Explore
-                <ul class="dropdown">
-                    <li><a href="impactFinderPreview">Impact Finder</a></li>
-                    {{!-- <li>Impact finder</li> --}}
-                    {{!-- <li>Ask along</li> --}}
-                    <li><a href="jobBoard">Project Board</a></li>
-                    <li><a href="impactSeekerPreview">Impact Seeker</a></li>
-                </ul>
-            </li>
-            <li><a href="login">Login/Signup</a></li>
-            <div class="input-group">
-            <div class="form-outline">
-                <input type="search" id="form1" class="form-control" placeholder="Search" />
-            </div>
-            <button type="button" class="btn btn-primary">
-                <i class="fas fa-search"></i>
-            </button>
-            </div>
-        </div>
-    </ul>
+<nav class="navbar navbar-expand-lg sticky-top">
+    <a href="/" class="navbar-brand logo">ALIGN</a>
+    <button 
+    type="button" 
+    data-bs-toggle="collapse" 
+    data-bs-target="#navbarNav" 
+    class="navbar-toggler"
+    aria-controls="navbarNav"
+    aria-expanded="false"
+    aeia-label="Toggle navigation">
+       <img src="img/Hamburger_icon.png" alt="" width='30'>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <a href="/" class="nav-link">
+                <li class="nav-item active">
+                    Home
+                </li>
+            </a>
+            <a href="/impactFinderPreview" class="nav-link">
+                <li class="nav-item active">
+                    Impact Finder
+                </li>
+            </a>
+            <a href="jobBoard" class="nav-link">
+                <li class="nav-item active">
+                    Job Board
+                </li>
+            </a>
+            <a href="impactSeekerPreview" class="nav-link">
+                <li class="nav-item active">
+                    Impact Seeker
+                </li>
+            </a>
+            {{!-- loginstatus --}}
+            <a href="login" class="nav-link">
+                <li class="nav-item active">
+                    Login/Signup
+                </li>
+                </a>
+        </ul>
+    </div>
+
 </nav>

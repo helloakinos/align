@@ -34,17 +34,26 @@ nav{
     justify-content: space-between; 
     background-color: black;
 } 
-.nav-links{
+.nav-link,.nav-link:hover{
     display:inline-block;
     font-family: 'Poppins';
     font-size: 28px;
     font-weight:bold;
     color:#FFB545;
     margin-right:25px;
+    text-align: center;
 } 
+
+.navbar-nav{
+    margin-left: auto;
+}
+
+.navbar-toggler{
+    background-color: #FFB545;
+}
 /* LOGO */
-.logo{
-    font-size:100px;
+.logo,.logo:hover{
+    font-size:60px;
     color:#228478;
     font-weight:bolder;
     font-family: 'Poppins';
@@ -63,7 +72,7 @@ li:hover{
 }
 
 /* DROPDOWN MENU */
-.explore{
+/* .explore{
     position:relative;
     z-index:2;
 }
@@ -94,7 +103,7 @@ li:hover{
 
 .explore:hover .dropdown{
     display:block
-}
+} */
 
 
 /* COPYRIGHT */
