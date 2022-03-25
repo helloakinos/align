@@ -4,7 +4,8 @@
  */
 exports.up = function (knex) {
   return knex.schema.createTable("finder", function (table) {
-    table.increments("finder_id").notNullable().unique().unsigned().primary();
+    table.integer("finder_id").unique().unsigned().primary();
+    table.foreign("finder_id").references("finder_login.finder_id");
     table.string("finder_name").unique();
     table.boolean("vetted");
     table.string("finder_description");

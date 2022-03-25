@@ -1,4 +1,4 @@
-require("passport");
+// require("passport");
 
 // middleware to check if the user is logged in
 function isLoggedInSeeker(req, res, next) {
