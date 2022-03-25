@@ -58,6 +58,8 @@ class FinderProfileService {
   }
 
   async updateProfile(info, finderId) {
+    let profile = [];
+    console.log(info);
     console.log(
       `updateProfile method called with info: ${info} and finderId: ${finderId}`
     );
@@ -72,11 +74,55 @@ class FinderProfileService {
         )
         .where("finder.finder_id", finderId);
       if (profile.length === 1) {
-        return this.knex("finder")
+        let profileInfo = await this.knex("finder")
           .where("finder.finder_id", finderId)
-          .update(info);
+          .update({
+            finder_name: info.finder_name,
+            finder_description: info.finder_description,
+            finder_size: info.finder_size,
+          });
+        let profileContact = await this.knex("finder_contact")
+          .where("finder_contact.finder_id", finderId)
+          .update({
+            first_name: info.first_name,
+            surname: info.surname,
+            telephone_number: info.telephone_number,
+            mobile_number: info.mobile_number,
+            email: info.email,
+            role: info.role,
+          });
+        return profile;
       } else {
         console.log(`Error: unable to find the correct profile`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async updateCustom(customfield_Id, customfieldInfo, finderId) {
+    console.log(
+      `updateCustom method called with customfieldId: ${customfield_Id} with finderId: ${finderId}`
+    );
+    console.log(customfieldInfo);
+    try {
+      let customfields = await this.knex
+        .select("*")
+        .from("finder_customfield")
+        .where({
+          finder_id: finderId,
+          customfield_Id: customfield_Id,
+        });
+      if (customfields.length === 1) {
+        return this.knex("finder_customfield")
+          .where({
+            finder_id: finderId,
+            customfield_Id: customfield_Id,
+          })
+          .update({
+            customfield_Title: customfieldInfo.customfield_Title,
+            customfield_Content: customfieldInfo.customfield_Content,
+          });
       }
     } catch (error) {
       console.log(error);

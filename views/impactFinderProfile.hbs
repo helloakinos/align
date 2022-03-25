@@ -2,7 +2,7 @@
 <br>
 <div class="companyMain row">    
     <div class="col-lg-2 col-md-3 col-sm-2 impactFinderLogo">{{impactFinderLogo}}</div>
-    <div class="col-lg-4 col-md-6 col-sm-8 impactFinderName">{{finder_name}}
+    <div class="col-lg-4 col-md-6 col-sm-8 impactFinderName">{{profile.finder_name}}
         {{#if vetted}}
         <i class="fas fa-check vetted"></i>
         {{/if}}
@@ -67,25 +67,25 @@
                 <div class="profileElement">
                     <label for="impactFinderInfo">Impact Finder information</label>
                     <br>
-                    <p>{{finder_description}}</p>
+                    <p>{{profile.finder_description}}</p>
                     <p style="display:inline-block">Size:</p>
-                    {{finder_size}}
+                    {{profile.finder_size}}
                 </div>
                 <div class="profileElement">
                     <label for="impactFinderContact">Impact Finder Contact</label>
                     <br>
                     <p style="display:inline-block">Telephone:</p>
-                    {{telephone_number}}
+                    {{profile.telephone_number}}
                     <br>
                      <p style="display:inline-block">Mobile:</p>
-                    {{mobile_number}}
+                    {{profile.mobile_number}}
                     <br>
                      <p style="display:inline-block">Email:</p>
-                    {{email}}
+                    {{profile.email}}
                     <br>
                     <label for="impactFinderSize">Impact Finder Size</label>
                     <br>
-                    {{size}}
+                    {{profile.size}}
                 </div>
         </div>
         <br>
@@ -121,7 +121,7 @@
                     </div>
                 </div>
             </div>
-            {{#each profile}}
+            {{#each profile_customfields}}
                 <h3>{{customfield_title}}</h3>
                 {{customfield_content}}
             {{/each}}

@@ -22,7 +22,7 @@ class ViewRouter {
       this.getFinderProfile.bind(this)
     );
     router.get(
-      "/impactFinderProfile",
+      "/impactFinderProfile/:id",
       /*isLoggedInFinder,*/
       this.getImpactFinderProfile.bind(this)
     );
@@ -65,12 +65,14 @@ class ViewRouter {
   }
 
   getImpactFinderProfile(req, res) {
-    let finderId = req.rawHeaders[1];
+    console.log(req);
+    let finderId = req.params.id;
     this.finderProfileService.listprofile(finderId).then((profile) => {
       console.log(profile);
       res.render("impactFinderProfile", {
         layout: "main",
-        profile: profile,
+        profile: profile[0],
+        profile_customfields: profile[1],
       });
     });
   }
