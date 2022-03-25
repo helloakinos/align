@@ -10,7 +10,7 @@
 const development = require("../knexfile").development;
 const hashFunction = require("./hashFunction");
 const knex = require("knex")(development);
-const TABLE_NAME = "finder";
+const TABLE_NAME = "finder_login";
 const LocalStrategy = require("passport-local").Strategy;
 /**********************************************
 

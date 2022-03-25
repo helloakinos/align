@@ -11,18 +11,18 @@ function serializeUser(user, done) {
 
 // with every request, cookie will be sent back to server. server will take the token, pass it into this function, and turn it into a user
 function deserializeUser(id, done) {
-  console.log(id.id, "<<< from serialise ");
+  console.log(id.finder_login_id, "<<< from serialise ");
   console.log(
     "Deserialize: server will take token from your browser, and run this function to check if user exists"
   );
   userQueries
-    .getById(id.id)
+    .getById(id.finder_login_id)
     .then((users) => {
       if (users.length === 0) {
         return done(null, false);
       }
       done(null, users[0]);
-      console.log(users);
+      
     })
     .catch((err) => {
       console.log("DESERIALSE FAIL");
