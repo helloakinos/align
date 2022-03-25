@@ -4,9 +4,7 @@
  */
 exports.up = function(knex) {
     return knex.schema.createTable("finder_login", function(table){
-        table.increments("finder_login_id").primary();
-        table.integer("finder_id")
-        table.foreign("finder_id").references("finder.finder_id");
+        table.increments("finder_id").primary();
         table.string("hash");
         table.string("finder_name").unique();
         table.integer("id");
