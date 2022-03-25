@@ -8,8 +8,8 @@ const msal = require("@azure/msal-node");
 require("./passport/microsoft");
 const cookieParser = require("cookie-parser");
 const expressSession = require("express-session");
-const methodOverride = require('method-override');
-const morgan = require('morgan');
+const methodOverride = require("method-override");
+const morgan = require("morgan");
 // const config = require('./config.js');
 
 const config = require("./config.js");
@@ -21,7 +21,7 @@ const passport = require("passport");
 const session = require("express-session");
 
 const app = express();
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 app.use(methodOverride());
 port = 3000;
 
@@ -36,7 +36,7 @@ const ViewRouter = require("./Routers/ViewRouter");
 const FProfileRouter = require("./Routers/FProfileRouter");
 // =========== Local Services ===================
 const FinderProfileService = require("./Service/FinderProfileService");
-const FinderPreviewService = require("./Service/FinderPreviewService");
+const ExploreService = require("./Service/ExploreService");
 
 // ========= Set up Express Handlebars ==============
 app.use(cookieParser());
@@ -51,37 +51,45 @@ app.use(
     // if saveUninitialized is false, session object will not be stored in sesion store
     saveUninitialized: true,
   })
-  );
-  app.engine(
-    "hbs",
-    engine({
-      layoutsDir: "",
-      defaultLayout: "",
-      extname: "hbs",
-      partialsDir: `${__dirname}/views/partials`,
-    })
-    );
-    
-    // ========= Set up Express  ================
-    app.use(express.static("Public"));
-    app.use(express.urlencoded({ extended: false }));
-    app.use(express.json());
-    app.use(passport.initialize());
-    app.use(passport.session());
-    
+);
+app.engine(
+  "hbs",
+  engine({
+    layoutsDir: "",
+    defaultLayout: "",
+    extname: "hbs",
+    partialsDir: `${__dirname}/views/partials`,
+  })
+);
+
+// ========= Set up Express  ================
+app.use(express.static("Public"));
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(passport.initialize());
+app.use(passport.session());
+
 // set up Microsoft session middleware
 if (config.useMongoDBSessionStore) {
   mongoose.connect(config.databaseUri);
-  app.use(expressSession({
-    secret: 'secret',
-    cookie: {maxAge: config.mongoDBSessionMaxAge * 1000},
-    store: new MongoStore({
-      mongooseConnection: mongoose.connection,
-      clear_interval: config.mongoDBSessionMaxAge
+  app.use(
+    expressSession({
+      secret: "secret",
+      cookie: { maxAge: config.mongoDBSessionMaxAge * 1000 },
+      store: new MongoStore({
+        mongooseConnection: mongoose.connection,
+        clear_interval: config.mongoDBSessionMaxAge,
+      }),
     })
-  }));
+  );
 } else {
-  app.use(expressSession({ secret: 'keyboard cat', resave: true, saveUninitialized: false }));
+  app.use(
+    expressSession({
+      secret: "keyboard cat",
+      resave: true,
+      saveUninitialized: false,
+    })
+  );
 }
 
 // =========== Set up Passport ============
@@ -99,34 +107,17 @@ if (config.useMongoDBSessionStore) {
 
 // =========== Set up Instances for Routers & Services ============
 const finderProfileService = new FinderProfileService(knex);
-const finderPreviewService = new FinderPreviewService(knex);
+const exploreService = new ExploreService(knex);
 const viewRouter = new ViewRouter(
   finderProfileService,
-  finderPreviewService,
+  exploreService,
   express
 );
 const fprofileRouter = new FProfileRouter(finderProfileService, express);
 const authRouter = new AuthRouter();
 
-// =========== Homepage set up ============
-// can add isLoggedin function in here when implementing authentications
-// app.get(
-//   "/",
-//   /*isloggedin, */ (req, res) => {
-//     console.log(`current user: `);
-
-//     res.render("home", {
-//       layout: "main",
-//       //   applicant: applicant,
-//       //   company: company,
-
-//     });
-//   }
-// );
-
 // ========= Set up Routers ================
 
-// Routers not active yet, awaiting implementation
 app.use("/", viewRouter.router());
 app.use("/", authRouter.router());
 // app.use("/", new AuthRouter(express, passport).router());

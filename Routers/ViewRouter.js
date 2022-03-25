@@ -4,9 +4,9 @@ const isLoggedInFinder = require("../authFuncs/auth.js").isLoggedInFinder;
 // ================ Router for  job postings ===================
 
 class ViewRouter {
-  constructor(finderProfileService, finderPreviewService, express) {
+  constructor(finderProfileService, exploreService, express) {
     this.finderProfileService = finderProfileService;
-    this.finderPreviewService = finderPreviewService;
+    this.exploreService = exploreService;
     this.express = express;
   }
 
@@ -49,7 +49,7 @@ class ViewRouter {
     });
   }
   getImpactFinderPreview(req, res) {
-    this.finderPreviewService.allFinders().then((allFinders) => {
+    this.exploreService.allFinders().then((allFinders) => {
       console.log(allFinders);
       res.render("impactFinderPreview", {
         layout: "main",
