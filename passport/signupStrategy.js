@@ -30,7 +30,7 @@ module.exports = new LocalStrategy(async (username, password, done) => {
       
     };
     //insert the new user, get the id
-    let finderId = await knex(TABLE_NAME).insert(newFinder).returning("finder_login_id");
+    let finderId = await knex(TABLE_NAME).insert(newFinder).returning("finder_id");
     // assign that id to the user
     newFinder.id = finderId[0];
     console.log("Newer user: ", newFinder);
