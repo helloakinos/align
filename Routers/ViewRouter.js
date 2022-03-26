@@ -1,5 +1,6 @@
 const isLoggedInSeeker = require("../authFuncs/auth.js").isLoggedInSeeker;
 const isLoggedInFinder = require("../authFuncs/auth.js").isLoggedInFinder;
+const isCurrentFinder = require("../authFuncs/auth.js").isCurrentFinder;
 
 // ================ Router for  job postings ===================
 
@@ -23,7 +24,7 @@ class ViewRouter {
     );
     router.get(
       "/impactFinderProfile/:id",
-      /*isLoggedInFinder,*/
+      isCurrentFinder,
       this.getImpactFinderProfile.bind(this)
     );
     router.get("/jobBoard", this.getJobBoard.bind(this));
@@ -65,7 +66,7 @@ class ViewRouter {
   }
 
   getImpactFinderProfile(req, res) {
-    console.log(req);
+    console.log(req.user);
     let finderId = req.params.id;
     this.finderProfileService.listprofile(finderId).then((profile) => {
       console.log(profile);

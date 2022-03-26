@@ -6,7 +6,7 @@
  * 2. Implement callback (verifies username and password)
  * 3. Specify strategy in route
  ***********************************************/
-
+const passport = require("passport");
 const development = require("../knexfile").development;
 const hashFunction = require("./hashFunction");
 const knex = require("knex")(development);
@@ -19,7 +19,7 @@ module.exports = new LocalStrategy(async (username, password, done) => {
   console.log("logging in");
   // try putting the username in
   try {
-    let users = await knex(TABLE_NAME).where({
+    const users = await knex(TABLE_NAME).where({
       finder_name: username,
     });
     // if user doesn't exist, then return false - it doesn't exist
@@ -29,7 +29,7 @@ module.exports = new LocalStrategy(async (username, password, done) => {
       });
     }
     // otherwise, get the user
-    let user = users[0];
+    const user = users[0];
 
     console.log("User", user);
     console.log("User password", user.password);
