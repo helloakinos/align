@@ -102,8 +102,6 @@ if (config.useMongoDBSessionStore) {
 //     saveUninitialized: true,
 //   })
 // );
-// app.use(passport.initialize());
-// app.use(passport.session());
 
 // =========== Set up Instances for Routers & Services ============
 const finderProfileService = new FinderProfileService(knex);
