@@ -11,7 +11,7 @@ function isLoggedIn(req, res, next) {
     }
   }
 
-  res.redirect("/login");
+  res.redirect("/loginSignup");
 }
 
 function isLoggedInSeeker(req, res, next) {
@@ -24,7 +24,7 @@ function isLoggedInSeeker(req, res, next) {
     }
   }
 
-  res.redirect("/login");
+  res.redirect("/loginSignup");
 }
 
 function isLoggedInFinder(req, res, next) {
@@ -37,7 +37,7 @@ function isLoggedInFinder(req, res, next) {
     }
   }
 
-  res.redirect("/login");
+  res.redirect("/loginSignup");
 }
 
 function isOurFinder(req, res, next) {

@@ -16,8 +16,8 @@ class ViewRouter {
   router() {
     let router = this.express.Router();
     router.get("/", this.getHome.bind(this));
+    router.get("/login", this.getLogin.bind(this));
     router.get("/loginSignup", this.getLogin.bind(this));
-    // router.get("/signup", this.getSignup.bind(this));
     router.get("/impactFinderPreview", this.getImpactFinderPreview.bind(this));
     router.get(
       "/myfinderprofile",
@@ -30,11 +30,12 @@ class ViewRouter {
     );
     router.get("/jobBoard", this.getJobBoard.bind(this));
     router.get(
-      "/ImpactSeekerPreview",
-      isLoggedIn,
+      "/impactSeekerPreview",
+      // Need to uncomment it
+      // isLoggedIn,
       this.getImpactSeekerPreview.bind(this)
     );
-    router.get("/ImpactSeekerProfile", this.getImpactSeekerProfile.bind(this));
+    router.get("/ImpactSeekerProfile/:id", this.getImpactSeekerProfile.bind(this));
     router.get("/jobApplicationForm", this.getJobApplicationForm.bind(this));
     return router;
   }
@@ -75,14 +76,17 @@ class ViewRouter {
   getImpactFinderProfile(req, res) {
     console.log(req.user);
     let finderId = req.params.id;
-    let currentFinder = req.user.id;
+    //need to uncomment it later
+    // let currentFinder = req.user.id;
     this.finderProfileService.listprofile(finderId).then((profile) => {
       console.log(profile);
       res.render("impactFinderProfile", {
         layout: "main",
-        profile: profile[0],
-        profile_customfields: profile[1],
-        currentUser: isCurrentFinder(finderId, currentFinder),
+        // profile: profile[0],
+        // profile_customfields: profile[1],
+        profile:profile
+        //need to uncomment it later
+        // currentUser: isCurrentFinder(finderId, currentFinder),
       });
     });
   }
@@ -99,8 +103,10 @@ class ViewRouter {
 
   getImpactSeekerPreview(req, res) {
     this.exploreService.allSeekers().then((allSeekers) => {
+      // console.log(req.user);
+      // let finderId = req.params.id;
       console.log(allSeekers);
-      res.render("impactFinderPreview", {
+      res.render("impactSeekerPreview", {
         layout: "main",
         allSeekers: allSeekers,
       });
