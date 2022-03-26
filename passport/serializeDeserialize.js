@@ -22,7 +22,6 @@ function deserializeUser(id, done) {
         return done(null, false);
       }
       done(null, users[0]);
-      
     })
     .catch((err) => {
       console.log("DESERIALSE FAIL");
