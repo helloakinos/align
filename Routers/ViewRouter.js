@@ -13,8 +13,8 @@ class ViewRouter {
   router() {
     let router = this.express.Router();
     router.get("/", this.getHome.bind(this));
-    router.get("/login", this.getLogin.bind(this));
-    router.get("/signup", this.getSignup.bind(this));
+    router.get("/loginSignup", this.getLogin.bind(this));
+    // router.get("/signup", this.getSignup.bind(this));
     router.get("/impactFinderPreview", this.getImpactFinderPreview.bind(this));
     router.get(
       "/myfinderprofile",
@@ -43,11 +43,11 @@ class ViewRouter {
       layout: "main",
     });
   }
-  getSignup(req, res) {
-    res.render("signup", {
-      layout: "main",
-    });
-  }
+  // getSignup(req, res) {
+  //   res.render("signup", {
+  //     layout: "main",
+  //   });
+  // }
   getImpactFinderPreview(req, res) {
     this.exploreService.allFinders().then((allFinders) => {
       console.log(allFinders);
@@ -71,8 +71,9 @@ class ViewRouter {
       console.log(profile);
       res.render("impactFinderProfile", {
         layout: "main",
-        profile: profile[0],
-        profile_customfields: profile[1],
+        // profile: profile[0],
+        // profile_customfields: profile[1],
+        profile:profile
       });
     });
   }

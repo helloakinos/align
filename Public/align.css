@@ -51,6 +51,7 @@ nav{
 .navbar-toggler{
     background-color: #FFB545;
 }
+
 /* LOGO */
 .logo,.logo:hover{
     font-size:45px;
@@ -60,12 +61,12 @@ nav{
     margin-left:15px;
 }
 
-.menu{
+/* .menu{
     display: flex;
     gap:8em;
-}
+} */
 
-li:hover{
+.pagename:hover{
     background-color: white;
     border-radius: 20px;
     transition:0.3s ease;
@@ -126,32 +127,43 @@ img{
 
 /* SignupPage */
 .signup{
-    margin-left:25px;
+    /* margin-left:25px; */
 }
 
 /* loginPage */
-.headDiv{
+/* .headDiv{
     display: flex;
     justify-content: space-between;
-}
+} */
 
 .heading{
     margin-top:20px;
     margin-left:25px;
 }
 
+.signUpButtonDiv{
+    display:flex;
+    justify-content: center;
+}
+
 .signupButton{
     border-radius: 20px;
-    font-size: 30px;
-    padding:5px;
-    align-self:center;
-    margin-right: 25px;
+    font-size: 20px;
+    padding:2px;
     width:fit-content;
+}
+.loginpageDiv{
+    padding:40px;
+    border:10px solid #526f92;
+    border-radius: 10px;
+    background-color: rgba(255,255,255,0.7);
 }
 
 .loginPage{
     display:flex;
     justify-content:space-evenly;
+    align-items:center;
+    height:80%
 }
 
 .loginHeading{
@@ -159,16 +171,18 @@ img{
     font-weight: bold;
 }
 
-.login{
-    width:400px;
-    height:400px;
-    padding:20px;
-    border:8px solid #526f92;
-    border-radius: 10px;
+.fa-brands{
+    /* margin-top:5px; */
+    padding:15px
 }
+
 
 form{
     margin-top:20px;
+}
+
+.hide{
+    display:none
 }
 
 /* CompanyPreview  */
