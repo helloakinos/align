@@ -9,5 +9,14 @@ exports.seed = async function (knex) {
     { username: "bella" },
     { username: "stella" },
     { username: "christine" },
+    { username: "Dave" },
+    { username: "Boris" },
+    { username: "Yu Li" },
+    { username: "Stephano" },
+    { username: "Yasmine" },
+    { username: "Oliver" },
+    { username: "Jolene" },
+    { username: "Berry" },
+    { username: "Oswald" },
   ]);
 };

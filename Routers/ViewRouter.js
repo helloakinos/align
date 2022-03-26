@@ -1,5 +1,5 @@
 const { isCurrentFinder } = require("../authFuncs/currentUser");
-
+const { isLoggedIn } = require("../authFuncs/auth");
 const isLoggedInSeeker = require("../authFuncs/auth.js").isLoggedInSeeker;
 const isLoggedInFinder = require("../authFuncs/auth.js").isLoggedInFinder;
 const isOurFinder = require("../authFuncs/auth").isOurFinder;
@@ -29,7 +29,11 @@ class ViewRouter {
       this.getImpactFinderProfile.bind(this)
     );
     router.get("/jobBoard", this.getJobBoard.bind(this));
-    router.get("/ImpactSeekerPreview", this.getImpactSeekerPreview.bind(this));
+    router.get(
+      "/ImpactSeekerPreview",
+      isLoggedIn,
+      this.getImpactSeekerPreview.bind(this)
+    );
     router.get("/ImpactSeekerProfile", this.getImpactSeekerProfile.bind(this));
     router.get("/jobApplicationForm", this.getJobApplicationForm.bind(this));
     return router;
