@@ -1,3 +1,4 @@
+require("dotenv").config();
 // Update with your config settings.
 
 /**
@@ -7,9 +8,9 @@ module.exports = {
   development: {
     client: "pg",
     connection: {
-      database: "yala",
-      user: "postgres",
-      password: "password",
+      database: process.env.DB_NAME,
+      user: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
     },
   },
 

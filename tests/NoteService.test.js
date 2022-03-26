@@ -10,15 +10,15 @@ const NoteService = require("../NoteService/NoteService.js");
 require("dotenv").config();
 
 const knex = require("knex")({
-  client: "postgresql",
+  client: "pg",
   connection: {
-    database: "noteapp",
-    user: "postgres",
-    password: "password",
+    database: process.env.DB_NAME,
+    user: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
   },
 });
 
-describe("Note Service with a properfile", () => {
+describe("Databasequeries", () => {
   beforeEach(() => {
     jest.setTimeout(20000);
 
