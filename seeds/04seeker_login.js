@@ -6,17 +6,17 @@ exports.seed = async function (knex) {
   // Deletes ALL existing entries
   await knex("seeker_login").del();
   await knex("seeker_login").insert([
-    { username: "bella" },
-    { username: "stella" },
-    { username: "christine" },
-    { username: "Dave" },
-    { username: "Boris" },
-    { username: "Yu Li" },
-    { username: "Stephano" },
-    { username: "Yasmine" },
-    { username: "Oliver" },
-    { username: "Jolene" },
-    { username: "Berry" },
-    { username: "Oswald" },
+    { seeker_name: "bella" },
+    { seeker_name: "stella" },
+    { seeker_name: "christine" },
+    { seeker_name: "Dave" },
+    { seeker_name: "Boris" },
+    { seeker_name: "Yu Li" },
+    { seeker_name: "Stephano" },
+    { seeker_name: "Yasmine" },
+    { seeker_name: "Oliver" },
+    { seeker_name: "Jolene" },
+    { seeker_name: "Berry" },
+    { seeker_name: "Oswald" },
   ]);
 };
