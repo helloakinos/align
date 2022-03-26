@@ -15,17 +15,18 @@ function deserializeUser(id, done) {
   console.log(
     "Deserialize: server will take token from your browser, and run this function to check if user exists"
   );
+  if (id.finder_id){
   userQueries
-    .getById(id.finder_id)
+    .getByIdf(id.finder_id)
     .then((users) => {
       if (users.length === 0) {
-        console.log("akin check here length = 0");
+        console.log("akin check here length = 0 Finder");
       console.log(users[0]);
       console.log(users);
       console.log(id);
         return done(null, false);
       }
-      console.log("akin check here length works");
+      console.log("akin check here length works Finder");
       console.log(users[0]);
       done(null, users[0])
     ;
@@ -34,8 +35,61 @@ function deserializeUser(id, done) {
       console.log("DESERIALSE FAIL");
       done(err, false);
     });
+
+  }else{
+    userQueries
+    .getById(id.seeker_id)
+    .then((users) => {
+      if (users.length === 0) {
+        console.log("akin check here length = 0s");
+      console.log(users[0]);
+      console.log(users);
+      console.log(id);
+        return done(null, false);
+      }
+      console.log("akin check here length works Seeker");
+      console.log(users[0]);
+      done(null, users[0])
+    ;
+    })
+    .catch((err) => {
+      console.log("DESERIALSE FAIL");
+      done(err, false);
+    });
+
+  
+  }
+
+
 }
+
+// function deserializeUserf(id, done) {
+//   console.log(id.finder_id, "<<< from serialise ");
+//   console.log(
+//     "Deserialize: server will take token from your browser, and run this function to check if user exists"
+//   );
+//   userQueries
+//     .getById(id.seeker_id)
+//     .then((users) => {
+//       if (users.length === 0) {
+//         console.log("akin check here length = 0");
+//       console.log(users[0]);
+//       console.log(users);
+//       console.log(id);
+//         return done(null, false);
+//       }
+//       console.log("akin check here length works");
+//       console.log(users[0]);
+//       done(null, users[0])
+//     ;
+//     })
+//     .catch((err) => {
+//       console.log("DESERIALSE FAIL");
+//       done(err, false);
+//     });
+// }
 module.exports = {
   serializeUser: serializeUser,
   deserializeUser: deserializeUser,
+  // deserializeUserf: deserializeUserf,
 };

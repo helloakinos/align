@@ -4,8 +4,8 @@
  */
 exports.up = function(knex) {
     return knex.schema.createTable("seeker_login", function(table){
-        table.increments().primary();
-        table.string("username").unique();
+        table.increments("seeker_id").primary();
+        table.string("seeker_name").unique();
         table.string("access_token");
         table.integer("session_id");
         table.string("email").unique();
