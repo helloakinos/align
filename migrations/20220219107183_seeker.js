@@ -5,7 +5,7 @@
 exports.up = function (knex) {
   return knex.schema.createTable("seeker", function (table) {
     table.integer("seeker_id").notNullable().unique();
-    table.foreign("seeker_id").references("seeker_login.id");
+    table.foreign("seeker_id").references("seeker_login.seeker_id");
     table.string("first_name").notNullable();
     table.string("surname").notNullable();
     table.string("current_company").notNullable();

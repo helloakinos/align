@@ -1,7 +1,8 @@
 const development = require("../knexfile").development;
 const knex = require("knex")(development);
 const hashFunction = require("../passport/hashFunction");
-const TABLE_NAME = "finder_login";
+const TABLE_NAMEF = "finder_login";
+const TABLE_NAME = "seeker_login";
 
 function postFacebook(username, facebookId) {
   return knex(TABLE_NAME)
@@ -26,14 +27,23 @@ function postGmail(username, gmailId) {
   console.log(username);
   return knex(TABLE_NAME)
     .insert({
-      username: username,
+      seeker_name: username,
       gmail_id: gmailId,
     })
-    .returning("id");
+    .returning("seeker_id");
 }
 
 function userExists(username) {
   return knex(TABLE_NAME)
+    .count("id as n")
+    .where("username", username)
+    .then((count) => {
+      return count[0].n > 0;
+    });
+}
+
+function userExistsf(username) {
+  return knex(TABLE_NAMEF)
     .count("id as n")
     .where("username", username)
     .then((count) => {
@@ -51,6 +61,23 @@ function createUser(username, password) {
     .then(() => hashFunction.hashPassword(password))
     .then((hash) => {
       return knex(TABLE_NAME).insert({
+        username: username,
+        password: password,
+        hash: hash,
+      });
+    });
+}
+
+function createUserf(username, password) {
+  return userExists(username)
+    .then((exists) => {
+      if (exists) {
+        return Promise.reject(new Error("user exists"));
+      }
+    })
+    .then(() => hashFunction.hashPassword(password))
+    .then((hash) => {
+      return knex(TABLE_NAMEF).insert({
         username: username,
         password: password,
         hash: hash,
@@ -120,6 +147,14 @@ function signIn(req, res, next) {
 //     password: password,
 //   });
 // }
+function deleteUserf(id) {
+  return knex(TABLE_NAMEF)
+    .where({ id: id })
+    .del()
+    .then(() => {
+      console.log("deleted user");
+    });
+}
 function deleteUser(id) {
   return knex(TABLE_NAME)
     .where({ id: id })
@@ -130,6 +165,30 @@ function deleteUser(id) {
 }
 function getAllUsers() {
   let allUsers = knex(TABLE_NAME).select(
+    "id",
+    "username",
+    "microsoft_id",
+    "facebook_id",
+    "password"
+  );
+  allUsers
+    .then((eachRow) => {
+      return eachRow.map((eachUser) => ({
+        id: eachUser.id,
+        username: eachUser.username,
+        twitter_id: eachUser.microsoft_id,
+        facebook_id: eachUser.facebook_id,
+        password: eachUser.password,
+      }));
+    })
+    .then((eachUser) => {
+      console.log("Each user");
+      console.log(eachUser);
+    });
+}
+
+function getAllUsersf() {
+  let allUsers = knex(TABLE_NAMEF).select(
     "id",
     "username",
     "microsoft_id",
@@ -176,9 +235,20 @@ function microsoftIdExists(microsoftId) {
       return count[0].n > 0;
     });
 }
-function getById(id) {
-  return knex(TABLE_NAME).select().where("finder_id", id);
+function getByIdf(id) {
+  return knex(TABLE_NAMEF).select().where("finder_id", id);
 }
+
+function getById(id) {
+  return knex(TABLE_NAME).select().where("seeker_id", id);
+}
+
+function getByUsernamef(username) {
+  return knex(TABLE_NAMEF)
+    .select("id", "username", "microsoft_id", "facebook_id", "hash", "password")
+    .where("username", username);
+}
+
 function getByUsername(username) {
   return knex(TABLE_NAME)
     .select("id", "username", "microsoft_id", "facebook_id", "hash", "password")
@@ -202,9 +272,11 @@ module.exports = {
   postMicrosoft: postMicrosoft,
   postGmail: postGmail,
   createUser: createUser,
+  createUserf: createUserf,
   gmailIdExists: gmailIdExists,
   facebookIdExists: facebookIdExists,
   microsoftIdExists: microsoftIdExists,
+  getByIdf: getByIdf,
   getById: getById,
   getByFacebookId: getByFacebookId,
   getByMicrosoftId: getByMicrosoftId,

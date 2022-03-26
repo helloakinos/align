@@ -7,11 +7,28 @@ function isLoggedIn(req, res, next) {
     console.log(req.session.passport.user, "passport USER");
     console.log(req.user, "USER");
     if (req.session.passport.user) {
+      console.log(req.session.passport.user);
       return next();
     }
   }
 
   res.redirect("/loginSignup");
+}
+
+function isLoggedInBoolean(req, res, next) {
+  if (req.isAuthenticated()) {
+    console.log(req.cookies);
+    console.log(req.session.passport.user, "passport USER");
+    console.log(req.user, "USER");
+    if (req.session.passport.user) {
+      console.log(req.session.passport.user);
+      return true;
+    }
+  }
+
+
+  return false;
+
 }
 
 function isLoggedInSeeker(req, res, next) {
@@ -37,27 +54,12 @@ function isLoggedInFinder(req, res, next) {
     }
   }
 
-  res.redirect("/loginSignup");
-}
-
-function isOurFinder(req, res, next) {
-  if (req.isAuthenticated()) {
-    console.log(`I am authenticated`);
-    console.log(req.cookies);
-    console.log(req.session.passport.user, "passport USER");
-    console.log(req.user, "USER");
-    if (req.session.passport.user.type == "finder") {
-      return next();
-    }
-  }
-  console.log(`I am not authenticated`);
-
-  next();
+  res.redirect("/login");
 }
 
 module.exports = {
   isLoggedIn,
+  isLoggedInBoolean,
   isLoggedInSeeker,
   isLoggedInFinder,
-  isOurFinder,
 };
