@@ -19,10 +19,16 @@ function deserializeUser(id, done) {
     .getById(id.finder_id)
     .then((users) => {
       if (users.length === 0) {
+        console.log("akin check here length = 0");
+      console.log(users[0]);
+      console.log(users);
+      console.log(id);
         return done(null, false);
       }
-      done(null, users[0]);
-      
+      console.log("akin check here length works");
+      console.log(users[0]);
+      done(null, users[0])
+    ;
     })
     .catch((err) => {
       console.log("DESERIALSE FAIL");

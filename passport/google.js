@@ -18,7 +18,7 @@ function googleCallback(accessToken, refreshToken, profile, done) {
           .postGmail(profile.emails[0].value, profile.id)
           .then((newIds) => {
             console.log("New user", newIds);
-            user.id = newIds[0];
+            user.finder_id = newIds[0].id;
             console.log("Posted user:", user);
             return done(null, user);
           })

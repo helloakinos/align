@@ -1,5 +1,8 @@
+const { isCurrentFinder } = require("../authFuncs/currentUser");
+const { isLoggedIn } = require("../authFuncs/auth");
 const isLoggedInSeeker = require("../authFuncs/auth.js").isLoggedInSeeker;
 const isLoggedInFinder = require("../authFuncs/auth.js").isLoggedInFinder;
+const isOurFinder = require("../authFuncs/auth").isOurFinder;
 
 // ================ Router for  job postings ===================
 
@@ -23,17 +26,22 @@ class ViewRouter {
     );
     router.get(
       "/impactFinderProfile/:id",
-      /*isLoggedInFinder,*/
       this.getImpactFinderProfile.bind(this)
     );
     router.get("/jobBoard", this.getJobBoard.bind(this));
-    router.get("/ImpactSeekerPreview", this.getImpactSeekerPreview.bind(this));
+    router.get(
+      "/ImpactSeekerPreview",
+      isLoggedIn,
+      this.getImpactSeekerPreview.bind(this)
+    );
     router.get("/ImpactSeekerProfile", this.getImpactSeekerProfile.bind(this));
     router.get("/jobApplicationForm", this.getJobApplicationForm.bind(this));
     return router;
   }
 
   getHome(req, res) {
+    console.log(`Is the user persisting`);
+    console.log(req.user);
     res.render("home", {
       layout: "main",
     });
@@ -65,15 +73,16 @@ class ViewRouter {
   }
 
   getImpactFinderProfile(req, res) {
-    console.log(req);
+    console.log(req.user);
     let finderId = req.params.id;
+    let currentFinder = req.user.id;
     this.finderProfileService.listprofile(finderId).then((profile) => {
       console.log(profile);
       res.render("impactFinderProfile", {
         layout: "main",
-        // profile: profile[0],
-        // profile_customfields: profile[1],
-        profile:profile
+        profile: profile[0],
+        profile_customfields: profile[1],
+        currentUser: isCurrentFinder(finderId, currentFinder),
       });
     });
   }
