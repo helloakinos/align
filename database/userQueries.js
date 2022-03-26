@@ -1,7 +1,7 @@
 const development = require("../knexfile").development;
 const knex = require("knex")(development);
 const hashFunction = require("../passport/hashFunction");
-const TABLE_NAME = "seeker_login";
+const TABLE_NAME = "finder_login";
 
 function postFacebook(username, facebookId) {
   return knex(TABLE_NAME)
@@ -177,7 +177,7 @@ function microsoftIdExists(microsoftId) {
     });
 }
 function getById(id) {
-  return knex(TABLE_NAME).select("id", "username").where("id", id);
+  return knex(TABLE_NAME).select().where("finder_id", id);
 }
 function getByUsername(username) {
   return knex(TABLE_NAME)
