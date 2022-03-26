@@ -2,9 +2,15 @@
 <h1 class="heading">Sign-up here</h1>
 <div class="signup">
             <form action="/signup" method="post">
+            <section style="display:flex;align-items:center;">
+            <input type="radio" id="signupAsFinder" name="usertype" value="Impact Finder">
+            <label for="signupAsFinder">Impact Finder</label><br>
+            <input type="radio" id="signupAsSeeker" name="usertype" value="Impact Seeker">
+            <label for="signnupAsSeeker">Impact Seeker</label><br>
+            </section>
             <section class="username">
             <label for="username">Username:</label>
-                    <input type="text" name="username" id="username">
+                <input type="text" name="username" id="username">
             </section>
 
             <br>

@@ -1,41 +1,131 @@
 {{>original}}
-<div class="headDiv">
-    <h1 class="heading">Get a new oppotunity by first logging in</h1>
-    <div style='display:inline-block'>
-        <p>Don't have an account yet? Sign up here now!</p>
-        <button class="signupButton" type=="button"><a href="signup">Sign up here</a></button>
-    </div>
-</div>
-<br>
 <div class="loginPage">
-    <div class="login">
-        <p class="loginHeading">OAUTH HERE</p>
-        <a href="/auth/facebook">Facebook</a>
-        <a href="/auth/gmail">Gmail</a>
-        <a href="/auth/microsoft">Microsoft</a>
-    </div>
 
-    <div class="login">
-        <p class="loginHeading">Login Here</p>
-        <form action="/login" method="POST">
-            <section class="username">
-            <label for="username">Username:</label>
-                    <input type="text" name="username" id="username">
-            </section>
+    <div class="loginpageDiv" id="loginDiv">
+            <h2>Login Here</h2>
+  
+            <label style="width:150px">Login as:</label>
+            <select name="usertype" id="loginUserType">
+                <option value="" disabled selected>Select your user type</option>
+                <option value="impactFinder">Impact Finder</option>
+                <option value="impactSeeker">Impact Seeker</option>
+            </select>
 
-            <br>
+            <div class="hide" id="loginFormFinder">
+                <form>
+                    <section class="username">
+                    <label for="username" style="width:150px">Username:</label>
+                    <input type="text" name="username" id="loginFormFinderUsername">
+                    </section>
+
+                    <br>
+                    
+                    <section class="password">
+                    <label for="password" style="width:150px">Password:</label>
+                    <input type="password" name="password" id="loginFormFinderPassword">
+                    </section>
+
+                    <br>
+
+                    <section class="submission">
+                    <input type="submit" value="Login" >
+                    </section>
+                </form>
+            </div>
+
+            <div class="hide" id="loginFormSeeker">
+                <form>
+                    <section class="username">
+                    <label for="username" style="width:150px">Username:</label>
+                    <input type="text" name="username" id="loginFormSeekerUsername">
+                    </section>
+
+                    <br>
+                    
+                    <section class="password">
+                    <label for="password" style="width:150px">Password:</label>
+                    <input type="password" name="password" id="loginFormSeekerPassword">
+                    </section>
+
+                    <br>
+
+                    <section class="submission">
+                    <input type="submit" value="Login" >
+                    </section>
+                </form>
+            </div>
             
-            <section class="password">
-            <label for="password">Password:</label>
-            <input type="password" name="password" id="password">
-            </section>
-
             <br>
+            <br>
+            <div>Or log in using... 
+                <div style="display:flex;justify-content:center">
+                    <a href="/auth/facebook"><i class="fa fa-brands fa-facebook fa-2x"></i></a>
+                    <a href="/auth/gmail"><i class="fa fa-brands fa-google fa-2x"></i></a>
+                    <a href="/auth/microsoft"><i class="fab fa-brands fa-microsoft fa-2x"></i></a>
+                </div>
+            </div>
+            <br>
+            <div style='display:inline-block'>
+                <p>Don't have an account yet? Sign up here now!</p>
+            </div>
+            <div class="signUpButtonDiv">
+                <button class="signupButton" type=="button">Sign up here</button>
+            </div>
+    </div>
+    <div class="loginpageDiv hide" id="signupDiv">
+        <h2>Sign-Up Here</h2>
+        <label style="width:150px">Sign-up as:</label>
+        <select name="usertype" id="signupUserType">
+            <option value="" disabled selected>Select your user type</option>
+            <option value="impactFinder">Impact Finder</option>
+            <option value="impactSeeker">Impact Seeker</option>
+        </select>
+        <div class="hide" id="signupFormFinder">
+            <form>
+                <section class="username">
+                    <label for="username" style="width:150px">Username:</label>
+                    <input type="text" name="username" id="username" required>
+                </section>
 
-            <section class="submission">
-            <input type="submit" value="Submit">
-            </section>
-        </form>
+                <br>
+                
+                <section class="password">
+                    <label for="password" style="width:150px">Password:</label>
+                    <input type="password" name="password" id="password" required>
+                </section>
+
+                <br>
+
+                <section class="submission">
+                    <input type="submit" value="Submit">
+                </section>
+
+            </form>
+            <a href="loginSignup" style="float:right">Return to login page</a>
+        </div>
+        <div class="hide" id="signupFormSeeker">
+            <form>
+                <section class="username">
+                    <label for="username" style="width:150px">Username:</label>
+                    <input type="text" name="username" id="username" required>
+                </section>
+
+                <br>
+                
+                <section class="password">
+                    <label for="password" style="width:150px">Password:</label>
+                    <input type="password" name="password" id="password" required>
+                </section>
+
+                <br>
+
+                <section class="submission">
+                    <input type="submit" value="Submit">
+                </section>
+
+            </form>
+            <a href="loginSignup" style="float:right">Return to login page</a>
+        </div>
     </div>
 </div>
 
