@@ -74,14 +74,14 @@ class ViewRouter {
 
   getImpactFinderProfile(req, res) {
     let finderId = req.params.id;
-    let currentFinder = req.user.id;
+    // let currentFinder = req.user.id;
     this.finderProfileService.listprofile(finderId).then((profile) => {
       console.log(profile);
       res.render("impactFinderProfile", {
         layout: "main",
         profile: profile[0],
         profile_customfields: profile[1],
-        currentUser: isCurrentFinder(finderId, currentFinder),
+        // currentUser: isCurrentFinder(finderId, currentFinder),
       });
     });
   }
