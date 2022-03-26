@@ -19,7 +19,7 @@ class ExploreService {
     console.log(`SeekerPreviewService's allSeeker method was called`);
     try {
       let allSeekers = await this.knex
-        .select("seeker_id", "seeker_name")
+        .select("seeker_id", "first_name", "surname")
         .from("seeker");
       return allSeekers;
     } catch (error) {

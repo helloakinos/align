@@ -10,19 +10,20 @@
                 <option value="impactFinder">Impact Finder</option>
                 <option value="impactSeeker">Impact Seeker</option>
             </select>
+            <br>
 
             <div class="hide" id="loginFormFinder">
                 <form action="/loginFormFinder" method="post">
                     <section class="username">
                     <label for="username" style="width:150px">Username:</label>
-                    <input type="text" name="username" id="loginFormFinderUsername">
+                    <input type="text" name="username" id="loginFormFinderUsername" required>
                     </section>
 
                     <br>
                     
                     <section class="password">
                     <label for="password" style="width:150px">Password:</label>
-                    <input type="password" name="password" id="loginFormFinderPassword">
+                    <input type="password" name="password" id="loginFormFinderPassword" required>
                     </section>
 
                     <br>
@@ -37,14 +38,14 @@
                 <form action="/loginFormSeeker" method="post">
                     <section class="username">
                     <label for="username" style="width:150px">Username:</label>
-                    <input type="text" name="username" id="loginFormSeekerUsername">
+                    <input type="text" name="username" id="loginFormSeekerUsername" required>
                     </section>
 
                     <br>
                     
                     <section class="password">
                     <label for="password" style="width:150px">Password:</label>
-                    <input type="password" name="password" id="loginFormSeekerPassword">
+                    <input type="password" name="password" id="loginFormSeekerPassword" required>
                     </section>
 
                     <br>
@@ -53,8 +54,6 @@
                     <input type="submit" value="Login" >
                     </section>
                 </form>
-            </div>
-            
             <br>
             <br>
             <div>Or log in using... 
@@ -65,6 +64,8 @@
                 </div>
             </div>
             <br>
+            </div>
+            
             <div style='display:inline-block'>
                 <p>Don't have an account yet? Sign up here now!</p>
             </div>

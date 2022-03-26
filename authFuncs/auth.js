@@ -12,7 +12,7 @@ function isLoggedIn(req, res, next) {
     }
   }
 
-  res.redirect("/login");
+  res.redirect("/loginSignup");
 }
 
 function isLoggedInBoolean(req, res, next) {
@@ -26,7 +26,9 @@ function isLoggedInBoolean(req, res, next) {
     }
   }
 
+
   return false;
+
 }
 
 function isLoggedInSeeker(req, res, next) {
@@ -39,7 +41,7 @@ function isLoggedInSeeker(req, res, next) {
     }
   }
 
-  res.redirect("/login");
+  res.redirect("/loginSignup");
 }
 
 function isLoggedInFinder(req, res, next) {
