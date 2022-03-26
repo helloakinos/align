@@ -18,16 +18,32 @@ class AuthRouter {
     let router = express.Router();
 
     router.post(
-      "/signup",
-      passportFunctions.authenticate("local-signup", {
+      "/signupFormFinder",
+      passportFunctions.authenticate("flocal-signup", {
+        successRedirect: "/loginSignup",
+        failureRedirect: "/error",
+      })
+    );
+
+    router.post(
+      "/signupFormSeeker",
+      passportFunctions.authenticate("slocal-signup", {
         successRedirect: "/login",
         failureRedirect: "/error",
       })
     );
 
     router.post(
-      "/login",
-      passportFunctions.authenticate("local-login", {
+      "/loginFormFinder",
+      passportFunctions.authenticate("flocal-login", {
+        successRedirect: "/",
+        failureRedirect: "/error",
+      })
+    );
+
+    router.post(
+      "/loginFormSeeker",
+      passportFunctions.authenticate("slocal-login", {
         successRedirect: "/",
         failureRedirect: "/error",
       })
