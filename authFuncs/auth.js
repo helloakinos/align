@@ -15,22 +15,6 @@ function isLoggedIn(req, res, next) {
   res.redirect("/loginSignup");
 }
 
-function isLoggedInBoolean(req, res, next) {
-  if (req.isAuthenticated()) {
-    console.log(req.cookies);
-    console.log(req.session.passport.user, "passport USER");
-    console.log(req.user, "USER");
-    if (req.session.passport.user) {
-      console.log(req.session.passport.user);
-      return true;
-    }
-  }
-
-
-  return false;
-
-}
-
 function isLoggedInSeeker(req, res, next) {
   if (req.isAuthenticated()) {
     console.log(req.cookies);
@@ -59,7 +43,6 @@ function isLoggedInFinder(req, res, next) {
 
 module.exports = {
   isLoggedIn,
-  isLoggedInBoolean,
   isLoggedInSeeker,
   isLoggedInFinder,
 };
