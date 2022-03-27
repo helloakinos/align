@@ -1,6 +1,7 @@
 // const { isCurrentFinder } = require("../authFuncs/currentUser");
 const { isCurrentUser } = require("../authFuncs/currentUser");
 const { isLoggedIn } = require("../authFuncs/auth");
+const { isGuest } = require("../authFuncs/auth");
 const isLoggedInSeeker = require("../authFuncs/auth.js").isLoggedInSeeker;
 const isLoggedInFinder = require("../authFuncs/auth.js").isLoggedInFinder;
 
@@ -15,21 +16,15 @@ class ViewRouter {
 
   router() {
     let router = this.express.Router();
-    router.get("/", this.getHome.bind(this));
+    router.get("/", isGuest, this.getHome.bind(this));
     router.get("/loginSignup", this.getLogin.bind(this));
     router.get("/impactFinderPreview", this.getImpactFinderPreview.bind(this));
-    router.get(
-      "/impactFinderProfile/:id",
-      isCurrentUser,
-      this.getImpactFinderProfile.bind(this)
-    );
     router.get("/jobBoard", this.getJobBoard.bind(this));
     router.get(
       "/ImpactSeekerPreview",
       isLoggedIn,
       this.getImpactSeekerPreview.bind(this)
     );
-    router.get("/ImpactSeekerProfile", this.getImpactSeekerProfile.bind(this));
     router.get("/jobApplicationForm", this.getJobApplicationForm.bind(this));
     return router;
   }
@@ -37,8 +32,11 @@ class ViewRouter {
   getHome(req, res) {
     console.log(`Is the user persisting`);
     console.log(req.user);
+    let isGuest = req.res.locals.isGuest;
+    console.log(isGuest);
     res.render("home", {
       layout: "main",
+      isGuest: isGuest,
     });
   }
   getLogin(req, res) {
@@ -53,20 +51,6 @@ class ViewRouter {
       res.render("impactFinderPreview", {
         layout: "main",
         allFinders: allFinders,
-      });
-    });
-  }
-
-  getImpactFinderProfile(req, res) {
-    let finderId = req.params.id;
-    let isCurrentUserBoolean = req.res.locals.isCurrentUserBoolean;
-    this.finderProfileService.listprofile(finderId).then((profile) => {
-      console.log(profile);
-      res.render("impactFinderProfile", {
-        layout: "main",
-        profile: profile[0],
-        profile_customfields: profile[1],
-        currentUser: isCurrentUserBoolean,
       });
     });
   }
@@ -88,12 +72,6 @@ class ViewRouter {
         layout: "main",
         allSeekers: allSeekers,
       });
-    });
-  }
-
-  getImpactSeekerProfile(req, res) {
-    res.render("impactSeekerProfile", {
-      layout: "main",
     });
   }
 

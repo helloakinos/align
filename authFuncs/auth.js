@@ -1,5 +1,3 @@
-// require("passport");
-
 // middleware to check if the user is logged in
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
@@ -13,6 +11,23 @@ function isLoggedIn(req, res, next) {
   }
 
   res.redirect("/loginSignup");
+}
+
+// middleware checking if a user is logged in and passing a boolean
+function isGuest(req, res, next) {
+  if (req.isAuthenticated()) {
+    console.log(req.cookies);
+    console.log(req.session.passport.user, "passport USER");
+    console.log(req.user, "USER");
+    if (req.session.passport.user) {
+      console.log(`I am a user`);
+      res.locals.isGuest = false;
+      return next();
+    }
+  }
+  console.log(`I am a guest`);
+  res.locals.isGuest = true;
+  return next();
 }
 
 function isLoggedInSeeker(req, res, next) {
@@ -45,4 +60,5 @@ module.exports = {
   isLoggedIn,
   isLoggedInSeeker,
   isLoggedInFinder,
+  isGuest,
 };
