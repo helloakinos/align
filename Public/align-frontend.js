@@ -90,14 +90,15 @@ $(() => {
     // Example: axios.post("/api/notes", {note: value})
     // code here
     let info = {
-      profile:{
-        finder_description:$("textarea[name=impactFinderInfo]").val(),
-        finder_size:$("#impactFinderSize").val(),
-        telephone_number:$("input[name=impactFinderPhone]").val(),
-        mobile_number:$("input[name=impactFinderMobile]").val(),
-        email:$("input[name=impactFinderEmail]").val(),
-      }}
-    axios.post("/finderprofile/:id", {info:info}).then((res) => {
+      profile: {
+        finder_description: $("textarea[name=impactFinderInfo]").val(),
+        finder_size: $("#impactFinderSize").val(),
+        telephone_number: $("input[name=impactFinderPhone]").val(),
+        mobile_number: $("input[name=impactFinderMobile]").val(),
+        email: $("input[name=impactFinderEmail]").val(),
+      },
+    };
+    axios.put("/finderprofile", { info: info }).then((res) => {
       reloadProfileInfo(res.data);
       console.log(res.data);
     });
