@@ -33,12 +33,19 @@
                 </li>
             </a>
             {{!-- loginstatus --}}
-            {{!-- {{#if }} --}}
+            {{#if isLoggedIn}}
+             <a href="/" class="nav-link">
+                <li class="nav-item active pagename">
+                    Logout
+                </li>
+            </a>
+            {{else}}
             <a href="/loginSignup" class="nav-link">
                 <li class="nav-item active pagename">
                     Login/Signup
                 </li>
             </a>
+            {{/if}}
             {{!-- <div class="input-group nav-link">
                 <li class="nav-item active">
                     <div class="form-outline" style="display:inline-block">
