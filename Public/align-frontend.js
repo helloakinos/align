@@ -72,9 +72,6 @@ var profileTemplate = Handlebars.compile(
        <p style="display:inline-block">Email:</p>
       {{profile.email}}
       <br>
-      <label for="impactFinderSize">Impact Finder Size</label>
-      <br>
-      {{profile.size}}
   </div>
   `
 );
@@ -88,15 +85,21 @@ $(() => {
   // Add an event listener on the add button, such then when we press the button we grab the value from our text box and then send that value to our server in our post request, then we receive the new data from our server and reload all of our notes.
   $("#saveProfile").submit((e) => {
     e.preventDefault();
-    console.log("add pressed");
+    console.log("Save button pressed");
     // after grabbing the value from the textbox, use axios to make a post request and send the value
     // Example: axios.post("/api/notes", {note: value})
     // code here
-    let value = $("textarea[name=note]").val();
-    axios.post("/finderprofile", { note: value }).then((res) => {
+    let info = {
+      profile:{
+        finder_description:$("textarea[name=impactFinderInfo]").val(),
+        finder_size:$("#impactFinderSize").val(),
+        telephone_number:$("input[name=impactFinderPhone]").val(),
+        mobile_number:$("input[name=impactFinderMobile]").val(),
+        email:$("input[name=impactFinderEmail]").val(),
+      }}
+    axios.post("/finderprofile/:id", {info:info}).then((res) => {
       reloadProfileInfo(res.data);
       console.log(res.data);
     });
-    setTimeout(endSaving, 1000);
   });
 });
