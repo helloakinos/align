@@ -22,7 +22,7 @@ function facebookCallback(accessToken, refreshToken, profile, done) {
         return userQueries
           .postFacebook(profile.displayName, profile.id)
           .then((newIds) => {
-            user.id = newIds[0];
+            user.seeker_id = newIds[0].seeker_id;
             console.log("user facebook");
             return done(null, user);
           })
@@ -33,7 +33,7 @@ function facebookCallback(accessToken, refreshToken, profile, done) {
           });
       } else {
         // return user as an object
-        user.id = queryRow[0].id;
+        user.seeker_id = queryRow[0].id;
         console.log("Facebook new user:", user);
         return done(null, user);
       }

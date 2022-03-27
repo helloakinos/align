@@ -28,7 +28,7 @@ class AuthRouter {
     router.post(
       "/signupFormSeeker",
       passportFunctions.authenticate("slocal-signup", {
-        successRedirect: "/login",
+        successRedirect: "/loginSignup",
         failureRedirect: "/error",
       })
     );

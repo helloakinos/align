@@ -7,10 +7,10 @@ const TABLE_NAME = "seeker_login";
 function postFacebook(username, facebookId) {
   return knex(TABLE_NAME)
     .insert({
-      username: username,
+      seeker_name: username,
       facebook_id: facebookId,
     })
-    .returning("id");
+    .returning("seeker_id");
 }
 
 function postMicrosoft(username, microsoftId) {

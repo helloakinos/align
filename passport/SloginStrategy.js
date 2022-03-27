@@ -20,7 +20,7 @@ module.exports = new LocalStrategy(async (username, password, done) => {
   // try putting the username in
   try {
     const users = await knex(TABLE_NAME).where({
-      finder_name: username,
+      seeker_name: username,
     });
     // if user doesn't exist, then return false - it doesn't exist
     if (users.length == 0) {
