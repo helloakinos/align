@@ -1,13 +1,3 @@
-// function isCurrentFinder(finderId, currentFinder) {
-//   if (finderId == currentFinder) {
-//     console.log(`user matches the finder profile being viewed`);
-//     return true;
-//   } else {
-//     console.log(`user does not match the finder profile being viewed`);
-//     return false;
-//   }
-// }
-
 function isCurrentUser(req, res, next) {
   if (req.isAuthenticated()) {
     console.log(req.cookies);
@@ -25,7 +15,25 @@ function isCurrentUser(req, res, next) {
   return next();
 }
 
+function currentUserType(currentUser) {
+  console.log(`currentUserType function running`);
+  console.log(currentUser);
+  let userData = {};
+  if (currentUser.finder_id) {
+    console.log(`I am a finder`);
+    userData.finder_id = currentUser.finder_id;
+    return userData;
+  } else if (currentUser.seeker_id) {
+    console.log(`I am a seeker`);
+    userData.seeker_id = currentUser.seeker_id;
+    return userData;
+  } else {
+    console.log(`error: could not find the usertype and id`);
+  }
+}
+
 module.exports = {
   // isCurrentFinder,
   isCurrentUser,
+  currentUserType,
 };

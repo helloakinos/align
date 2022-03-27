@@ -4,6 +4,7 @@
     <div class="col-lg-2 col-md-3 col-sm-2 impactFinderLogo">{{impactFinderLogo}}</div>
     <div class="col-lg-4 col-md-6 col-sm-8 impactFinderName">{{profile.[0].finder_name}}
         {{#if profile.[0].vetted}}
+
         <i class="fas fa-check vetted"></i>
         {{/if}}
     </div>
@@ -30,9 +31,12 @@
                           <h5 class="modal-title" id="staticBackdropLabel">Edit your profile</h5>
                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                            <form action="/finderprofile" method="put" id="saveProfile">
+                            <form id="saveProfile">
                                 <div class="modal-body">
-                                    <label for="impactFinderInfo">{{profile.[0].finder_name}} information</label>
+                                    <label for="impactFinderInfo">{{profile.[0].finder_name}} Name</label>
+                                    <br>
+                                    <textarea type="text" name="impactFinderName" required>{{profile.[0].finder_name}}</textarea>
+                                    <label for="impactFinderInfo">{{profile.finder_name}} information</label>
                                     <br>
                                     <textarea type="text" name="impactFinderInfo" required>{{profile.[0].finder_description}}</textarea>
                                     <br>
@@ -59,7 +63,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                    <input type="submit" class="btn btn-primary" value="Save">
+                                    <input type="submit" class="btn btn-primary" value="Save" id="SaveProfileEdits">
                                 </div>
                             </form>
                         </div>
@@ -91,7 +95,7 @@
         <br>
         <div class="impactFinderInfoLeft">
             <h3 style="display: inline-block;">More About {{profile.[0].finder_name}}</h3>
-            {{!-- {{#if isCurrentUserBoolean}} --}}
+            {{#if isCurrentUserBoolean}}
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="float:right;">
             Edit
             </button> 

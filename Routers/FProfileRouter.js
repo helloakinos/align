@@ -1,5 +1,4 @@
 // ================ Router for  Finder profile ===================
-const isLoggedInFinder = require("../authFuncs/auth.js").isLoggedInFinder;
 const { isCurrentUser } = require("../authFuncs/currentUser");
 
 class FProfileRouter {
@@ -16,7 +15,7 @@ class FProfileRouter {
       this.getFinderProfile.bind(this)
     );
     router.post("/finderprofile/:id", this.postCustomField.bind(this)); // needs authentication to even access the edit form
-    router.put("/finderprofile/:id", this.putProfileInfo.bind(this)); // needs authentication to even access the edit form
+    router.put("/api/finderprofile", this.putProfileInfo.bind(this)); // needs authentication to even access the edit form
     router.put("/finderprofilecustomfield/:id", this.putCustomField.bind(this));
     router.delete("/finderprofile/:id", this.deleteCustom.bind(this));
     return router;
@@ -58,8 +57,10 @@ class FProfileRouter {
   }
 
   putProfileInfo(req, res) {
+    console.log(`putProfileInfo method from fprofilerouter is running`);
+    console.log(req.body);
     let info = req.body.info;
-    let finderId = req.rawHeaders[1];
+    let finderId = req.user.finder_id;
     console.log("FProfile Router: PUT Method");
     console.log(`Current Finder ID: ${finderId} and info: ${info}`);
     return this.finderProfileService
