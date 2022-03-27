@@ -9,7 +9,7 @@ class FProfileRouter {
 
   router() {
     let router = this.express.Router();
-    router.get("/finderprofile", this.getFinderProfile.bind(this));
+    // router.get("/finderprofile", this.getFinderProfile.bind(this));
     router.post("/finderprofile", this.postCustomField.bind(this)); // needs authentication to even access the edit form
     router.put("/finderprofile", this.putProfileInfo.bind(this)); // needs authentication to even access the edit form
     router.put("/finderprofile/:id", this.putCustomField.bind(this));
@@ -17,18 +17,18 @@ class FProfileRouter {
     return router;
   }
 
-  getFinderProfile(req, res) {
-    let finderId = req.rawHeaders[1];
-    console.log(`Current Finder ID: ${finderId}`);
-    return this.finderProfileService
-      .listprofile(finderId)
-      .then((profile) => {
-        res.json(profile);
-      })
-      .catch((error) => {
-        res.status(500).json(error);
-      });
-  }
+  // getFinderProfile(req, res) {
+  //   let finderId = req.rawHeaders[1];
+  //   console.log(`Current Finder ID: ${finderId}`);
+  //   return this.finderProfileService
+  //     .listprofile(finderId)
+  //     .then((profile) => {
+  //       res.json(profile);
+  //     })
+  //     .catch((error) => {
+  //       res.status(500).json(error);
+  //     });
+  // }
 
   postCustomField(req, res) {
     let infoTitle = req.body.infoTitle;

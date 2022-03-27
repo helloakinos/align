@@ -1,6 +1,6 @@
-const { isCurrentFinder } = require("../authFuncs/currentUser");
+// const { isCurrentFinder } = require("../authFuncs/currentUser");
+const { isCurrentUser } = require("../authFuncs/currentUser");
 const { isLoggedIn } = require("../authFuncs/auth");
-const { isLoggedInBoolean } = require("../authFuncs/auth");
 const isLoggedInSeeker = require("../authFuncs/auth.js").isLoggedInSeeker;
 const isLoggedInFinder = require("../authFuncs/auth.js").isLoggedInFinder;
 
@@ -16,26 +16,20 @@ class ViewRouter {
   router() {
     let router = this.express.Router();
     router.get("/", this.getHome.bind(this));
-    router.get("/login", this.getLogin.bind(this));
     router.get("/loginSignup", this.getLogin.bind(this));
     router.get("/impactFinderPreview", this.getImpactFinderPreview.bind(this));
     router.get(
-      "/myfinderprofile",
-      /*isLoggedInFinder,*/
-      this.getFinderProfile.bind(this)
-    );
-    router.get(
       "/impactFinderProfile/:id",
+      isCurrentUser,
       this.getImpactFinderProfile.bind(this)
     );
     router.get("/jobBoard", this.getJobBoard.bind(this));
     router.get(
-      "/impactSeekerPreview",
-      // Need to uncomment it
-      // isLoggedIn,
+      "/ImpactSeekerPreview",
+      isLoggedIn,
       this.getImpactSeekerPreview.bind(this)
     );
-    router.get("/ImpactSeekerProfile/:id", this.getImpactSeekerProfile.bind(this));
+    router.get("/ImpactSeekerProfile", this.getImpactSeekerProfile.bind(this));
     router.get("/jobApplicationForm", this.getJobApplicationForm.bind(this));
     return router;
   }
@@ -52,11 +46,7 @@ class ViewRouter {
       layout: "main",
     });
   }
-  // getSignup(req, res) {
-  //   res.render("signup", {
-  //     layout: "main",
-  //   });
-  // }
+
   getImpactFinderPreview(req, res) {
     this.exploreService.allFinders().then((allFinders) => {
       console.log(allFinders);
@@ -67,24 +57,16 @@ class ViewRouter {
     });
   }
 
-  getFinderProfile(req, res) {
-    res.render("finderProfile", {
-      layout: "main",
-    });
-  }
-
   getImpactFinderProfile(req, res) {
     let finderId = req.params.id;
-
-    // let currentFinder = req.user.id;
+    let isCurrentUserBoolean = req.res.locals.isCurrentUserBoolean;
     this.finderProfileService.listprofile(finderId).then((profile) => {
       console.log(profile);
       res.render("impactFinderProfile", {
         layout: "main",
-        profile:profile
-
-
-        // currentUser: isCurrentFinder(finderId, currentFinder),
+        profile: profile[0],
+        profile_customfields: profile[1],
+        currentUser: isCurrentUserBoolean,
       });
     });
   }
@@ -101,10 +83,8 @@ class ViewRouter {
 
   getImpactSeekerPreview(req, res) {
     this.exploreService.allSeekers().then((allSeekers) => {
-      // console.log(req.user);
-      // let finderId = req.params.id;
       console.log(allSeekers);
-      res.render("impactSeekerPreview", {
+      res.render("impactFinderPreview", {
         layout: "main",
         allSeekers: allSeekers,
       });
