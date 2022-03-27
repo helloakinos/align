@@ -13,6 +13,12 @@ exports.seed = async function (knex) {
         "this is a custom field filled with dummy text, enjoy",
     },
     {
+      finder_id: 1,
+      customfield_title: "Yala",
+      customfield_content:
+        "this is a custom field filled with dummy text, enjoy",
+    },
+    {
       finder_id: 3,
       customfield_title: "Customfield Bouya",
       customfield_content:

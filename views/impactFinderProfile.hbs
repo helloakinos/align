@@ -3,10 +3,10 @@
 <div class="companyMain row">    
     <div class="col-lg-2 col-md-3 col-sm-2 impactFinderLogo">{{impactFinderLogo}}</div>
     <div class="col-lg-4 col-md-6 col-sm-8 impactFinderName">{{profile.[0].finder_name}}
-        {{#if vetted}}
+        {{#if profile.[0].vetted}}
+
         <i class="fas fa-check vetted"></i>
         {{/if}}
-        <i class="fas fa-pencil"></i>
     </div>
     {{!-- <div class="col-lg-1 col-md-3 col-sm-2"></div> --}}
     <div class="col-lg-5 col-md-3 col-sm-2" style="display:flex; justify-content:space-between; align-items:center">
@@ -99,7 +99,7 @@
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="float:right;">
             Edit
             </button> 
-            {{/if}}
+            {{!-- {{/if}} --}}
                 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -108,7 +108,7 @@
                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                         <form action="FILLMEIN">
+                         <form action="/finderprofilecustomfield" method="put">
                             <h3 style="display:inline-block">Custom Fill Area</h3>
                             <button class="btn btn-warning addButton" type="submit">Add</button>
                             <br>
@@ -127,7 +127,7 @@
                     </div>
                 </div>
             </div>
-            {{#each profile_customfields}}
+            {{#each profile.[1]}}
                 <h3>{{customfield_title}}</h3>
                 {{customfield_content}}
             {{/each}}
