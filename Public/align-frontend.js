@@ -53,26 +53,27 @@ $("#signupUserType").on("change", function () {
 
 var profileTemplate = Handlebars.compile(
   `
-  <div class="profileElement" id="FinderInfo">
-      <label for="impactFinderInfo">Impact Finder information</label>
-      <br>
-      <p>{{profile.finder_description}}</p>
-      <p style="display:inline-block">Size:</p>
-      {{profile.finder_size}}
-  </div>
-  <div class="profileElement">
-      <label for="impactFinderContact">Impact Finder Contact</label>
-      <br>
-      <p style="display:inline-block">Telephone:</p>
-      {{profile.telephone_number}}
-      <br>
-       <p style="display:inline-block">Mobile:</p>
-      {{profile.mobile_number}}
-      <br>
-       <p style="display:inline-block">Email:</p>
-      {{profile.email}}
-      <br>
-  </div>
+  <div class="profileInfo" id="FinderInfo">
+  <label for="impactFinderInfo">Impact Finder information</label>
+  <br>
+  <p>{{profile.[0].finder_description}}</p>
+  <p style="display:inline-block">Size:</p>
+  {{profile.[0].finder_size}}
+{{!-- </div>
+<div class="profileElement"> --}}
+  <br>
+  <label for="impactFinderContact">Impact Finder Contact</label>
+  <br>
+  <p style="display:inline-block">Telephone:</p>
+  {{profile.[0].telephone_number}}
+  <br>
+   <p style="display:inline-block">Mobile:</p>
+  {{profile.[0].mobile_number}}
+  <br>
+   <p style="display:inline-block">Email:</p>
+  {{profile.[0].email}}
+  <br>
+</div>
   `
 );
 
@@ -97,7 +98,7 @@ $(() => {
         mobile_number:$("input[name=impactFinderMobile]").val(),
         email:$("input[name=impactFinderEmail]").val(),
       }}
-    axios.post("/finderprofile/:id", {info:info}).then((res) => {
+    axios.put("/finderprofile/", {info:info}).then((res) => {
       reloadProfileInfo(res.data);
       console.log(res.data);
     });

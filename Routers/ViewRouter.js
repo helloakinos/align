@@ -26,6 +26,7 @@ class ViewRouter {
       this.getImpactSeekerPreview.bind(this)
     );
     router.get("/jobApplicationForm", this.getJobApplicationForm.bind(this));
+    router.get("/myProfile", this.getMyProfile.bind(this));
     return router;
   }
 
@@ -78,6 +79,13 @@ class ViewRouter {
   getJobApplicationForm(Req, res) {
     res.render("jobApplicationForm", {
       layout: "main",
+    });
+  }
+
+  getMyProfile(Req, res) {
+    res.render("myProfile", {
+      layout: "main",
+      finder_contact:"ABC"
     });
   }
 }

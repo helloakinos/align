@@ -1,12 +1,11 @@
-{{!-- {{>original}} --}}
+{{>original}}
 <br>
 <div class="companyMain row">    
     <div class="col-lg-2 col-md-3 col-sm-2 impactFinderLogo">{{impactFinderLogo}}</div>
-    <div class="col-lg-4 col-md-6 col-sm-8 impactFinderName">{{profile.finder_name}}
-        {{#if vetted}}
+    <div class="col-lg-4 col-md-6 col-sm-8 impactFinderName">{{profile.[0].finder_name}}
+        {{#if profile.[0].vetted}}
         <i class="fas fa-check vetted"></i>
         {{/if}}
-        <i class="fas fa-pencil"></i>
     </div>
     {{!-- <div class="col-lg-1 col-md-3 col-sm-2"></div> --}}
     <div class="col-lg-5 col-md-3 col-sm-2" style="display:flex; justify-content:space-between; align-items:center">
@@ -33,13 +32,13 @@
                         </div>
                             <form action="/finderprofile" method="put" id="saveProfile">
                                 <div class="modal-body">
-                                    <label for="impactFinderInfo">{{profile.finder_name}} information</label>
+                                    <label for="impactFinderInfo">{{profile.[0].finder_name}} information</label>
                                     <br>
-                                    <textarea type="text" name="impactFinderInfo" required>{{profile.finder_description}}</textarea>
+                                    <textarea type="text" name="impactFinderInfo" required>{{profile.[0].finder_description}}</textarea>
                                     <br>
                                     <label for="small">Impact Finder Size</label>
                                     <br>
-                                    <input type="text" name="impactFinderSize" id="impactFinderSize" value="{{profile.finder_size}}">
+                                    <input type="text" name="impactFinderSize" id="impactFinderSize" value="{{profile.[0].finder_size}}">
                                     {{!-- <input type="radio" name="impactFinderSize" id="small" value="Small">
                                     <label for="small">Small</label>
 
@@ -49,13 +48,13 @@
                                     <label for="large">Large</label> --}}
                                     <br>
                                     <label for="impactFinderPhone">Phone: </label>
-                                    <input type="text" name="impactFinderPhone" placeholder="phone" value="{{profile.telephone_number}}"required style="margin-bottom:5px;padding:5px"></textarea>
+                                    <input type="text" name="impactFinderPhone" placeholder="phone" value="{{profile.[0].telephone_number}}"required style="margin-bottom:5px;padding:5px"></textarea>
                                     <br>
                                     <label for="impactFinderPhone">Mobile: </label>
-                                    <input type="text" name="impactFinderMobile" placeholder="phone" value="{{profile.mobile_number}}"required style="margin-bottom:5px;padding:5px"></textarea>
+                                    <input type="text" name="impactFinderMobile" placeholder="phone" value="{{profile.[0].mobile_number}}"required style="margin-bottom:5px;padding:5px"></textarea>
                                     <br>
                                     <label for="impactFinderEmail">Email:</label>
-                                    <input type="text" name="impactFinderEmail" placeholder="email" value="{{profile.email}}" required style="margin-bottom:5px;padding:5px"></textarea>
+                                    <input type="text" name="impactFinderEmail" placeholder="email" value="{{profile.[0].email}}" required style="margin-bottom:5px;padding:5px"></textarea>
                                     <br>
                                 </div>
                                 <div class="modal-footer">
@@ -70,33 +69,33 @@
                 <div class="profileInfo" id="FinderInfo">
                     <label for="impactFinderInfo">Impact Finder information</label>
                     <br>
-                    <p>{{profile.finder_description}}</p>
+                    <p>{{profile.[0].finder_description}}</p>
                     <p style="display:inline-block">Size:</p>
-                    {{profile.finder_size}}
+                    {{profile.[0].finder_size}}
                 {{!-- </div>
                 <div class="profileElement"> --}}
                     <br>
                     <label for="impactFinderContact">Impact Finder Contact</label>
                     <br>
                     <p style="display:inline-block">Telephone:</p>
-                    {{profile.telephone_number}}
+                    {{profile.[0].telephone_number}}
                     <br>
                      <p style="display:inline-block">Mobile:</p>
-                    {{profile.mobile_number}}
+                    {{profile.[0].mobile_number}}
                     <br>
                      <p style="display:inline-block">Email:</p>
-                    {{profile.email}}
+                    {{profile.[0].email}}
                     <br>
                 </div>
         </div>
         <br>
         <div class="impactFinderInfoLeft">
-            <h3 style="display: inline-block;">More About {{profile.finder_name}}</h3>
-            {{#if isCurrentUserBoolean}}
+            <h3 style="display: inline-block;">More About {{profile.[0].finder_name}}</h3>
+            {{!-- {{#if isCurrentUserBoolean}} --}}
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="float:right;">
             Edit
             </button> 
-            {{/if}}
+            {{!-- {{/if}} --}}
                 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -105,7 +104,7 @@
                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                         <form action="FILLMEIN">
+                         <form action="/finderprofilecustomfield" method="put">
                             <h3 style="display:inline-block">Custom Fill Area</h3>
                             <button class="btn btn-warning addButton" type="submit">Add</button>
                             <br>
@@ -124,7 +123,7 @@
                     </div>
                 </div>
             </div>
-            {{#each profile_customfields}}
+            {{#each profile.[1]}}
                 <h3>{{customfield_title}}</h3>
                 {{customfield_content}}
             {{/each}}

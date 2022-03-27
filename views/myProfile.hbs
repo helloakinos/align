@@ -1,5 +1,5 @@
 {{>original}}
-{{#if isLoggedInFinder}}
+{{!-- {{#if isLoggedInFinder}} --}}
 <form action="/finderprofile" method="put" id="saveProfile">
         <label for="impactFinderInfo">{{finder_name}} information</label>
         <br>
@@ -24,12 +24,8 @@
         <label for="impactFinderEmail">Email:</label>
         <input type="text" name="impactFinderEmail" placeholder="email" value="{{email}}" required style="margin-bottom:5px;padding:5px"></textarea>
         <br>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
         <input type="submit" class="btn btn-primary" value="Save">
-
 </form>
-{{#if isLoggedInSeeker}}
-
-{{/if}}
+{{!-- {{/if}} --}}
 
 {{>copyright}}

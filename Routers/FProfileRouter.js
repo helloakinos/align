@@ -27,7 +27,7 @@ class FProfileRouter {
     let isCurrentUserBoolean = req.res.locals.isCurrentUserBoolean;
     this.finderProfileService.listprofile(finderId).then((profile) => {
       console.log(profile);
-      res.render("impactSeekerProfile", {
+      res.render("impactFinderProfile", {
         layout: "main",
         profile: profile,
         currentUser: isCurrentUserBoolean,
