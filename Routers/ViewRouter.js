@@ -1,9 +1,6 @@
-// const { isCurrentFinder } = require("../authFuncs/currentUser");
-const { isCurrentUser } = require("../authFuncs/currentUser");
 const { isLoggedIn } = require("../authFuncs/auth");
 const { isGuest } = require("../authFuncs/auth");
-const isLoggedInSeeker = require("../authFuncs/auth.js").isLoggedInSeeker;
-const isLoggedInFinder = require("../authFuncs/auth.js").isLoggedInFinder;
+const { currentUserType } = require("../authFuncs/currentUser");
 
 // ================ Router for  job postings ===================
 
@@ -30,13 +27,17 @@ class ViewRouter {
   }
 
   getHome(req, res) {
-    console.log(`Is the user persisting`);
-    console.log(req.user);
     let isGuest = req.res.locals.isGuest;
+    let userData = {};
+    if (!isGuest) {
+      let userData = currentUserType(req.user);
+      console.log(userData);
+    }
     console.log(isGuest);
     res.render("home", {
       layout: "main",
       isGuest: isGuest,
+      userData: userData,
     });
   }
   getLogin(req, res) {
