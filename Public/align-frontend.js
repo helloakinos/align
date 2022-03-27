@@ -83,24 +83,23 @@ const reloadProfileInfo = (profile) => {
 
 $(() => {
   // Add an event listener on the add button, such then when we press the button we grab the value from our text box and then send that value to our server in our post request, then we receive the new data from our server and reload all of our notes.
-  $("#saveProfile").submit((e) => {
-    e.preventDefault();
+  $(document).on("click", "#SaveProfileEdits", (e) => {
     console.log("Save button pressed");
-    // after grabbing the value from the textbox, use axios to make a post request and send the value
-    // Example: axios.post("/api/notes", {note: value})
-    // code here
-    let info = {
-      profile: {
-        finder_description: $("textarea[name=impactFinderInfo]").val(),
-        finder_size: $("#impactFinderSize").val(),
-        telephone_number: $("input[name=impactFinderPhone]").val(),
-        mobile_number: $("input[name=impactFinderMobile]").val(),
-        email: $("input[name=impactFinderEmail]").val(),
-      },
+    // e.preventDefault();
+    let profileInfo = {
+      finder_name: $("textarea[name=impactFinderName").val(),
+      finder_description: $("textarea[name=impactFinderInfo]").val(),
+      finder_size: $("#impactFinderSize").val(),
+      telephone_number: $("input[name=impactFinderPhone]").val(),
+      mobile_number: $("input[name=impactFinderMobile]").val(),
+      email: $("input[name=impactFinderEmail]").val(),
+      role: $("input[name=impactFinderRole").val(),
     };
-    axios.put("/finderprofile", { info: info }).then((res) => {
-      reloadProfileInfo(res.data);
-      console.log(res.data);
-    });
+    axios
+      .put("https://localhost:3000/api/finderprofile", { info: profileInfo })
+      .then((res) => {
+        reloadProfileInfo(res.data);
+        console.log(res.data);
+      });
   });
 });
