@@ -3,13 +3,11 @@
  * @returns { Promise<void> }
  */
 exports.up = function (knex) {
-  return knex.schema.createTable("seeker_education", function (table) {
-    table.increments("seeker_education_id").notNullable().unique().primary();
+  return knex.schema.createTable("seeker_experience", function (table) {
+    table.increments("experience_id").notNullable().unique().primary();
     table.integer("seeker_id").notNullable().unique().unsigned();
     table.foreign("seeker_id").references("seeker.seeker_id");
-    table.boolean("university_degree");
-    table.boolean("highschool_degree");
-    table.string("other_certifications");
+    table.string("experience", 5000);
   });
 };
 
@@ -18,5 +16,5 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return knex.schema.dropTable("seeker_education");
+  return knex.schema.dropTable("seeker_experience");
 };

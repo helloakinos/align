@@ -1,3 +1,7 @@
 {{>original}}
-    
+  <h1>{{profile.[0].first_name}}</h1>
+  {{#each profile.[1]}}
+  <h2>{{customfield_title}}</h2>
+{{customfield_content}}
+  {{/each}}
 {{>copyright}}

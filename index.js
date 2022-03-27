@@ -34,8 +34,10 @@ const https = require("https");
 const AuthRouter = require("./Routers/AuthRouter");
 const ViewRouter = require("./Routers/ViewRouter");
 const FProfileRouter = require("./Routers/FProfileRouter");
+const SProfileRouter = require("./Routers/SProfileRouter");
 // =========== Local Services ===================
 const FinderProfileService = require("./Service/FinderProfileService");
+const SeekerProfileService = require("./Service/SeekerProfileService");
 const ExploreService = require("./Service/ExploreService");
 
 // ========= Set up Express Handlebars ==============
@@ -105,6 +107,7 @@ if (config.useMongoDBSessionStore) {
 
 // =========== Set up Instances for Routers & Services ============
 const finderProfileService = new FinderProfileService(knex);
+const seekerProfileService = new SeekerProfileService(knex);
 const exploreService = new ExploreService(knex);
 const viewRouter = new ViewRouter(
   finderProfileService,
@@ -112,6 +115,7 @@ const viewRouter = new ViewRouter(
   express
 );
 const fprofileRouter = new FProfileRouter(finderProfileService, express);
+const sprofileRouter = new SProfileRouter(seekerProfileService, express);
 const authRouter = new AuthRouter();
 
 // ========= Set up Routers ================
@@ -120,6 +124,7 @@ app.use("/", viewRouter.router());
 app.use("/", authRouter.router());
 // app.use("/", new AuthRouter(express, passport).router());
 app.use("/", fprofileRouter.router());
+app.use("/", sprofileRouter.router());
 
 const options = {
   cert: fs.readFileSync("./localhost.crt"),
