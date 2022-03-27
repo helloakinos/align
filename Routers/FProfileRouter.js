@@ -1,5 +1,6 @@
 // ================ Router for  Finder profile ===================
 const isLoggedInFinder = require("../authFuncs/auth.js").isLoggedInFinder;
+const { isCurrentUser } = require("../authFuncs/currentUser");
 
 class FProfileRouter {
   constructor(finderProfileService, express) {
@@ -9,26 +10,30 @@ class FProfileRouter {
 
   router() {
     let router = this.express.Router();
-    // router.get("/finderprofile", this.getFinderProfile.bind(this));
-    router.post("/finderprofile", this.postCustomField.bind(this)); // needs authentication to even access the edit form
-    router.put("/finderprofile", this.putProfileInfo.bind(this)); // needs authentication to even access the edit form
-    router.put("/finderprofile/:id", this.putCustomField.bind(this));
+    router.get(
+      "/finderprofile/:id",
+      isCurrentUser,
+      this.getFinderProfile.bind(this)
+    );
+    router.post("/finderprofile/:id", this.postCustomField.bind(this)); // needs authentication to even access the edit form
+    router.put("/finderprofile/:id", this.putProfileInfo.bind(this)); // needs authentication to even access the edit form
+    router.put("/finderprofilecustomfield/:id", this.putCustomField.bind(this));
     router.delete("/finderprofile/:id", this.deleteCustom.bind(this));
     return router;
   }
 
-  // getFinderProfile(req, res) {
-  //   let finderId = req.rawHeaders[1];
-  //   console.log(`Current Finder ID: ${finderId}`);
-  //   return this.finderProfileService
-  //     .listprofile(finderId)
-  //     .then((profile) => {
-  //       res.json(profile);
-  //     })
-  //     .catch((error) => {
-  //       res.status(500).json(error);
-  //     });
-  // }
+  getFinderProfile(req, res) {
+    let finderId = req.params.id;
+    let isCurrentUserBoolean = req.res.locals.isCurrentUserBoolean;
+    this.finderProfileService.listprofile(finderId).then((profile) => {
+      console.log(profile);
+      res.render("impactSeekerProfile", {
+        layout: "main",
+        profile: profile,
+        currentUser: isCurrentUserBoolean,
+      });
+    });
+  }
 
   postCustomField(req, res) {
     let infoTitle = req.body.infoTitle;

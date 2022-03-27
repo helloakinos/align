@@ -3,10 +3,10 @@
  * @returns { Promise<void> }
  */
 exports.up = function (knex) {
-  return knex.schema.createTable("finder_customfield", function (table) {
+  return knex.schema.createTable("seeker_customfield", function (table) {
     table.increments("customfield_id").notNullable().primary();
-    table.integer("finder_id");
-    table.foreign("finder_id").references("finder.finder_id");
+    table.integer("seeker_id");
+    table.foreign("seeker_id").references("seeker.seeker_id");
     table.string("customfield_title");
     table.string("customfield_content", 2000);
   });
@@ -16,5 +16,5 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return knex.schema.dropTable("finder_customfield");
+  return knex.schema.dropTable("seeker_customfield");
 };
