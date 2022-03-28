@@ -10,6 +10,7 @@ class ViewRouter {
   constructor(finderProfileService, exploreService, express) {
     this.finderProfileService = finderProfileService;
     this.exploreService = exploreService;
+
     this.express = express;
   }
 
@@ -29,12 +30,12 @@ class ViewRouter {
       isLoggedIn,
       this.getImpactSeekerPreview.bind(this)
     );
-    router.get(
-      "/jobApplicationForm",
-      isGuest,
-      this.getJobApplicationForm.bind(this)
-    );
-    router.get("/logout", this.getLogout.bind(this));
+    router.get("/jobApplicationForm", isGuest,this.getJobApplicationForm.bind(this));
+    // Claire added this
+    router.get('/logout', function (req, res) {
+      req.session.passport.user = null;
+      res.redirect('/loginSignUp');
+    });
     return router;
   }
 
@@ -75,12 +76,12 @@ class ViewRouter {
   }
 
   getJobBoard(req, res) {
-    res.render("jobBoard", {
-      layout: "main",
-      job: [
-        { title: "Animal Saver", finder_name: "PUC" },
-        { title: "Food Saver", finder_name: "Precious food" },
-      ],
+    this.exploreService.allJobs().then((allJobs)=>{
+      console.log(allJobs)
+      res.render("jobBoard", {
+        layout: "main",
+        allJobs: allJobs,
+      })
     });
   }
 
@@ -93,6 +94,7 @@ class ViewRouter {
       });
     });
   }
+  
 
   getJobApplicationForm(Req, res) {
     res.render("jobApplicationForm", {

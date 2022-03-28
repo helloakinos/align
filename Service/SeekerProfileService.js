@@ -26,8 +26,21 @@ class SeekerProfileService {
             .from("seeker_customfield")
             .where("seeker_customfield.seeker_id", seekerId);
           profile.push(seekerCustom);
+        } if (seekerInfo.length === 1) {
+          let seekerEducation = await this.knex
+            .select("*")
+            .from("seeker_education")
+            .where("seeker_education.seeker_id", seekerId);
+          profile.push(seekerEducation);
+        } if (seekerInfo.length === 1) {
+          let seekerExperience = await this.knex
+            .select("*")
+            .from("seeker_experience")
+            .where("seeker_experience.seeker_id", seekerId);
+          profile.push(seekerExperience);
           return profile;
-        } else {
+        } 
+        else {
           console.log("Unknown seeker");
         }
       } catch (error) {
