@@ -2,6 +2,8 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
+    font-family: 'Oswald', sans-serif;
+    font-size:20px;
 }
 
 body {
@@ -20,13 +22,21 @@ label{
 }
 
 textarea{
-    width:80%
+    width:100%
 }
 
 li{
     list-style: none;
 }
 
+input{
+    width:100%
+}
+
+button{
+    float:right;
+    margin-right:5px;
+}
 /* NAVBAR */
 nav{
     display:flex;
@@ -36,13 +46,20 @@ nav{
 } 
 .nav-link,.nav-link:hover{
     display:inline-block;
-    font-family: 'Poppins';
+    font-family: 'Poppins', sans-serif;
     font-size: 25px;
     font-weight:bold;
     color:#FFB545;
     margin-right:25px;
     text-align: center;
 } 
+
+.nav-item{
+    font-family: 'Poppins', sans-serif;
+    font-size: 25px;
+    font-weight:bold;
+    color:#FFB545;
+}
 
 .navbar-nav{
     margin-left: auto;
@@ -54,58 +71,18 @@ nav{
 
 /* LOGO */
 .logo,.logo:hover{
-    font-size:45px;
+    font-size:50px;
     color:#228478;
     font-weight:bolder;
     font-family: 'Poppins';
     margin-left:15px;
 }
 
-/* .menu{
-    display: flex;
-    gap:8em;
-} */
-
 .pagename:hover{
     background-color: white;
     border-radius: 20px;
     transition:0.3s ease;
 }
-
-/* DROPDOWN MENU */
-/* .explore{
-    position:relative;
-    z-index:2;
-}
-
-
-.dropdown{
-    padding:1em 0;
-    left:0;
-    position:absolute;
-    display:none;
-    border-radius:5px;
-    font-size:20px;
-    background:white;
-    width:300px;
-    text-align:left;
-    opacity: 0.9;
-    transition:1s ease;
-}
-
-.dropdown li{
-    text-align:center;
-    padding: 0px 14px;
-}
-
-.dropdown li:hover{
-    background-color: 228478;
-}
-
-.explore:hover .dropdown{
-    display:block
-} */
-
 
 /* COPYRIGHT */
 .copyright{
@@ -125,17 +102,6 @@ img{
     object-fit:cover;
 }
 
-/* SignupPage */
-/* .signup{
-    /* margin-left:25px; 
-} */
-
-/* loginPage */
-/* .headDiv{
-    display: flex;
-    justify-content: space-between;
-} */
-
 .heading{
     margin-top:20px;
     margin-left:25px;
@@ -153,7 +119,7 @@ img{
     width:fit-content;
 }
 .loginpageDiv{
-    padding:40px;
+    padding:15px;
     border:10px solid #526f92;
     border-radius: 10px;
     background-color: rgba(255,255,255,0.7);
@@ -163,7 +129,8 @@ img{
     display:flex;
     justify-content:space-evenly;
     align-items:center;
-    height:80%
+    margin-top: 40px;
+    font-size:18px;
 }
 
 .loginHeading{
@@ -174,11 +141,6 @@ img{
 .fa-brands{
     /* margin-top:5px; */
     padding:15px
-}
-
-
-form{
-    margin-top:20px;
 }
 
 .hide{
@@ -218,48 +180,70 @@ form{
     opacity:1
 }
 
-/* Company Profile Page */
-.impactFinderLogo{
-    font-size:30px;
-    margin-top:30px;
-    margin-left:30px;
-    border-radius: 10px solid black;
-    padding:0px;
+.firstRowOfFinderProfile,.firstRowOfSeekerProfile{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin:0 5%;
 }
 
-.impactFinderName,.impactSeekerName{
-    font-size:30px;
-    margin-top:30px;
+.impactFinderDiv,.impactSeekerDiv{
+    font-size:50px;
+    padding:0px;
+    display: inline-block;
+}
+
+#connectButton{
+    font-size:20px;
+    font-weight:bold;
+    background:#FFB545;
+    color:#07665b;
+    padding:5px;
+    border-radius:10px;
+    border:none
+}
+
+.impactSeekerName{
+    font-size:50px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
     margin-left:5%;
     padding:0px;
+    display: flex ;
 }
 
-.impactFinder{
-    margin-left:30px;
+.impactFinder,.impactSeeker{
+    margin:0 5%;
     display:flex;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
-.jobList{
-    margin-left:2%;
-    display:flex;
-    justify-content: flex-start;
-}
 
 .impactFinderInfo{
     margin-top:30px;
     height:60%;
     width:45%;
-
 }
 
-.impactFinderInfoLeft,.impactFinderInfoRight{
-    border:1px solid black;
+.impactSeekerInfo{
+    margin-top:30px;
+    height:60%;
+    width:45%;
+}
+
+.impactFinderInfoLeft,.impactFinderInfoRight,.impactSeekerInfoLeft,.impactSeekerInfoRight{
+    border:5px solid #07665b;
     border-radius: 20px;
     padding:10px;
     width:100%;
     background:rgba(255,255,255,0.8)
 
+}
+
+#impactFinderJob{
+    margin: 0 5%;
+    border: 5px solid #07665b;
+    border-radius: 20px;
+    padding: 20px;
 }
 
 .submitButton{

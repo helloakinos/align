@@ -1,19 +1,21 @@
 {{>original}}
 <br>
-<div class="companyMain row">    
-    <div class="col-lg-2 col-md-3 col-sm-2 impactFinderLogo">{{impactFinderLogo}}</div>
-    <div class="col-lg-4 col-md-6 col-sm-8 impactFinderName">{{profile.[0].finder_name}}
+<div class="firstRowOfFinderProfile">    
+    {{!-- <div class="col-lg-2 col-md-3 col-sm-2 impactFinderLogo">{{impactFinderLogo}}</div> --}}
+    {{!-- <div class="col-lg-4 col-md-6 col-sm-8 impactFinderName">{{profile.[0].finder_name}} --}}
+    <div class="impactFinderDiv" id="impactFinderName">
+        {{profile.[0].finder_name}}
         {{#if profile.[0].vetted}}
-
         <i class="fas fa-check vetted"></i>
         {{/if}}
     </div>
     {{!-- <div class="col-lg-1 col-md-3 col-sm-2"></div> --}}
-    <div class="col-lg-5 col-md-3 col-sm-2" 
+    {{!-- <div class="col-lg-5 col-md-3 col-sm-2" 
     style="display:flex; justify-content:space-between; align-items:center"
-    >
-        <div><a href="" style="text-align:right;font-size:20px;text-decoration: underline;"><p>To impact Finder's project board</p></a></div>
-        <button style="font-size:20px;font-weight:bold;background:#FFB545;color:#07665b;padding:5px;border-radius:10px;border:none">Connect with Impact Finder</button>
+    > --}}
+    <div class="impactFinderDiv">
+        {{!-- <div><a href="" style="text-align:right;font-size:20px;text-decoration: underline;"><p>To impact Finder's project board</p></a></div> --}}
+        <button id="connectButton">Connect with Impact Finder</button>
     </div>
 </div>
 <div class="impactFinder">
@@ -22,11 +24,11 @@
             {{!-- <h3 style="display:inline-block">{{finder_name}}</h3> --}}
             {{#if isCurrentUserBoolean}}
                 {{#if profile.[0].finder_name}}
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="float:right;margin-right:5px;">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" >
             Edit
             </button>  
                 {{else}}
-                       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="float:right;margin-right:5px;">
+                       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             Create
             </button> 
                 {{/if}} 
@@ -41,32 +43,29 @@
                         </div>
                             <form id="saveProfile">
                                 <div class="modal-body">
-                                    <label for="impactFinderInfo">{{profile.[0].finder_name}} Name</label>
+                                    <label for="impactFinderInfo">Name</label>
                                     <br>
-                                    <textarea type="text" name="impactFinderName" required>{{profile.[0].finder_name}}</textarea>
-                                    <label for="impactFinderInfo">{{profile.finder_name}} information</label>
+                                    <input type="text" name="impactFinderName" value="{{profile.[0].finder_name}}" required></textarea>
+                                    <br>
+                                    <label for="impactFinderInfo">Information</label>
                                     <br>
                                     <textarea type="text" name="impactFinderInfo" required>{{profile.[0].finder_description}}</textarea>
                                     <br>
-                                    <label for="small">Impact Finder Size</label>
+                                    <label for="impactFinderSize">Impact Finder Size</label>
                                     <br>
-                                    <input type="text" name="impactFinderSize" id="impactFinderSize" value="{{profile.[0].finder_size}}">
-                                    {{!-- <input type="radio" name="impactFinderSize" id="small" value="Small">
-                                    <label for="small">Small</label>
-
-                                    <input type="radio" name="impactFinderSize" id="medium" value="Medium">
-                                    <label for="medium">Medium</label>
-                                    <input type="radio" name="impactFinderSize" id="large" value="Large">
-                                    <label for="large">Large</label> --}}
+                                    <input type="number" name="impactFinderSize" id="impactFinderSize" value="{{profile.[0].finder_size}}">
                                     <br>
-                                    <label for="impactFinderPhone">Phone: </label>
-                                    <input type="text" name="impactFinderPhone" placeholder="phone" value="{{profile.[0].telephone_number}}"required style="margin-bottom:5px;padding:5px"></textarea>
+                                    <label for="impactFinderPhone">Phone</label>
                                     <br>
-                                    <label for="impactFinderPhone">Mobile: </label>
-                                    <input type="text" name="impactFinderMobile" placeholder="phone" value="{{profile.[0].mobile_number}}"required style="margin-bottom:5px;padding:5px"></textarea>
+                                    <input type="number" name="impactFinderPhone" value="{{profile.[0].telephone_number}}"required></input>
                                     <br>
-                                    <label for="impactFinderEmail">Email:</label>
-                                    <input type="text" name="impactFinderEmail" placeholder="email" value="{{profile.[0].email}}" required style="margin-bottom:5px;padding:5px"></textarea>
+                                    <label for="impactFinderPhone">Mobile</label>
+                                    <br>
+                                    <input type="number" name="impactFinderMobile" value="{{profile.[0].mobile_number}}"required></input>
+                                    <br>
+                                    <label for="impactFinderEmail">Email</label>
+                                    <br>
+                                    <input type="text" name="impactFinderEmail" value="{{profile.[0].email}}" required></input>
                                     <br>
                                 </div>
                                 <div class="modal-footer">
@@ -83,36 +82,34 @@
                 </div>
             {{!-- Edit Form --}}
                 <div class="profileInfo" id="FinderInfo">
-                    <label for="impactFinderInfo">Impact Finder information</label>
-                    <br>
+                    <h2>Basic information</h2>
+                    <hr>
                     <p>{{profile.[0].finder_description}}</p>
-                    <p style="display:inline-block">Size:</p>
+                    <p style="display:inline-block;width:100px">Size:</p>
                     {{profile.[0].finder_size}}
-                {{!-- </div>
-                <div class="profileElement"> --}}
                     <br>
-                    <label for="impactFinderContact">Impact Finder Contact</label>
-                    <br>
-                    <p style="display:inline-block">Telephone:</p>
+                    <p style="display:inline-block;width:100px">Telephone:</p>
                     {{profile.[0].telephone_number}}
                     <br>
-                     <p style="display:inline-block">Mobile:</p>
+                     <p style="display:inline-block;width:100px">Mobile:</p>
                     {{profile.[0].mobile_number}}
                     <br>
-                     <p style="display:inline-block">Email:</p>
+                     <p style="display:inline-block;width:100px">Email:</p>
                     {{profile.[0].email}}
                     <br>
                 </div>
         </div>
-        <br>
-        <div class="impactFinderInfoLeft">
-            <h3 style="display: inline-block;">More About {{profile.[0].finder_name}}</h3>
+    </div>
+    <div class="impactFinderInfo">
+        <div class="impactFinderInfoRight">
+              <h2 style="display: inline-block;">More About {{profile.[0].finder_name}}</h2>
+              <hr>
             {{#if isCurrentUserBoolean}}
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCustomfields" style="float:right;">
             Add
             </button> 
             {{/if}}
-                <div class="modal fade" id="modalCustomfields" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+            <div class="modal fade" id="modalCustomfields" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -139,70 +136,36 @@
                     </div>
                 </div>
             </div>
+            <div>
             {{#each profile.[1]}}
-                <h3>{{customfield_title}}</h3>
-                {{customfield_content}}
+                <div style="margin-bottom:10px">
+                    <h4>{{customfield_title}}</h4>
+                    {{customfield_content}}
+                </div>
             {{/each}}
-            {{!-- <div class="profileElement">
-                <input type="text" placeholder="Custom Fill Title" style="margin-bottom:5px;padding:5px"></input>
-                <textarea placeholder="Custom Fill Me In" style="margin-bottom:5px;padding:5px"></textarea>
-            </div>
-            <div class="profileElement">
-                <input type="text" placeholder="Custom Fill Title" style="margin-bottom:5px;padding:5px"></input>
-                <textarea placeholder="Custom Fill Me In" style="margin-bottom:5px;padding:5px"></textarea>
-            </div> --}}
-        </div>
-    </div>
-    <div class="impactFinderInfo">
-        <div class="impactFinderInfoRight">
-            <i class="fas fa-pencil"></i>
-            <p style="float:right">Edit</p>
-            <div class="profileElement">
-                <h3>Question1</h3>
-                <textarea></textarea>
-            </div>
-            <div class="profileElement">
-                <h3>Question2</h3>
-                <textarea></textarea>
-            </div>
-            <div class="profileElement">
-                <h3>Question3</h3>
-                <textarea></textarea>
-            </div>
-                <div class="profileElement">
-                <h3>Submit Your question</h3>
-                <textarea></textarea>
-                <button class="btn btn-warning submitButton" style="margin-top:10px;float:right">Submit</button>
             </div>
         </div>
     </div>
 </div>
-        {{!-- <div class="reviewElement"><h3>Review2</h3></div>
-        <div class="reviewElement"><h3>Review3</h3></div> --}}
-{{!-- <div class="reviews">
-    {{#each profile.[2]}}
-        <div class="reviewElement"><h3>{{profile.[2].job_title}}</h3></div>
-    {{/each}}
-</div> --}}
 <br>
-<h2 style="margin-left:4%"">Job Board of the Finder</h2>
-<div style="margin:0 4%; border:3px solid black; padding:20px">
-    <div class="jobList">
-        {{#each profile.[2]}}
-
-               <div class="col-lg-3 col-md-4 col-sm-12">
-                    <div class="card">
-                        <a href="/jobApplicationForm">
-                            <img src="/img/dummypic1.jpg" class="card-img-top">
-                            <div class="card-body">
-                                <h3 class="card-title">{{job_title}}</h3>
-                                {{!-- <h5>{{finder_name}}</h5> --}}
-                                <p class="cardtext">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nostrum earum laudantium modi voluptatum magnam natus laborum, odit eum, aut placeat assumenda iure accusantium ratione quam laboriosam. Distinctio recusandae officiis molestias.</p>
-                            </div>
-                        </a>
+<div id="impactFinderJob">
+    <h2>Job Board of the Finder</h2>
+    <hr>
+        <div class="jobList">
+            {{#each profile.[2]}}
+                <div class="col-lg-3 col-md-4 col-sm-12">
+                        <div class="card">
+                            <a href="/jobApplicationForm">
+                                <img src="/img/dummypic1.jpg" class="card-img-top">
+                                <div class="card-body">
+                                    <h3 class="card-title">{{job_title}}</h3>
+                                    {{!-- <h5>{{finder_name}}</h5> --}}
+                                    <p class="cardtext">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nostrum earum laudantium modi voluptatum magnam natus laborum, odit eum, aut placeat assumenda iure accusantium ratione quam laboriosam. Distinctio recusandae officiis molestias.</p>
+                                </div>
+                            </a>
+                        </div>
                     </div>
-                </div>
-        {{/each}}
+            {{/each}}
     </div>
 </div>
 {{>copyright}}
