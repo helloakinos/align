@@ -1,5 +1,5 @@
 // ================ Router for  Seeker profiles ===============
-const { isCurrentUser,currentUserType } = require("../authFuncs/currentUser");
+const { isCurrentUser, currentUserType } = require("../authFuncs/currentUser");
 
 class SProfileRouter {
   constructor(seekerProfileService, express) {

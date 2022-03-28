@@ -82,7 +82,6 @@ const reloadProfileInfo = (profile) => {
   $("#profileInfo").html(profileTemplate({ profile }));
 };
 
-let editTime = 0;
 $(() => {
   // Add an event listener on the add button, such then when we press the button we grab the value from our text box and then send that value to our server in our post request, then we receive the new data from our server and reload all of our notes.
   $(document).on("click", "#SaveProfileEdits", (e) => {
@@ -97,22 +96,11 @@ $(() => {
       email: $("input[name=impactFinderEmail]").val(),
       role: $("input[name=impactFinderRole").val(),
     };
-    // will be better if it's database = empty
-    if(editTime==0){
-      axios
-      .post("https://localhost:3000/api/finderprofile", { profile: profileInfo })
-      .then((res) => {
-        reloadProfileInfo(res.data);
-        console.log(res.data);
-        editTime++;
-      });
-    }else{
     axios
       .put("https://localhost:3000/api/finderprofile", { profile: profileInfo })
       .then((res) => {
         reloadProfileInfo(res.data);
         console.log(res.data);
       });
-    }
   });
 });
