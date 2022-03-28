@@ -120,13 +120,15 @@ router.get('/auth/openid/return',
 // redirected to '/' (home page); otherwise, it passes to the next middleware.
 router.post('/microsoftredirect',
   function(req, res, next) {
+    console.log("bibek, check here");
     passportFunctions.authenticate('azuread-openidconnect', 
       { 
-        successRedirect: "/",
+        // successRedirect: "/",
+        response: res,
         failureRedirect: "/error",
       }
     )
-    // (req, res, next);
+    (req, res, next);
   },
   function(req, res) {
     log.info('We received a return from AzureAD.');

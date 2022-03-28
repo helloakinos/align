@@ -2,6 +2,7 @@
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
 const passport = require('passport');
 const config = require("../config.js");
+const userQueries = require('../database/userQueries.js');
 
 const microsoftConfig = {
   identityMetadata: config.creds.identityMetadata,
@@ -46,21 +47,57 @@ const microsoftConfig = {
   function microsoftCallback(iss, sub, profile, accessToken, refreshToken, done) {
     if (!profile.oid) {
       return done(new Error("No oid found"), null);
-    }
-    // asynchronous verification, for effect...
-    process.nextTick(function () {
-      findByOid(profile.oid, function(err, user) {
-        if (err) {
-          return done(err);
-        }
-        if (!user) {
-          // "Auto-registration"
-          users.push(profile);
-          return done(null, profile);
-        }
-        return done(null, user);
-      });
-    });
+    } else{
+      const user = { username: profile.displayName };
+      userQueries
+      .getByMicrosoftId (profile.oid)
+      .then((queryRow) => {
+        if (queryRow.length === 0) {
+          console.log("Creating new user");
+          return userQueries
+            .postMicrosoft(profile.displayName, profile.oid)
+            .then((newIds) => {
+              user.seeker_id = newIds[0].seeker_id;
+              console.log("user Microsoft");
+              return done(null, user);
+            })
+            .catch((error) => {
+              done(error, false, {
+                message: "couldn't add microsoft user",
+              });
+            });
+          }else{
+            console.log("bibek query here");
+            console.log(queryRow);
+            console.log(user);
+            user.seeker_id = queryRow[0].seeker_id;
+            console.log("Microsoft new user:", user);
+            return done(null, user);
+          }
+        })
+        .catch((error) => {
+          console.log("failed to add microsoft user");
+          return done(error, false, {
+            message: "couldn't check database",
+          });
+        });
+      //   if (err) {
+      //     return done(err);
+      //   }
+      //   if (!user) {
+      //     // "Auto-registration"
+      //     users.push(profile);
+      //     return done(null, profile);
+      //   }
+      //   return done(null, user);
+      // };
+      // }
+    //   console.log("Bibek microsoft is here");
+    //   console.log(profile.oid);
+    //   console.log(profile);
+    //   return done(null, profile);
+    // // });
+  }
   }
 
 const microsoft = passport.use (new OIDCStrategy(microsoftConfig, microsoftCallback));
