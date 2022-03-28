@@ -16,10 +16,10 @@ function postFacebook(username, facebookId) {
 function postMicrosoft(username, microsoftId) {
   return knex(TABLE_NAME)
     .insert({
-      username: username,
+      seeker_name: username,
       microsoft_id: microsoftId,
     })
-    .returning("id");
+    .returning("seeker_id");
 }
 
 function postGmail(username, gmailId) {
