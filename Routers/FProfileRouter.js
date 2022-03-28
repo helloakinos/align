@@ -14,15 +14,21 @@ class FProfileRouter {
       isCurrentUser,
       this.getFinderProfile.bind(this)
     );
-    router.post("/finderprofile/:id", this.postCustomField.bind(this)); // needs authentication to even access the edit form
+    router.post("/api/finderprofile", this.postProfileInfo.bind(this));
+    router.post("/api/finderprofile/:id", this.postCustomField.bind(this)); // needs authentication to even access the edit form
     router.put("/api/finderprofile", this.putProfileInfo.bind(this)); // needs authentication to even access the edit form
-    router.put("/finderprofilecustomfield/:id", this.putCustomField.bind(this));
-    router.delete("/finderprofile/:id", this.deleteCustom.bind(this));
+    router.put(
+      "/api/finderprofilecustomfield/:id",
+      this.putCustomField.bind(this)
+    );
+    router.delete("/api/finderprofile/:id", this.deleteCustom.bind(this));
     return router;
   }
 
   getFinderProfile(req, res) {
     let finderId = req.params.id;
+    console.log(`This is the finderId we grab from the params`);
+    console.log(finderId);
     let isCurrentUserBoolean = req.res.locals.isCurrentUserBoolean;
     this.finderProfileService.listprofile(finderId).then((profile) => {
       console.log(profile);
@@ -32,6 +38,22 @@ class FProfileRouter {
         currentUser: isCurrentUserBoolean,
       });
     });
+  }
+
+  postProfileInfo(req, res) {
+    let profileInfo = req.body.profileInfo;
+    let finderId = req.user.finderId;
+    return this.finderProfileService
+      .addProfile(profileInfo, finderId)
+      .then(() => {
+        return this.finderProfileService.listprofile(finderId);
+      })
+      .then((profile) => {
+        res.json(profile);
+      })
+      .catch((error) => {
+        res.status(500).json(error);
+      });
   }
 
   postCustomField(req, res) {
