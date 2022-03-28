@@ -25,6 +25,8 @@ class FProfileRouter {
 
   getFinderProfile(req, res) {
     let finderId = req.params.id;
+    console.log(`This is the finderId we grab from the params`);
+    console.log(finderId);
     let isCurrentUserBoolean = req.res.locals.isCurrentUserBoolean;
     this.finderProfileService.listprofile(finderId).then((profile) => {
       console.log(profile);
@@ -34,6 +36,22 @@ class FProfileRouter {
         currentUser: isCurrentUserBoolean,
       });
     });
+  }
+
+  postProfileInfo(req, res) {
+    let profileInfo = req.body.profileInfo;
+    let finderId = req.user.finderId;
+    return this.finderProfileService
+      .addProfile(profileInfo, finderId)
+      .then(() => {
+        return this.finderProfileService.listprofile(finderId);
+      })
+      .then((profile) => {
+        res.json(profile);
+      })
+      .catch((error) => {
+        res.status(500).json(error);
+      });
   }
 
   postCustomField(req, res) {

@@ -45,6 +45,34 @@ class FinderProfileService {
     }
   }
 
+  async addProfile(profileInfo, finderId) {
+    console.log(
+      `addProfile method called with infoTitle: ${profileInfo} and finderId: ${finderId}`
+    );
+    try {
+      await this.knex
+        .select("*")
+        .from("finder")
+        .fullOuterJoin(
+          "finder_contact",
+          "finder.finder_id",
+          "finder_contact.finder_id"
+        )
+        .where("finder.finder_id", finderId)
+        .insert({
+          finder_id: finderId,
+          finder_name: profileInfo.finder_name,
+          finder_description: profileInfo.finder_description,
+          finder_size: profileInfo.finder_size,
+          telephone_number: profileInfo.telephone_number,
+          mobile_number: profileInfo.mobile_number,
+          email: profileInfo.email,
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   // we add the option of adding 2 custom fields into your finderprofile
   async addcustom(infoTitle, infoContent, finderId) {
     console.log(
