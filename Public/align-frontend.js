@@ -131,7 +131,5 @@ $(() => {
     $("#staticBackdrop").toggleClass("hide");
   });
 
-  $(document).on("click", "#AddFinderCustomField", (e) => {
-    
-  }
+  $(document).on("click", "#AddFinderCustomField", (e) => {});
 });

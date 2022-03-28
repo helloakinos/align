@@ -1,5 +1,5 @@
 // ================ Router for  Seeker profiles ===============
-const { isCurrentUser,currentUserType } = require("../authFuncs/currentUser");
+const { isCurrentUser, currentUserType } = require("../authFuncs/currentUser");
 const { isGuest } = require("../authFuncs/auth");
 
 class SProfileRouter {
@@ -45,6 +45,11 @@ class SProfileRouter {
   }
 
   getSeekerProfile(req, res) {
+    let isGuest = req.res.locals.isGuest;
+    let userData = {};
+    if (!isGuest) {
+      userData = currentUserType(req.user);
+    }
     let seekerId = req.params.id;
     let isCurrentUserBoolean = req.res.locals.isCurrentUserBoolean;
     this.seekerProfileService.listprofile(seekerId).then((profile) => {
@@ -53,6 +58,7 @@ class SProfileRouter {
         layout: "main",
         profile: profile,
         currentUser: isCurrentUserBoolean,
+        userData: userData,
       });
     });
   }
