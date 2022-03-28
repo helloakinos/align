@@ -1,7 +1,166 @@
 {{>original}}
-  <h1>{{profile.[0].first_name}}</h1>
-  {{#each profile.[1]}}
-  <h2>{{customfield_title}}</h2>
-{{customfield_content}}
-  {{/each}}
+<br>
+<div class="row">    
+    <div class="col-lg-6 col-md-6 col-sm-8 impactSeekerName">{{profile.[0].first_name}} {{profile.[0].surname}}
+    </div>
+    {{!-- <div class="col-lg-1 col-md-3 col-sm-2"></div> --}}
+    <div class="col-lg-5 col-md-3 col-sm-2" 
+    style="display:flex; justify-content:flex-end; align-items:center"
+    >
+        <button style="font-size:20px;font-weight:bold;background:#FFB545;color:#07665b;padding:5px;border-radius:10px;border:none">Connect with Impact Finder</button>
+    </div>
+</div>
+<div class="impactFinder">
+    <div class="impactFinderInfo">
+        <div class="impactFinderInfoLeft">
+            {{!-- <h3 style="display:inline-block">{{finder_name}}</h3> --}}
+            {{#if isCurrentUserBoolean}}
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="float:right;margin-right:5px;">
+            Edit
+            </button>   
+            {{/if}}
+            {{!-- Edit Form --}}
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="staticBackdropLabel">Edit your profile</h5>
+                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                            <form id="saveProfile">
+                                <div class="modal-body">
+                                    <label for="impactFinderInfo">{{profile.[0].finder_name}} Name</label>
+                                    <br>
+                                    <textarea type="text" name="impactFinderName" required>{{profile.[0].finder_name}}</textarea>
+                                    <label for="impactFinderInfo">{{profile.finder_name}} information</label>
+                                    <br>
+                                    <textarea type="text" name="impactFinderInfo" required>{{profile.[0].finder_description}}</textarea>
+                                    <br>
+                                    <label for="small">Impact Finder Size</label>
+                                    <br>
+                                    <input type="text" name="impactFinderSize" id="impactFinderSize" value="{{profile.[0].finder_size}}">
+                                    {{!-- <input type="radio" name="impactFinderSize" id="small" value="Small">
+                                    <label for="small">Small</label>
+
+                                    <input type="radio" name="impactFinderSize" id="medium" value="Medium">
+                                    <label for="medium">Medium</label>
+                                    <input type="radio" name="impactFinderSize" id="large" value="Large">
+                                    <label for="large">Large</label> --}}
+                                    <br>
+                                    <label for="impactFinderPhone">Phone: </label>
+                                    <input type="text" name="impactFinderPhone" placeholder="phone" value="{{profile.[0].telephone_number}}"required style="margin-bottom:5px;padding:5px"></textarea>
+                                    <br>
+                                    <label for="impactFinderPhone">Mobile: </label>
+                                    <input type="text" name="impactFinderMobile" placeholder="phone" value="{{profile.[0].mobile_number}}"required style="margin-bottom:5px;padding:5px"></textarea>
+                                    <br>
+                                    <label for="impactFinderEmail">Email:</label>
+                                    <input type="text" name="impactFinderEmail" placeholder="email" value="{{profile.[0].email}}" required style="margin-bottom:5px;padding:5px"></textarea>
+                                    <br>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <input type="submit" class="btn btn-primary" value="Save" id="SaveProfileEdits">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {{!-- Edit Form --}}
+                <div class="profileInfo" id="FinderInfo">
+                    <label for="impactFinderInfo">Impact Seeker Current Company: </label>
+                    <p style="display:inline-block">{{profile.[0].current_company}}</p>
+                {{!-- </div>
+                <div class="profileElement"> --}}
+                    <br>
+                    <label for="impactFinderContact">Impact Seeker Contact</label>
+                    <br>
+                     <p style="display:inline-block">Mobile:</p>
+                    {{profile.[0].mobile_number}}
+                    <br>
+                     <p style="display:inline-block">Email:</p>
+                    {{profile.[0].email1}}
+                    <br>
+                </div>
+        </div>
+        <br>
+        <div class="impactFinderInfoLeft">
+            <h3 style="display: inline-block;">More About {{profile.[0].first_name}} {{profile.[0].surname}}</h3>
+            {{#if isCurrentUserBoolean}}
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="float:right;">
+            Edit
+            </button> 
+            {{/if}}
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="staticBackdropLabel">Edit your profile</h5>
+                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                         <form action="/finderprofilecustomfield" method="put">
+                            <h3 style="display:inline-block">Custom Fill Area</h3>
+                            <button class="btn btn-warning addButton" type="submit">Add</button>
+                            <br>
+                            <label for="customeFill">
+                                <input type="text id=customFillTitle" name="customFillTitle" placeholder="Custom Fill Title">
+                            </label>
+                            <br>
+                            <textarea type="text" name="customFillText" placeholder="Custom Fill Area" required></textarea>
+                            
+                        </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary">Save </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{#each profile.[1]}}
+                <div style="margin:20px">
+                  <h3>{{customfield_title}}</h3>
+                  {{customfield_content}}
+                </div>
+            {{/each}}
+            {{!-- <div class="profileElement">
+                <input type="text" placeholder="Custom Fill Title" style="margin-bottom:5px;padding:5px"></input>
+                <textarea placeholder="Custom Fill Me In" style="margin-bottom:5px;padding:5px"></textarea>
+            </div>
+            <div class="profileElement">
+                <input type="text" placeholder="Custom Fill Title" style="margin-bottom:5px;padding:5px"></input>
+                <textarea placeholder="Custom Fill Me In" style="margin-bottom:5px;padding:5px"></textarea>
+            </div> --}}
+        </div>
+    </div>
+    <div class="impactFinderInfo">
+        <div class="impactFinderInfoRight">
+          <div class="profileInfo" >
+              <h2>Impact Seeker Education background: </h2>
+              <label for="impactFinderInfo">Attained High School degree: </label>
+              <p style="display:inline-block">{{profile.[2].[0].highschool_degree}}</p>
+              <br>
+              <label for="impactFinderInfo">Attained Univeristy degree: </label>
+              <p style="display:inline-block">{{profile.[2].[0].university_degree}}</p>
+              <br>
+              <label for="impactFinderInfo">Other certifications: </label>
+              <p style="display:inline-block">{{profile.[2].[0].other_certifications}}</p>
+          </div>
+        </div>
+        <br>
+        <div class="impactFinderInfoRight">
+          <div class="profileInfo">
+              <h2>Impact Seeker Experience: </h2>
+              <p style="display:inline-block">{{profile.[3].[0].experience}}</p>
+          </div>
+        </div>
+    </div>
+</div>
+        {{!-- <div class="reviewElement"><h3>Review2</h3></div>
+        <div class="reviewElement"><h3>Review3</h3></div> --}}
+{{!-- <div class="reviews">
+    {{#each profile.[2]}}
+        <div class="reviewElement"><h3>{{profile.[2].job_title}}</h3></div>
+    {{/each}}
+</div> --}}
 {{>copyright}}

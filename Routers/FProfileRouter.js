@@ -1,5 +1,6 @@
 // ================ Router for  Finder profile ===================
 const { isCurrentUser } = require("../authFuncs/currentUser");
+const { isGuest } = require("../authFuncs/auth");
 
 class FProfileRouter {
   constructor(finderProfileService, express) {
@@ -11,17 +12,14 @@ class FProfileRouter {
     let router = this.express.Router();
     router.get(
       "/finderprofile/:id",
-      isCurrentUser,
+      // isCurrentUser,
+      isGuest,
       this.getFinderProfile.bind(this)
     );
-    router.post("/api/finderprofile", this.postProfileInfo.bind(this));
-    router.post("/api/finderprofile/:id", this.postCustomField.bind(this)); // needs authentication to even access the edit form
-    router.put("/api/finderprofile", this.putProfileInfo.bind(this)); // needs authentication to even access the edit form
-    router.put(
-      "/api/finderprofilecustomfield/:id",
-      this.putCustomField.bind(this)
-    );
-    router.delete("/api/finderprofile/:id", this.deleteCustom.bind(this));
+    router.post("/finderprofile/:id",  isGuest,this.postCustomField.bind(this)); // needs authentication to even access the edit form
+    router.put("/api/finderprofile",  isGuest,this.putProfileInfo.bind(this)); // needs authentication to even access the edit form
+    router.put("/finderprofilecustomfield/:id",  isGuest,this.putCustomField.bind(this));
+    router.delete("/finderprofile/:id",  isGuest,this.deleteCustom.bind(this));
     return router;
   }
 

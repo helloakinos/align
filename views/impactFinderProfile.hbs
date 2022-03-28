@@ -9,7 +9,9 @@
         {{/if}}
     </div>
     {{!-- <div class="col-lg-1 col-md-3 col-sm-2"></div> --}}
-    <div class="col-lg-5 col-md-3 col-sm-2" style="display:flex; justify-content:space-between; align-items:center">
+    <div class="col-lg-5 col-md-3 col-sm-2" 
+    style="display:flex; justify-content:space-between; align-items:center"
+    >
         <div><a href="" style="text-align:right;font-size:20px;text-decoration: underline;"><p>To impact Finder's project board</p></a></div>
         <button style="font-size:20px;font-weight:bold;background:#FFB545;color:#07665b;padding:5px;border-radius:10px;border:none">Connect with Impact Finder</button>
     </div>
@@ -165,9 +167,32 @@
         </div>
     </div>
 </div>
-<div class="reviews">
-        <div class="reviewElement"><h3>Review1</h3></div>
-        <div class="reviewElement"><h3>Review2</h3></div>
-        <div class="reviewElement"><h3>Review3</h3></div>
+        {{!-- <div class="reviewElement"><h3>Review2</h3></div>
+        <div class="reviewElement"><h3>Review3</h3></div> --}}
+{{!-- <div class="reviews">
+    {{#each profile.[2]}}
+        <div class="reviewElement"><h3>{{profile.[2].job_title}}</h3></div>
+    {{/each}}
+</div> --}}
+<br>
+<h2 style="margin-left:4%"">Job Board of the Finder</h2>
+<div style="margin:0 4%; border:3px solid black; padding:20px">
+    <div class="jobList">
+        {{#each profile.[2]}}
+
+               <div class="col-lg-3 col-md-4 col-sm-12">
+                    <div class="card">
+                        <a href="/jobApplicationForm">
+                            <img src="/img/dummypic1.jpg" class="card-img-top">
+                            <div class="card-body">
+                                <h3 class="card-title">{{job_title}}</h3>
+                                {{!-- <h5>{{finder_name}}</h5> --}}
+                                <p class="cardtext">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nostrum earum laudantium modi voluptatum magnam natus laborum, odit eum, aut placeat assumenda iure accusantium ratione quam laboriosam. Distinctio recusandae officiis molestias.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+        {{/each}}
+    </div>
 </div>
 {{>copyright}}

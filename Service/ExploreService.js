@@ -26,5 +26,23 @@ class ExploreService {
       console.log(error);
     }
   }
+  async allJobs(){
+    console.log(`JobBoardService's allJobs method was called`);
+    let job = []
+    try {
+      let allJobs = await this.knex
+        .select("job_title", "location", "finder_id")
+        .from("job")
+        // .fullOuterJoin(
+        //   "finder",
+        //   "job.finder_id",
+        //   "finder.finder_id"
+        // )
+        // .where("")
+      return allJobs;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 module.exports = ExploreService;

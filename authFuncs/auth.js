@@ -15,6 +15,8 @@ function isLoggedIn(req, res, next) {
 
 // middleware checking if a user is logged in and passing a boolean
 function isGuest(req, res, next) {
+  
+
   if (req.isAuthenticated()) {
     console.log(req.cookies);
     console.log(req.session.passport.user, "passport USER");
