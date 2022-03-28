@@ -41,11 +41,20 @@
           </li>
         </a>
       {{else}}
-        <a href="/finderprofile/4" class="nav-link">
-          <li class="nav-item active pagename">
-            My Profile
-          </li>
-        </a>
+        {{#if userData.finder_id}}
+          <a href="/finderprofile/{{userData.finder_id}}" class="nav-link">
+            <li class="nav-item active pagename">
+              My Profile
+            </li>
+          </a>
+        {{/if}}
+        {{#if userData.seeker_id}}
+          <a href="/seekerprofile/{{userData.seeker_id}}" class="nav-link">
+            <li class="nav-item active pagename">
+              My Profile
+            </li>
+          </a>
+        {{/if}}
         <a href="/logout" class="nav-link">
           <li class="nav-item active pagename" id="logoutbutton">
             Logout

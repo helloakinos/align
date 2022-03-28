@@ -1,6 +1,7 @@
 // ================ Router for  Finder profile ===================
 const { isCurrentUser } = require("../authFuncs/currentUser");
 const { isGuest } = require("../authFuncs/auth");
+const { currentUserType } = require("../authFuncs/currentUser");
 
 class FProfileRouter {
   constructor(finderProfileService, express) {
@@ -12,7 +13,7 @@ class FProfileRouter {
     let router = this.express.Router();
     router.get(
       "/finderprofile/:id",
-      // isCurrentUser,
+      isCurrentUser,
       isGuest,
       this.getFinderProfile.bind(this)
     );
@@ -30,6 +31,11 @@ class FProfileRouter {
   }
 
   getFinderProfile(req, res) {
+    let isGuest = req.res.locals.isGuest;
+    let userData = {};
+    if (!isGuest) {
+      userData = currentUserType(req.user);
+    }
     let finderId = req.params.id;
     console.log(`GetFinderProfile Method in FProfileRouter`);
     console.log(finderId);
@@ -40,6 +46,7 @@ class FProfileRouter {
         layout: "main",
         profile: profile,
         currentUser: isCurrentUserBoolean,
+        userData: userData,
       });
     });
   }

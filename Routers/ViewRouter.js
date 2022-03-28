@@ -30,11 +30,15 @@ class ViewRouter {
       isLoggedIn,
       this.getImpactSeekerPreview.bind(this)
     );
-    router.get("/jobApplicationForm", isGuest,this.getJobApplicationForm.bind(this));
+    router.get(
+      "/jobApplicationForm",
+      isGuest,
+      this.getJobApplicationForm.bind(this)
+    );
     // Claire added this
-    router.get('/logout', function (req, res) {
+    router.get("/logout", function (req, res) {
       req.session.passport.user = null;
-      res.redirect('/loginSignUp');
+      res.redirect("/loginSignUp");
     });
     return router;
   }
@@ -71,30 +75,42 @@ class ViewRouter {
       res.render("impactFinderPreview", {
         layout: "main",
         allFinders: allFinders,
+        userData: userData,
       });
     });
   }
 
   getJobBoard(req, res) {
-    this.exploreService.allJobs().then((allJobs)=>{
-      console.log(allJobs)
+    let isGuest = req.res.locals.isGuest;
+    let userData = {};
+    if (!isGuest) {
+      userData = currentUserType(req.user);
+    }
+    this.exploreService.allJobs().then((allJobs) => {
+      console.log(allJobs);
       res.render("jobBoard", {
         layout: "main",
         allJobs: allJobs,
-      })
+        userData: userData,
+      });
     });
   }
 
   getImpactSeekerPreview(req, res) {
+    let isGuest = req.res.locals.isGuest;
+    let userData = {};
+    if (!isGuest) {
+      userData = currentUserType(req.user);
+    }
     this.exploreService.allSeekers().then((allSeekers) => {
       console.log(allSeekers);
       res.render("impactSeekerPreview", {
         layout: "main",
         allSeekers: allSeekers,
+        userData: userData,
       });
     });
   }
-  
 
   getJobApplicationForm(Req, res) {
     res.render("jobApplicationForm", {

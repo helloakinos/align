@@ -74,7 +74,7 @@
                                     {{#if profile.[0].finder_name}}
                                     <button  data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-primary" id="SaveProfileEdits">Save</button>
                                     {{else}}
-                                    <button  data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-primary" value="Create" id="CreateProfileEdits">Create</button>
+                                    <button  data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-primary" id="CreateProfileEdits">Create</button>
                                     {{/if}}
                                 </div>
                             </form>
@@ -109,7 +109,7 @@
             <h3 style="display: inline-block;">More About {{profile.[0].finder_name}}</h3>
             {{#if isCurrentUserBoolean}}
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCustomfields" style="float:right;">
-            Edit
+            Add
             </button> 
             {{/if}}
                 <div class="modal fade" id="modalCustomfields" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
@@ -121,7 +121,7 @@
                         </div>
                         <div class="modal-body">
                          <form id="finderCustomField">
-                            <h3 style="display:inline-block">Click'add' to an additional field to your profile</h3>
+                            <h5 style="display:inline-block">Click'add' to an additional field to your profile</h5>
                             <button class="btn btn-warning addButton" id="AddFinderCustomField">Add</button>
                             <br>
                             <label for="customeFill">
