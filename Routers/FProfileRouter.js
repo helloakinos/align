@@ -16,16 +16,22 @@ class FProfileRouter {
       isGuest,
       this.getFinderProfile.bind(this)
     );
-    router.post("/finderprofile/:id",  isGuest,this.postCustomField.bind(this)); // needs authentication to even access the edit form
-    router.put("/api/finderprofile",  isGuest,this.putProfileInfo.bind(this)); // needs authentication to even access the edit form
-    router.put("/finderprofilecustomfield/:id",  isGuest,this.putCustomField.bind(this));
-    router.delete("/finderprofile/:id",  isGuest,this.deleteCustom.bind(this));
+
+    router.post("/api/newfinderprofile", this.postProfileInfo.bind(this));
+    router.post("/api/finderprofile/:id", this.postCustomField.bind(this)); // needs authentication to even access the edit form
+    router.put("/api/finderprofile", this.putProfileInfo.bind(this)); // needs authentication to even access the edit form
+    router.put(
+      "/api/finderprofilecustomfield/:id",
+      this.putCustomField.bind(this)
+    );
+    router.delete("/api/finderprofile/:id", this.deleteCustom.bind(this));
+
     return router;
   }
 
   getFinderProfile(req, res) {
     let finderId = req.params.id;
-    console.log(`This is the finderId we grab from the params`);
+    console.log(`GetFinderProfile Method in FProfileRouter`);
     console.log(finderId);
     let isCurrentUserBoolean = req.res.locals.isCurrentUserBoolean;
     this.finderProfileService.listprofile(finderId).then((profile) => {
@@ -39,8 +45,11 @@ class FProfileRouter {
   }
 
   postProfileInfo(req, res) {
-    let profileInfo = req.body.profileInfo;
-    let finderId = req.user.finderId;
+    let profileInfo = req.body.profile;
+    console.log(`Inside router:`);
+    console.log(profileInfo);
+    let finderId = req.user.finder_id;
+    console.log(finderId);
     return this.finderProfileService
       .addProfile(profileInfo, finderId)
       .then(() => {
@@ -78,8 +87,7 @@ class FProfileRouter {
 
   putProfileInfo(req, res) {
     console.log(`putProfileInfo method from fprofilerouter is running`);
-    console.log(req.body);
-    let info = req.body.info;
+    let info = req.body.profile;
     let finderId = req.user.finder_id;
     console.log("FProfile Router: PUT Method");
     console.log(`Current Finder ID: ${finderId} and info: ${info}`);

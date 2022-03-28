@@ -1,14 +1,11 @@
 function isCurrentUser(req, res, next) {
   if (req.isAuthenticated()) {
-    console.log(req.cookies);
     console.log(req.session.passport.user, "passport USER");
     console.log(req.user, "USER");
-    // modified by Claire
     if (
       req.session.passport.user.finder_id == req.params.id ||
       req.session.passport.user.seeker_id == req.params.id
     ) {
-      console.log(req.session.passport.user);
       console.log(`I am visiting my own page`);
       res.locals.isCurrentUserBoolean = true;
       return next();
