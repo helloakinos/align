@@ -1,6 +1,7 @@
+// const { isCurrentFinder } = require("../authFuncs/currentUser");
+const { isCurrentUser } = require("../authFuncs/currentUser");
 const { isLoggedIn } = require("../authFuncs/auth");
 const { isGuest } = require("../authFuncs/auth");
-const { currentUserType } = require("../authFuncs/currentUser");
 
 // ================ Router for  job postings ===================
 
@@ -14,31 +15,33 @@ class ViewRouter {
   router() {
     let router = this.express.Router();
     router.get("/", isGuest, this.getHome.bind(this));
-    router.get("/loginSignup", this.getLogin.bind(this));
-    router.get("/impactFinderPreview", this.getImpactFinderPreview.bind(this));
-    router.get("/jobBoard", this.getJobBoard.bind(this));
+    router.get("/loginSignup",isGuest, this.getLogin.bind(this));
+    router.get("/impactFinderPreview",isGuest, this.getImpactFinderPreview.bind(this));
+    router.get("/jobBoard",isGuest, this.getJobBoard.bind(this));
     router.get(
       "/ImpactSeekerPreview",
+      isGuest,
       isLoggedIn,
       this.getImpactSeekerPreview.bind(this)
     );
-    router.get("/jobApplicationForm", this.getJobApplicationForm.bind(this));
-    router.get("/myProfile", this.getMyProfile.bind(this));
+    router.get("/jobApplicationForm", isGuest,this.getJobApplicationForm.bind(this));
+    // Claire added this
+    router.get('/logout', function (req, res) {
+      req.session.passport.user = null;
+      res.redirect('/loginSignUp');
+  });
     return router;
   }
 
+
   getHome(req, res) {
+    console.log(`Is the user persisting`);
+    console.log(req.user);
     let isGuest = req.res.locals.isGuest;
-    let userData = {};
-    if (!isGuest) {
-      let userData = currentUserType(req.user);
-      console.log(userData);
-    }
     console.log(isGuest);
     res.render("home", {
       layout: "main",
       isGuest: isGuest,
-      userData: userData,
     });
   }
   getLogin(req, res) {
@@ -80,13 +83,6 @@ class ViewRouter {
   getJobApplicationForm(Req, res) {
     res.render("jobApplicationForm", {
       layout: "main",
-    });
-  }
-
-  getMyProfile(Req, res) {
-    res.render("myProfile", {
-      layout: "main",
-      finder_contact:"ABC"
     });
   }
 }
