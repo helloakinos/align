@@ -54,32 +54,30 @@ $("#signupUserType").on("change", function () {
 var profileTemplate = Handlebars.compile(
   `
   <div class="profileInfo" id="FinderInfo">
-  <label for="impactFinderInfo">Impact Finder information</label>
-  <br>
-  <p>{{profile.[0].finder_description}}</p>
-  <p style="display:inline-block">Size:</p>
-  {{profile.[0].finder_size}}
-{{!-- </div>
-<div class="profileElement"> --}}
-  <br>
-  <label for="impactFinderContact">Impact Finder Contact</label>
-  <br>
-  <p style="display:inline-block">Telephone:</p>
-  {{profile.[0].telephone_number}}
-  <br>
-   <p style="display:inline-block">Mobile:</p>
-  {{profile.[0].mobile_number}}
-  <br>
-   <p style="display:inline-block">Email:</p>
-  {{profile.[0].email}}
-  <br>
-</div>
+    <label for="impactFinderInfo">Impact Finder information</label>
+    <br>
+    <p>{{profile.[0].finder_description}}</p>
+    <p style="display:inline-block">Size:</p>
+    {{profile.[0].finder_size}}
+    <br>
+    <label for="impactFinderContact">Impact Finder Contact</label>
+    <br>
+    <p style="display:inline-block">Telephone:</p>
+    {{profile.[0].telephone_number}}
+    <br>
+    <p style="display:inline-block">Mobile:</p>
+    {{profile.[0].mobile_number}}
+    <br>
+    <p style="display:inline-block">Email:</p>
+    {{profile.[0].email}}
+    <br>
+  </div>
   `
 );
 
 const reloadProfileInfo = (profile) => {
   // code here
-  $("#profileInfo").html(profileTemplate({ profile }));
+  $("#FinderInfo").html(profileTemplate({ profile }));
 };
 
 let editTime = 0;

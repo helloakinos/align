@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg sticky-top">
+<nav class="navbar navbar-expand-xl sticky-top">
   <a href="/" class="navbar-brand logo">ALIGN</a>
   <button
     type="button"
@@ -34,7 +34,6 @@
         </li>
       </a>
       {{! loginstatus }}
-      {{!-- {{#if }} --}}
       {{#if isGuest}}
         <a href="/loginSignup" class="nav-link">
           <li class="nav-item active pagename">
@@ -47,37 +46,31 @@
             My Profile
           </li>
         </a>
-      {{!-- Claire --}}
-        {{!-- {{#if currentUserType.userData.finder_id}}
-            <a href="/finderprofile/{{userData.finder_id}}" class="nav-link">
-              <li class="nav-item active pagename">
-                My Profile
-              </li>
-            </a>
-          {{/if}}
-          {{#if currentUserType.userData.seeker_id}}
-              <a href="/seekerprofile/{{currentUser.seeker_id}}" class="nav-link">
-                <li class="nav-item active pagename">
-                  My Profile
-                </li>
-              </a>
-          {{/if}} --}}
         <a href="/logout" class="nav-link">
           <li class="nav-item active pagename" id="logoutbutton">
             Logout
           </li>
         </a>
       {{/if}}
-      {{! <div class="input-group nav-link">
-                <li class="nav-item active">
-                    <div class="form-outline" style="display:inline-block">
-                        <input type="search" id="form1" class="form-control" placeholder="Search" />
-                        <button type="button" class="btn btn-primary" style="float:right">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </li>
-            </div> }}
+
+      {{!-- {{#unless isGuest}}
+      <a href="/loginSignup" class="nav-link">
+          <li class="nav-item active pagename">
+            Login/Signup
+          </li>
+        </a>
+      {{else}}
+        <a href="/finderprofile/4" class="nav-link">
+          <li class="nav-item active pagename">
+            My Profile
+          </li>
+        </a>
+        <a href="/logout" class="nav-link">
+          <li class="nav-item active pagename" id="logoutbutton">
+            Logout
+          </li>
+        </a>  
+      {{/unless}} --}}
     </ul>
   </div>
 
