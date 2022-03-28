@@ -79,13 +79,37 @@ var profileTemplate = Handlebars.compile(
 
 const reloadProfileInfo = (profile) => {
   // code here
-  $("#profileInfo").html(profileTemplate({ profile }));
+  console.log(`reload profile function:`);
+  console.log(profile);
+  $("#FinderInfo").html(profileTemplate({ profile }));
 };
 
 $(() => {
   // Add an event listener on the add button, such then when we press the button we grab the value from our text box and then send that value to our server in our post request, then we receive the new data from our server and reload all of our notes.
   $(document).on("click", "#SaveProfileEdits", (e) => {
     console.log("Save button pressed");
+    e.preventDefault();
+    let profileInfo = {
+      finder_name: $("textarea[name=impactFinderName").val(),
+      finder_description: $("textarea[name=impactFinderInfo]").val(),
+      finder_size: $("#impactFinderSize").val(),
+      telephone_number: $("input[name=impactFinderPhone]").val(),
+      mobile_number: $("input[name=impactFinderMobile]").val(),
+      email: $("input[name=impactFinderEmail]").val(),
+      role: $("input[name=impactFinderRole").val(),
+    };
+    axios
+      .put("https://localhost:3000/api/finderprofile", {
+        profile: profileInfo,
+      })
+      .then((res) => {
+        reloadProfileInfo(res.data);
+        console.log(res.data);
+      });
+  });
+
+  $(document).on("click", "#CreateProfileEdits", (e) => {
+    console.log("Create button pressed");
     // e.preventDefault();
     let profileInfo = {
       finder_name: $("textarea[name=impactFinderName").val(),
@@ -97,10 +121,17 @@ $(() => {
       role: $("input[name=impactFinderRole").val(),
     };
     axios
-      .put("https://localhost:3000/api/finderprofile", { profile: profileInfo })
+      .post("https://localhost:3000/api/newfinderprofile", {
+        profile: profileInfo,
+      })
       .then((res) => {
         reloadProfileInfo(res.data);
         console.log(res.data);
       });
+    $("#staticBackdrop").toggleClass("hide");
   });
+
+  $(document).on("click", "#AddFinderCustomField", (e) => {
+    
+  }
 });

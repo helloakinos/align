@@ -41,7 +41,7 @@ class ViewRouter {
   getHome(req, res) {
     console.log(`Is the user persisting`);
     console.log(req.user);
-    // let isGuest = req.res.locals.isGuest;
+    let isGuest = req.res.locals.isGuest;
     let userData = {};
     if (!isGuest) {
       userData = currentUserType(req.user);
@@ -49,7 +49,6 @@ class ViewRouter {
     console.log(isGuest);
     res.render("home", {
       layout: "main",
-      // isGuest: isGuest,
       userData: userData,
     });
   }
@@ -61,6 +60,11 @@ class ViewRouter {
   }
 
   getImpactFinderPreview(req, res) {
+    let isGuest = req.res.locals.isGuest;
+    let userData = {};
+    if (!isGuest) {
+      userData = currentUserType(req.user);
+    }
     this.exploreService.allFinders().then((allFinders) => {
       console.log(allFinders);
       res.render("impactFinderPreview", {

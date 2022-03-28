@@ -20,7 +20,7 @@ class FinderProfileService {
           )
           .where("finder.finder_id", finderId);
         profile.push(finderInfo[0]);
-        if (finderInfo.length === 1) {
+        if (finderInfo.length == 1) {
           let finderCustom = await this.knex
             .select("*")
             .from("finder_customfield")
@@ -28,7 +28,7 @@ class FinderProfileService {
           profile.push(finderCustom);
           return profile;
         } else {
-          console.log("Unknown Finder");
+          console.log("Empty FinderProfile");
         }
       } catch (error) {
         console.log("error reading profile from database: " + error);
@@ -38,33 +38,43 @@ class FinderProfileService {
 
   async addProfile(profileInfo, finderId) {
     console.log(
-      `addProfile method called with infoTitle: ${profileInfo} and finderId: ${finderId}`
+      `addProfile method called with profileInfo: ${profileInfo} and finderId: ${finderId}`
     );
+    console.log(profileInfo);
     try {
-      await this.knex
+      let finderMain = await this.knex
         .select("*")
         .from("finder")
-        .fullOuterJoin(
-          "finder_contact",
-          "finder.finder_id",
-          "finder_contact.finder_id"
-        )
-        .where("finder.finder_id", finderId)
-        .insert({
-          finder_id: finderId,
-          finder_name: profileInfo.finder_name,
-          finder_description: profileInfo.finder_description,
-          finder_size: profileInfo.finder_size,
-          telephone_number: profileInfo.telephone_number,
-          mobile_number: profileInfo.mobile_number,
-          email: profileInfo.email,
-        });
+        .where("finder.finder_id", finderId);
+      if (finderMain.length === 0) {
+        await this.knex
+          .insert({
+            finder_id: finderId,
+            finder_name: profileInfo.finder_name,
+            finder_description: profileInfo.finder_description,
+            finder_size: profileInfo.finder_size,
+          })
+          .into("finder");
+      }
+      let finderContact = await this.knex
+        .select("*")
+        .from("finder_contact")
+        .where("finder_contact.finder_id", finderId);
+      if (finderContact.length === 0) {
+        await this.knex
+          .insert({
+            finder_id: finderId,
+            telephone_number: profileInfo.telephone_number,
+            mobile_number: profileInfo.mobile_number,
+            email: profileInfo.email,
+          })
+          .into("finder_contact");
+      }
     } catch (error) {
       console.log(error);
     }
   }
 
-  // we add the option of adding 2 custom fields into your finderprofile
   async addcustom(infoTitle, infoContent, finderId) {
     console.log(
       `add method called with infoTitle: ${infoTitle}, infoContent: ${infoContent} and finderId: ${finderId}`
@@ -86,7 +96,6 @@ class FinderProfileService {
   }
 
   async updateProfile(info, finderId) {
-    let profile = [];
     console.log(info);
     console.log(
       `updateProfile method called with info: ${info} and finderId: ${finderId}`
@@ -102,14 +111,12 @@ class FinderProfileService {
         )
         .where("finder.finder_id", finderId);
       if (profile.length === 1) {
-        let profileInfo = await this.knex("finder")
-          .where("finder.finder_id", finderId)
-          .update({
-            finder_name: info.finder_name,
-            finder_description: info.finder_description,
-            finder_size: info.finder_size,
-          });
-        let profileContact = await this.knex("finder_contact")
+        await this.knex("finder").where("finder.finder_id", finderId).update({
+          finder_name: info.finder_name,
+          finder_description: info.finder_description,
+          finder_size: info.finder_size,
+        });
+        await this.knex("finder_contact")
           .where("finder_contact.finder_id", finderId)
           .update({
             first_name: info.first_name,
@@ -119,7 +126,6 @@ class FinderProfileService {
             email: info.email,
             role: info.role,
           });
-        return profile;
       } else {
         console.log(`Error: unable to find the correct profile`);
       }
