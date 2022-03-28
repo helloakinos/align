@@ -26,10 +26,6 @@ class FinderProfileService {
             .from("finder_customfield")
             .where("finder_customfield.finder_id", finderId);
           profile.push(finderCustom);
-          // return profile;
-        }
-        // Claire added this
-        if (finderInfo.length === 1) {
           let finderJob = await this.knex
             .select("job_title")
             .from("job")
