@@ -72,9 +72,9 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                     {{#if profile.[0].finder_name}}
-                                    <button  data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-primary" id="SaveProfileEdits">Save</button>
+                                    <button data-bs-dismiss="modal"  class="btn btn-primary" id="SaveProfileEdits">Save</button>
                                     {{else}}
-                                    <button  data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-primary" id="CreateProfileEdits">Create</button>
+                                    <button data-bs-dismiss="modal" class="btn btn-primary" id="CreateProfileEdits">Create</button>
                                     {{/if}}
                                 </div>
                             </form>

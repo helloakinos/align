@@ -110,7 +110,7 @@ $(() => {
 
   $(document).on("click", "#CreateProfileEdits", (e) => {
     console.log("Create button pressed");
-    // e.preventDefault();
+    e.preventDefault();
     let profileInfo = {
       finder_name: $("textarea[name=impactFinderName").val(),
       finder_description: $("textarea[name=impactFinderInfo]").val(),
@@ -128,7 +128,6 @@ $(() => {
         reloadProfileInfo(res.data);
         console.log(res.data);
       });
-    $("#staticBackdrop").toggleClass("hide");
   });
 
   $(document).on("click", "#AddFinderCustomField", (e) => {});
