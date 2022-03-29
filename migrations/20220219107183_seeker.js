@@ -8,7 +8,7 @@ exports.up = function (knex) {
     table.foreign("seeker_id").references("seeker_login.seeker_id");
     table.string("first_name").notNullable();
     table.string("surname").notNullable();
-    table.string("current_company").notNullable();
+    table.string("current_company");
     table.date("date_joined");
     table.string("gender");
     table.integer("cv_id").unique();

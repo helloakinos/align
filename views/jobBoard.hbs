@@ -5,10 +5,12 @@
         {{#each allJobs}}
            <div class="col-lg-4 col-md-6 col-sm-12">
                 <div class="card">
-                    <a href="/jobApplicationForm">
+                    <a href="/jobPage/{{this.finder_id}}">
+                    {{!-- <a href="/jobApplicationForm"></a> --}}
                         <img src="img/dummypic{{job_id}}.jpg" class="card-img-top">
                         <div class="card-body">
                             <h5 class="card-title">{{job_title}}</h5>
+                            <h5>{{finder_name}}</h5>
                             <h5>{{location}}</h5>
                             <p class="cardtext">{{job_description}}</p>
                         </div>

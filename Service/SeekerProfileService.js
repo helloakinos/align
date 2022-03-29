@@ -1,4 +1,4 @@
-// ================ Setting up and editting Finder Profile ==================
+// ================ Setting up and editting seeker Profile ==================
 
 class SeekerProfileService {
   constructor(knex) {
@@ -50,33 +50,69 @@ class SeekerProfileService {
     }
   }
 
-  //================================still finder copy
-  // we add the option of adding 2 custom fields into your finderprofile
-  // async addcustom(infoTitle, infoContent, finderId) {
-  //   console.log(
-  //     `add method called with infoTitle: ${infoTitle}, infoContent: ${infoContent} and finderId: ${finderId}`
-  //   );
-  //   try {
-  //     await this.knex
-  //       .select("*")
-  //       .from("finder_customfield")
-  //       .where("finder_customfield.finder_id", finderId)
-  //       .insert({
-  //         finder_id: finderId,
-  //         customfield_title: infoTitle,
-  //         customfield_content: infoContent,
-  //       })
-  //       .into("finder_customfield");
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-
-  async updateProfile(seekerInfo, seekerId) {
-    let profile = [];
-    console.log(seekerInfo);
+  async addProfile(seekerProfileInfo, seekerId) {
     console.log(
-      `seeker updateProfile method called with info: ${seekerInfo} and finderId: ${seekerId}`
+      `addProfile method called with seekerprofileInfo: ${seekerProfileInfo} and seekerId: ${seekerId}`
+    );
+    console.log(seekerProfileInfo);
+    try {
+      let seekerMain = await this.knex
+        .select("*")
+        .from("seeker")
+        .where("seeker.seeker_id", seekerId);
+      if (seekerMain.length === 0) {
+        await this.knex
+          .insert({
+            seeker_id: seekerId,
+            first_name: seekerProfileInfo.first_name,
+            surname: seekerProfileInfo.surname,
+          })
+          .into("seeker");
+      }
+      let seekerContact = await this.knex
+        .select("*")
+        .from("seeker_contact")
+        .where("seeker_contact.seeker_id", seekerId);
+      if (seekerContact.length === 0) {
+        await this.knex
+          .insert({
+            seeker_id: seekerId,
+            mobile_number: seekerProfileInfo.mobile_number,
+            home_number: seekerProfileInfo.home_number,
+            email1: seekerProfileInfo.email1,
+            links: seekerProfileInfo.link,
+          })
+          .into("seeker_contact");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async addcustom(seekerCustom, seekerId) {
+    console.log(
+      `add method seeker called with info: ${seekerCustom},seekerId: ${seekerId}`
+    );
+    try {
+      await this.knex
+        .select("*")
+        .from("seeker_customfield")
+        .where("seeker_customfield.seeker_id", seekerId)
+        .insert({
+          seeker_id: seekerId,
+          customfield_title: seekerCustom.infoTitle,
+          customfield_content: seekerCustom.infoContent,
+        })
+        .into("seeker_customfield");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async updateProfile(seekerProfileInfo, seekerId) {
+    console.log(seekerProfileInfo);
+    console.log(
+      `seeker updateProfile method called with info: ${seekerProfileInfo} and finderId: ${seekerId}`
     );
     try {
       let profile = await this.knex
@@ -90,13 +126,17 @@ class SeekerProfileService {
         .where("seeker.seeker_id", seekerId);
       if (profile.length == 1) {
         await this.knex("seeker").where("seeker.seeker_id", seekerId).update({
-          first_name: seekerInfo.first_name,
-          surname: seekerInfo.surname,
-          mobile_number: seekerInfo.mobile_number,
-          home_number: seekerInfo.home_number,
-          email1: seekerInfo.email1,
-          links: seekerInfo.link,
+          first_name: seekerProfileInfo.first_name,
+          surname: seekerProfileInfo.surname,
         });
+        await this.knex("seeker_contact")
+          .where("seeker_contact.seeker_id", seekerId)
+          .update({
+            mobile_number: seekerProfileInfo.mobile_number,
+            home_number: seekerProfileInfo.home_number,
+            email1: seekerProfileInfo.email1,
+            links: seekerProfileInfo.link,
+          });
       } else {
         console.log(`Error: unable to find the correct seeker profile`);
       }
@@ -105,53 +145,61 @@ class SeekerProfileService {
     }
   }
 
-  async updateCustom(customfield_Id, customfieldInfo, finderId) {
+  async updateCustom(customInfo, seekerId) {
     console.log(
-      `updateCustom method called with customfieldId: ${customfield_Id} with finderId: ${finderId}`
+      `updateCustom method called with customfieldId: ${customInfo} with seekerId: ${seekerId}`
     );
-    console.log(customfieldInfo);
-    try {
-      let customfields = await this.knex
-        .select("*")
-        .from("finder_customfield")
-        .where({
-          finder_id: finderId,
-          customfield_id: customfield_Id,
-        });
-      if (customfields.length === 1) {
-        return await this.knex("finder_customfield")
+    for (let i = 0; i < customInfo.length; i++) {
+      try {
+        console.log(customInfo[i]);
+        console.log(seekerId);
+        console.log(customInfo[i].customfieldId);
+        let customfields = await this.knex
+          .select("*")
+          .from("seeker_customfield")
           .where({
-            finder_id: finderId,
-            customfield_id: customfield_Id,
-          })
-          .update({
-            customfield_title: customfieldInfo.customfield_Title,
-            customfield_content: customfieldInfo.customfield_Content,
+            seeker_id: seekerId,
+            customfield_id: customInfo[i].customfieldId,
           });
-      } else {
-        console.log(`Error: unable to update customfield`);
+        if (customfields.length == 1) {
+          console.log(`inside the update query if`);
+          await this.knex("seeker_customfield")
+            .where({
+              seeker_id: seekerId,
+              customfield_id: customInfo[i].customfieldId,
+            })
+            .update({
+              customfield_id: customInfo[i].customfieldId,
+              customfield_title: customInfo[i].infoTitle,
+              customfield_content: customInfo[i].infoContent,
+            });
+          console.log(`Here I am done`);
+        } else {
+          console.log(`Error: unable to update particular customfield`);
+        }
+        console.log(`done looping`);
+      } catch (error) {
+        console.log(`there is an error: ${error}`);
       }
-    } catch (error) {
-      console.log(`there is an error: ${error}`);
     }
   }
 
-  async removeCustom(customfield_Id, finderId) {
+  async removeCustom(customfield_Id, seekerId) {
     console.log(
-      `removeCustom method called with customfield_id: ${customfield_Id} and finderId: ${finderId}`
+      `removeCustom method called with customfield_id: ${customfield_Id} and seekerId: ${seekerId}`
     );
     try {
       let customfield = await this.knex
         .select("*")
-        .from("finder_customfield")
+        .from("seeker_customfield")
         .where({
-          finder_id: finderId,
+          seeker_id: seekerId,
           customfield_id: customfield_Id,
         });
       if (customfield.length === 1) {
-        return await this.knex("finder_customfield")
+        return await this.knex("seeker_customfield")
           .where({
-            finder_id: finderId,
+            seeker_id: seekerId,
             customfield_id: customfield_Id,
           })
           .del();

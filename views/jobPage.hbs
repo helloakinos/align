@@ -1,0 +1,70 @@
+{{>original}}
+<br>
+<div class="firstRowOfJobPage">    
+
+    <div class="impactFinderInfoDiv" id="impactFinderInfo">
+        {{profile.[0].finder_name}}
+        {{#if profile.[0].vetted}}
+        <i class="fas fa-check vetted"></i>
+        {{/if}}
+    </div>
+    
+    <div class="impactFinderLinkDiv">
+        
+        {{!-- <a href="/finderprofile/{{this.finder_id}}"><div class="description description--blur">{{this.finder_name}}</div></a> --}}
+    </div>
+</div>
+<div class="impactFinderJob">
+    <div class="impactFinderInfo">
+        <div class="impactFinderInfoLeft">
+            
+                <div class="profileInfo" id="FinderInfo">
+                    <h2>Company information</h2>
+                    <hr>
+                    <p>{{profile.[0].finder_description}}</p>
+                    <p style="display:inline-block;width:100px">Size:</p>
+                    {{profile.[0].finder_size}}
+                    <br>
+                    <p style="display:inline-block;width:100px">Telephone:</p>
+                    {{profile.[0].telephone_number}}
+                    <br>
+                     <p style="display:inline-block;width:100px">Mobile:</p>
+                    {{profile.[0].mobile_number}}
+                    <br>
+                     <p style="display:inline-block;width:100px">Email:</p>
+                    {{profile.[0].email}}
+                    <br>
+                </div>
+        </div>
+    </div>
+    
+</div>
+<br>
+<div id="impactFinderJob">
+    <h2>Role information</h2>
+    <hr>
+        <div class="jobDescription">
+            <p>{{profile.[0].job_description}}</p>
+            
+    </div>
+</div>
+
+    <div class="JobInfo">
+        <div class="impactFinderInfoRight">
+              <h2 style="display: inline-block;">More About {{profile.[0].finder_name}}</h2>
+              <hr>
+            <div id="FinderCustomField">
+            {{#each profile.[0]}}
+            <div style="margin-bottom:10px">
+                <h4>{{customfield_title}}</h4>
+                <p>{{customfield_content}}</p>
+            </div>
+            {{/each}}
+            </div>            
+        </div>
+    </div>
+    <div class="connectButtonDiv">
+                <button class="connectbutton" type=="button">Connect</button>
+            </div>
+    
+{{>copyright}}
