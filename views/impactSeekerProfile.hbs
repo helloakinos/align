@@ -13,6 +13,7 @@
     <div class="impactSeekerInfo">
         <div class="impactSeekerInfoLeft">
             {{#if isCurrentUserBoolean}}
+            <div id="seekerEditCreate">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="float:right;margin-right:5px;">
                     {{#if profile.[0].first_name}}
                     Edit
@@ -21,6 +22,7 @@
                 {{/if}}
                 </button>   
             {{/if}}
+            </div>
             {{!-- Edit Form --}}
             <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -51,9 +53,9 @@
                                     <input type="text" name="impactSeekerLink" value="{{profile.[0].links}}"></input>
                                     <br>
                                 </div>
-                                <div class="modal-footer">
+                                <div id="modalEditCreateProfile" class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                    {{#if profile.[0].seeker_name}}
+                                    {{#if profile.[0].first_name}}
                                     <button data-bs-dismiss="modal"  class="btn btn-primary" id="SaveSeekerProfileEdits">Save</button>
                                     {{else}}
                                     <button data-bs-dismiss="modal" class="btn btn-primary" id="CreateSeekerProfileEdits">Create</button>
@@ -81,12 +83,14 @@
         <br>
         <div class="impactSeekerInfoLeft">
                 {{#if isCurrentUserBoolean}}
+                <div id="seekerCustomEdit">
                    {{#if profile.[1]}}
                 <button type="button" class="editcustomseeker btn bg-light" data-bs-toggle="modal" data-bs-target="#modalCustomfieldsSeekerEdit">edit</button>
                 {{/if}}
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCustomfieldsSeeker" style="float:right;">
                 Add
                 </button> 
+                </div>
                 {{/if}}
                 <h2>More About {{profile.[0].seeker_name}}</h2>
                 <hr>
@@ -129,8 +133,9 @@
                          <form id="seekerCustomFieldEdit">
                             <h5 style="display:inline-block">Click 'edit' to change the fields on your profile</h5>
                             <br>
+                            <div id="seekerModalCustom">
                             {{#each profile.[1]}}
-                            <div class="customfielddiv" data-id="{{customfield_id}}">
+                            <div class="customfieldSeekerdiv" data-id="{{customfield_id}}">
                                 <label for="customeFill">
                             </label>
                                 <input type="text" class="customFillTitleEditSeeker" name="customFillTitleEditSeeker" value="{{customfield_title}}">
@@ -139,6 +144,7 @@
                             <button type="button" class="removecustomseeker btn bg-light" data-id="{{customfield_id}}">remove</button>
                             </div>
                             {{/each}}
+                            </div>
                         </form>
                         </div>
                         <div class="modal-footer">
@@ -165,9 +171,15 @@
         <div class="impactSeekerInfoRight">
         <div class="profileInfo">
                 {{#if isCurrentUserBoolean}}
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editEducation" style="float:right;margin-right:5px;">
+                <div id="seekerEductionButtons">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editEducation" style="float:right;margin-right:5px;">
+                    {{#if profile.[2]}}
+                    Add
+                    {{else}}
                     Edit
-                </button>   
+                    {{/if}}
+                    </button>   
+                </div>
                 {{/if}}
                <div class="modal fade" id="editEducation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog">

@@ -27,7 +27,7 @@ class FinderProfileService {
             .where("finder_customfield.finder_id", finderId);
           profile.push(finderCustom);
           let finderJob = await this.knex
-            .select("job_title")
+            .select("*")
             .from("job")
             .where("job.finder_id", finderId);
           profile.push(finderJob);
