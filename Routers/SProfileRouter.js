@@ -17,29 +17,11 @@ class SProfileRouter {
       this.getSeekerProfile.bind(this)
     );
     router.post("/api/newseekerprofile", this.postSeekerProfileInfo.bind(this));
-
-    router.post(
-      "/api/newseekercustomfield",
-      isGuest,
-      isCurrentUser,
-      this.postCustomField.bind(this)
-    );
-    router.put(
-      "/api/seekerprofile",
-      isGuest,
-      isCurrentUser,
-      this.putProfileInfo.bind(this)
-    );
-    router.put(
-      "/seekerprofilecustomfield/:id",
-      isGuest,
-      isCurrentUser,
-      this.putCustomField.bind(this)
-    );
+    router.post("/api/newSeekerCustomfield", this.postCustomField.bind(this));
+    router.put("/api/seekerprofile", this.putProfileInfo.bind(this));
+    router.put("/api/editSeekerCustomfield", this.putCustomField.bind(this));
     router.delete(
-      "/seekerprofile/:id",
-      isGuest,
-      isCurrentUser,
+      "/api/deleteSeekerCustomfield/:id",
       this.deleteCustom.bind(this)
     );
     return router;
@@ -81,16 +63,13 @@ class SProfileRouter {
   }
 
   postCustomField(req, res) {
-    let infoTitle = req.body.infoTitle;
-    let infoContent = req.body.infoContent;
-    let seekerId = req.rawHeaders[1];
+    let infoCustomSeeker = req.body.customSeekerInfo;
+    let seekerId = req.user.seeker_id;
     console.log("SeekerProfile Router: POST Method");
     console.log(`Current seeker ID: ${seekerId}`);
-    console.log(
-      `Info to be edited: infoTitle${infoTitle} & infoContent: ${infoContent}`
-    );
+    console.log(`Info to be edited: ${infoCustomSeeker}`);
     return this.seekerProfileService
-      .addcustom(infoTitle, infoContent, seekerId)
+      .addcustom(infoCustomSeeker, seekerId)
       .then(() => {
         return this.seekerProfileService.listprofile(seekerId);
       })
@@ -121,15 +100,14 @@ class SProfileRouter {
   }
 
   putCustomField(req, res) {
-    let customfield_Id = req.params.id;
-    let customfieldInfo = req.body.customfieldInfo;
-    let seekerId = req.rawHeaders[1];
-    console.log("SeekerProfile Router: PUT Method");
+    let infoSeeker = req.body.customInfo;
+    let seekerId = req.user.seeker_id;
+    console.log("SeekerProfile Router: PUT Method for customfield");
     console.log(
-      `Current Seeker ID: ${seekerId} and customfieldInfo: ${customfieldInfo}`
+      `Current Seeker ID: ${seekerId} and customfieldInfo: ${infoSeeker}`
     );
     return this.seekerProfileService
-      .updateCustom(customfield_Id, customfieldInfo, seekerId)
+      .updateCustom(infoSeeker, seekerId)
       .then(() => {
         return this.seekerProfileService.listprofile(seekerId);
       })
@@ -143,9 +121,12 @@ class SProfileRouter {
 
   deleteCustom(req, res) {
     let customfield_Id = req.params.id;
-    let seekerId = req.rawHeaders[1];
-    console.log("SeekerProfile Router: DELETE Method");
+    let seekerId = req.user.seeker_id;
+    console.log("FProfile Router: DELETE Method");
     console.log(`Current seeker ID: ${seekerId}`);
+    console.log(`Current customfieldId: ${customfield_Id}`);
+    console.log(customfield_Id);
+
     return this.seekerProfileService
       .removeCustom(customfield_Id, seekerId)
       .then(() => {

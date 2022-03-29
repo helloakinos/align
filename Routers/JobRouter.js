@@ -7,6 +7,7 @@ class JobRouter {
     this.jobService = jobService;
     this.express = express;
   }
+
   router() {
     let router = this.express.Router();
     router.get("/jobPage/:id", isGuest, this.getJobProfile.bind(this));
@@ -29,5 +30,6 @@ class JobRouter {
       });
       
     }
+
 }
 module.exports = JobRouter;

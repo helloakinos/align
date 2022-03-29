@@ -51,7 +51,9 @@ $("#signupUserType").on("change", function () {
   }
 });
 
-// Finder Profile Page
+
+// Handlebars template for Finder name
+
 var nameTemplate = Handlebars.compile(
   `<div class="impactFinderDiv impactFinderName">
       {{profile.[0].finder_name}}
@@ -85,6 +87,7 @@ var profileTemplate = Handlebars.compile(
   `
 );
 
+
 var buttonTemplate = Handlebars.compile(
   `
       <div id="changebutton">
@@ -112,7 +115,7 @@ var bottomButtonTemplate = Handlebars.compile(
   </div>
   `
 )
-
+// Handlebars template for custom finderprofile info
 var customFieldNameTemplate  = Handlebars.compile(
   `
   <h2 id="customFieldName" style="display: inline-block;">More About {{profile.[0].finder_name}}</h2>
@@ -130,6 +133,7 @@ var customFieldButtonTemplate = Handlebars.compile(
 )
 
 // Handlebars template for custom profile info
+
 var profileCustomfieldTemplate = Handlebars.compile(
   `{{#each profile.[1]}}
     <div>
@@ -196,12 +200,15 @@ const reloadFinderCustomInfo = (profile) => {
   $("#FinderCustomField").html(profileCustomfieldTemplate({ profile }));
 };
 
+
+// event listeners for the buttons on the finder profile page
+
 const reloadProfileCustomFieldEdit = (profile) => {
   $("#customFieldEdit").html(profileCustomfieldEditTemplate({profile}))
 }
 
+
 $(() => {
-  // Add an event listener on the add button, such then when we press the button we grab the value from our text box and then send that value to our server in our post request, then we receive the new data from our server and reload all of our notes.
   $(document).on("click", "#SaveProfileEdits", (e) => {
     console.log("Save button pressed");
     e.preventDefault();
