@@ -10,19 +10,11 @@ class JobRouter {
 
   router() {
     let router = this.express.Router();
-    router.get("/job", this.getFinderProfile.bind(this));
+    // router.get("/job", this.getFinderProfile.bind(this));
+    router.get("/jobPage/:id", isGuest, this.getJobProfile.bind(this));
     return router;
   }
 
-  getFinderProfile(req, res) {}
-}
-
-
-  router() {
-    let router = this.express.Router();
-    router.get("/jobPage/:id", isGuest, this.getJobProfile.bind(this));
-    return router
-  }
     getJobProfile(req, res) {
       let isGuest = req.res.locals.isGuest;
       let userData = {};
@@ -40,6 +32,6 @@ class JobRouter {
       });
       
     }
+  }
 
-}
 module.exports = JobRouter;
