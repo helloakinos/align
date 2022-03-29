@@ -16,6 +16,7 @@ class JobRouter {
     return router;
   }
 
+
   getJobProfile(req, res) {
     let isGuest = req.res.locals.isGuest;
     let userData = {};
@@ -32,4 +33,5 @@ class JobRouter {
     });
   }
 }
+
 module.exports = JobRouter;
