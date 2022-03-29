@@ -1,7 +1,6 @@
 // ================ Router for  Finder profile ===================
-const { isCurrentUser } = require("../authFuncs/currentUser");
+const { isCurrentUser, currentUserType } = require("../authFuncs/currentUser");
 const { isGuest } = require("../authFuncs/auth");
-const { currentUserType } = require("../authFuncs/currentUser");
 
 class FProfileRouter {
   constructor(finderProfileService, express) {
@@ -19,8 +18,8 @@ class FProfileRouter {
     );
 
     router.post("/api/newfinderprofile", this.postProfileInfo.bind(this));
-    router.post("/api/newfindercustomfield", this.postCustomField.bind(this)); // needs authentication to even access the edit form
-    router.put("/api/finderprofile", this.putProfileInfo.bind(this)); // needs authentication to even access the edit form
+    router.post("/api/newfindercustomfield", this.postCustomField.bind(this));
+    router.put("/api/finderprofile", this.putProfileInfo.bind(this));
     router.put("/api/editfindercustomfield", this.putCustomField.bind(this));
     router.delete(
       "/api/deletefindercustomfield/:id",
@@ -41,7 +40,6 @@ class FProfileRouter {
     console.log(finderId);
     let isCurrentUserBoolean = req.res.locals.isCurrentUserBoolean;
     this.finderProfileService.listprofile(finderId).then((profile) => {
-      console.log(profile);
       res.render("impactFinderProfile", {
         layout: "main",
         profile: profile,
@@ -90,7 +88,6 @@ class FProfileRouter {
   }
 
   putProfileInfo(req, res) {
-    console.log(`putProfileInfo method from fprofilerouter is running`);
     let info = req.body.profile;
     let finderId = req.user.finder_id;
     console.log("FProfile Router: PUT Method");

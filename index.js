@@ -35,12 +35,13 @@ const AuthRouter = require("./Routers/AuthRouter");
 const ViewRouter = require("./Routers/ViewRouter");
 const FProfileRouter = require("./Routers/FProfileRouter");
 const SProfileRouter = require("./Routers/SProfileRouter");
+const JobRouter = require("./Routers/JobRouter");
 
 // =========== Local Services ===================
 const FinderProfileService = require("./Service/FinderProfileService");
 const SeekerProfileService = require("./Service/SeekerProfileService");
 const ExploreService = require("./Service/ExploreService");
-
+const JobService = require("./Service/JobService");
 
 // ========= Set up Express Handlebars ==============
 app.use(cookieParser());
@@ -96,20 +97,10 @@ if (config.useMongoDBSessionStore) {
   );
 }
 
-// =========== Set up Passport ============
-// commented this out for now, so we can implement our  once ready
-// app.use(flash());
-// app.use(
-//   session({
-//     secret: process.env.SESSION_SECRET,
-//     resave: false,
-//     saveUninitialized: true,
-//   })
-// );
-
 // =========== Set up Instances for Routers & Services ============
 const finderProfileService = new FinderProfileService(knex);
 const seekerProfileService = new SeekerProfileService(knex);
+const jobService = new JobService(knex);
 const exploreService = new ExploreService(knex);
 const viewRouter = new ViewRouter(
   finderProfileService,
@@ -118,15 +109,16 @@ const viewRouter = new ViewRouter(
 );
 const fprofileRouter = new FProfileRouter(finderProfileService, express);
 const sprofileRouter = new SProfileRouter(seekerProfileService, express);
+const jobRouter = new JobRouter(jobService, express);
 const authRouter = new AuthRouter();
 
 // ========= Set up Routers ================
 
 app.use("/", viewRouter.router());
 app.use("/", authRouter.router());
-// app.use("/", new AuthRouter(express, passport).router());
 app.use("/", fprofileRouter.router());
 app.use("/", sprofileRouter.router());
+app.use("/", jobRouter.router());
 
 const options = {
   cert: fs.readFileSync("./localhost.crt"),

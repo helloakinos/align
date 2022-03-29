@@ -51,17 +51,15 @@ $("#signupUserType").on("change", function () {
   }
 });
 
-
 var nameTemplate = Handlebars.compile(
-  `
-    <div class="impactFinderDiv impactFinderName">
+  `<div class="impactFinderDiv impactFinderName">
       {{profile.[0].finder_name}}
       {{#if profile.[0].vetted}}
       <i class="fas fa-check vetted"></i>
       {{/if}}
     </div>
   `
-)
+);
 
 // Handlebars template for main profile info
 var profileTemplate = Handlebars.compile(
@@ -86,14 +84,13 @@ var profileTemplate = Handlebars.compile(
   `
 );
 
-
 // Handlebars template for custom profile info
 var profileCustomfieldTemplate = Handlebars.compile(
   `{{#each profile.[1]}}
-  <div>
+    <div>
       <h3>{{customfield_title}}</h3>
       <p>{{customfield_content}}</p>
-  </div>
+    </div>
   {{/each}}`
 );
 
@@ -102,7 +99,6 @@ const reloadName = (profile) => {
   console.log(profile);
   $("#impactFinderName").html(nameTemplate({ profile }));
 };
-
 
 const reloadFinderProfileInfo = (profile) => {
   console.log(`reload profile function:`);
@@ -133,6 +129,7 @@ $(() => {
         profile: profileInfo,
       })
       .then((res) => {
+        reloadName(res.data);
         reloadFinderProfileInfo(res.data);
         console.log(res.data);
       });
