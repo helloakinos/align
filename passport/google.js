@@ -28,7 +28,7 @@ function googleCallback(accessToken, refreshToken, profile, done) {
             });
           });
       } else {
-        user.seeker_id = queryRow[0].id;
+        user.seeker_id = queryRow[0].seeker_id;
         return done(null, user);
       }
     })

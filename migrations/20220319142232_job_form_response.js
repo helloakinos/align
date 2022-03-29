@@ -9,11 +9,11 @@ exports.up = function(knex) {
         table.integer("seeker_id").notNullable().unique().unsigned();
         table.foreign("seeker_id").references("seeker.seeker_id");
         table.primary(["job_id", "seeker_id"]);
-        table.string("response1");
-        table.string("response2");
-        table.string("response3");
-        table.string("response4");
-        table.string("response5");
+        table.string("response1", 3000);
+        table.string("response2", 3000);
+        table.string("response3", 3000);
+        table.string("response4", 3000);
+        table.string("response5", 3000);
     })
 };
 

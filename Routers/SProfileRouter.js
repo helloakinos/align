@@ -12,19 +12,20 @@ class SProfileRouter {
     let router = this.express.Router();
     router.get(
       "/seekerprofile/:id",
-      isGuest,
       isCurrentUser,
-      // currentUserType,
+      isGuest,
       this.getSeekerProfile.bind(this)
     );
+    router.post("/api/newseekerprofile", this.postSeekerProfileInfo.bind(this));
+
     router.post(
-      "/seekerprofile/:id",
+      "/api/newseekercustomfield",
       isGuest,
       isCurrentUser,
       this.postCustomField.bind(this)
     );
     router.put(
-      "/seekerprofile/:id",
+      "/api/seekerprofile",
       isGuest,
       isCurrentUser,
       this.putProfileInfo.bind(this)
@@ -52,8 +53,8 @@ class SProfileRouter {
     }
     let seekerId = req.params.id;
     let isCurrentUserBoolean = req.res.locals.isCurrentUserBoolean;
+    console.log(`GetSeekerProfile Method in SProfileRouter`);
     this.seekerProfileService.listprofile(seekerId).then((profile) => {
-      console.log(profile);
       res.render("impactSeekerProfile", {
         layout: "main",
         profile: profile,
@@ -61,6 +62,22 @@ class SProfileRouter {
         userData: userData,
       });
     });
+  }
+
+  postSeekerProfileInfo(req, res) {
+    let profileInfo = req.body.seekerProfileInfo;
+    let seekerId = req.user.seeker_id;
+    return this.seekerProfileService
+      .addProfile(profileInfo, seekerId)
+      .then(() => {
+        return this.seekerProfileService.listprofile(seekerId);
+      })
+      .then((profile) => {
+        res.json(profile);
+      })
+      .catch((error) => {
+        res.status(500).json(error);
+      });
   }
 
   postCustomField(req, res) {
@@ -86,12 +103,12 @@ class SProfileRouter {
   }
 
   putProfileInfo(req, res) {
-    let info = req.body.info;
-    let seekerId = req.rawHeaders[1];
+    let seekerInfo = req.body.seekerProfileInfo;
+    let seekerId = req.user.seeker_id;
     console.log("SeekerProfile Router: PUT Method");
-    console.log(`Current Finder ID: ${seekerId} and info: ${info}`);
+    console.log(`Current Seeker ID: ${seekerId} and info: ${seekerInfo}`);
     return this.seekerProfileService
-      .updateProfile(info, seekerId)
+      .updateProfile(seekerInfo, seekerId)
       .then(() => {
         return this.seekerProfileService.listprofile(seekerId);
       })
@@ -114,7 +131,7 @@ class SProfileRouter {
     return this.seekerProfileService
       .updateCustom(customfield_Id, customfieldInfo, seekerId)
       .then(() => {
-        return this.finderProfileService.listprofile(seekerId);
+        return this.seekerProfileService.listprofile(seekerId);
       })
       .then((profile) => {
         res.json(profile);
