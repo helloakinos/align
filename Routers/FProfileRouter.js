@@ -19,13 +19,13 @@ class FProfileRouter {
     );
 
     router.post("/api/newfinderprofile", this.postProfileInfo.bind(this));
-    router.post("/api/finderprofile/:id", this.postCustomField.bind(this)); // needs authentication to even access the edit form
+    router.post("/api/newfindercustomfield", this.postCustomField.bind(this)); // needs authentication to even access the edit form
     router.put("/api/finderprofile", this.putProfileInfo.bind(this)); // needs authentication to even access the edit form
-    router.put(
-      "/api/finderprofilecustomfield/:id",
-      this.putCustomField.bind(this)
+    router.put("/api/editfindercustomfield", this.putCustomField.bind(this));
+    router.delete(
+      "/api/deletefindercustomfield/:id",
+      this.deleteCustom.bind(this)
     );
-    router.delete("/api/finderprofile/:id", this.deleteCustom.bind(this));
 
     return router;
   }
@@ -71,16 +71,13 @@ class FProfileRouter {
   }
 
   postCustomField(req, res) {
-    let infoTitle = req.body.infoTitle;
-    let infoContent = req.body.infoContent;
-    let finderId = req.rawHeaders[1];
+    let info = req.body.customInfo;
+    let finderId = req.user.finder_id;
     console.log("FProfile Router: POST Method");
     console.log(`Current Finder ID: ${finderId}`);
-    console.log(
-      `Info to be edited: infoTitle${infoTitle} & infoContent: ${infoContent}`
-    );
+    console.log(`Info to be edited: ${info}`);
     return this.finderProfileService
-      .addcustom(infoTitle, infoContent, finderId)
+      .addcustom(info, finderId)
       .then(() => {
         return this.finderProfileService.listprofile(finderId);
       })
@@ -112,15 +109,13 @@ class FProfileRouter {
   }
 
   putCustomField(req, res) {
-    let customfield_Id = req.params.id;
-    let customfieldInfo = req.body.customfieldInfo;
-    let finderId = req.rawHeaders[1];
-    console.log("FProfile Router: PUT Method");
-    console.log(
-      `Current Finder ID: ${finderId} and customfieldInfo: ${customfieldInfo}`
-    );
+    let info = req.body.customInfo;
+    let finderId = req.user.finder_id;
+    console.log("FProfile Router: PUT Method customfield");
+    console.log(`Current Finder ID: ${finderId} and customfieldInfo: ${info}`);
+    console.log(info);
     return this.finderProfileService
-      .updateCustom(customfield_Id, customfieldInfo, finderId)
+      .updateCustom(info, finderId)
       .then(() => {
         return this.finderProfileService.listprofile(finderId);
       })
@@ -134,9 +129,12 @@ class FProfileRouter {
 
   deleteCustom(req, res) {
     let customfield_Id = req.params.id;
-    let finderId = req.rawHeaders[1];
+    let finderId = req.user.finder_id;
     console.log("FProfile Router: DELETE Method");
     console.log(`Current Finder ID: ${finderId}`);
+    console.log(`Current customfieldId: ${customfield_Id}`);
+    console.log(customfield_Id);
+
     return this.finderProfileService
       .removeCustom(customfield_Id, finderId)
       .then(() => {

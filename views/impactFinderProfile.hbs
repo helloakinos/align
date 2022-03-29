@@ -70,7 +70,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                    {{#if profile.[0].finder_name}}
+                                    {{#if profile.[0].finder_description}}
                                     <button data-bs-dismiss="modal"  class="btn btn-primary" id="SaveProfileEdits">Save</button>
                                     {{else}}
                                     <button data-bs-dismiss="modal" class="btn btn-primary" id="CreateProfileEdits">Create</button>
@@ -105,6 +105,10 @@
               <h2 style="display: inline-block;">More About {{profile.[0].finder_name}}</h2>
               <hr>
             {{#if isCurrentUserBoolean}}
+                {{#if profile.[1]}}
+                <button type="button" class="editcustomfinder btn bg-light" data-bs-toggle="modal" data-bs-target="#modalCustomfieldsEdit">edit</button>
+                {{/if}}
+
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCustomfields" style="float:right;">
             Add
             </button> 
@@ -118,11 +122,10 @@
                         </div>
                         <div class="modal-body">
                          <form id="finderCustomField">
-                            <h5 style="display:inline-block">Click'add' to an additional field to your profile</h5>
-                            <button class="btn btn-warning addButton" id="AddFinderCustomField">Add</button>
+                            <h5 style="display:inline-block">Click 'save' to add an additional field to your profile</h5>
                             <br>
                             <label for="customeFill">
-                                <input type="text id=customFillTitle" name="customFillTitle" placeholder="Custom Fill Title">
+                                <input type="text" id="customFillTitle" name="customFillTitle" placeholder="Custom Fill Title">
                             </label>
                             <br>
                             <textarea type="text" name="customFillText" placeholder="Custom Fill Area" required></textarea>
@@ -131,21 +134,55 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCustomfields">Save </button>
+                            <button id="SaveFinderCustomField" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCustomfields">Save </button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div>
+
+            <div id="FinderCustomField">
             {{#each profile.[1]}}
-                <div style="margin-bottom:10px">
-                    <h4>{{customfield_title}}</h4>
-                    {{customfield_content}}
-                </div>
+            <div style="margin-bottom:10px">
+                <h4>{{customfield_title}}</h4>
+                <p>{{customfield_content}}</p>
+            </div>
             {{/each}}
             </div>
+
+            <div class="modal fade" id="modalCustomfieldsEdit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="staticBackdropLabelEdit">Edit your custom profile field</h5>
+                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                         <form id="finderCustomFieldEdit">
+                            <h5 style="display:inline-block">Click 'edit' to change this field to your profile</h5>
+                            <br>
+                            {{#each profile.[1]}}
+                            <div class="customfielddiv" data-id="{{customfield_id}}">
+                                <label for="customeFill">
+                            </label>
+                                <input type="text" class="customFillTitleEdit" name="customFillTitleEdit" value="{{customfield_title}}">
+                            <br>
+                            <textarea type="text" class="customFillTitleEdit" name="customFillTextEdit" required>{{customfield_content}}</textarea>
+                            <button type="button" class="removecustomfinder btn bg-light" data-id="{{customfield_id}}">remove</button>
+                            </div>
+                            {{/each}}
+                        </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button id="editFinderCustomField" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCustomfieldsEdit">Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </div>
+    
 </div>
 <br>
 <div id="impactFinderJob">
