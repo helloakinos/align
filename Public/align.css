@@ -193,7 +193,7 @@ img{
     display: inline-block;
 }
 
-.joblist{
+#joblist{
     display:flex;
 }
 

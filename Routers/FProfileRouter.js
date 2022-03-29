@@ -20,6 +20,7 @@ class FProfileRouter {
     router.post("/api/newfinderprofile", this.postProfileInfo.bind(this));
     router.post("/api/newfindercustomfield", this.postCustomField.bind(this));
     router.post("/api/newjobpost", this.postNewJob.bind(this));
+    router.put("/api/editjobpost", this.putjob.bind(this));
     router.put("/api/finderprofile", this.putProfileInfo.bind(this));
     router.put("/api/editfindercustomfield", this.putCustomField.bind(this));
     router.delete(
@@ -93,7 +94,7 @@ class FProfileRouter {
     let finderId = req.user.finder_id;
     console.log("FProfile Router: POST Method");
     console.log(`Current Finder ID: ${finderId}`);
-    console.log(`Job to be posted: ${info.jobTitle}`);
+    console.log(`Job to be posted: ${info}`);
     return this.finderProfileService
       .addNewJob(info, finderId)
 
@@ -104,6 +105,24 @@ class FProfileRouter {
         res.json(profile);
       })
 
+      .catch((error) => {
+        res.status(500).json(error);
+      });
+  }
+
+  putjob(req, res) {
+    let info = req.body.newJobPost;
+    let finderId = req.user.finder_id;
+    console.log("FProfile Router: PUT Method");
+    console.log(`Current Finder ID: ${finderId} and job: ${info}`);
+    return this.finderProfileService
+      .updateProfile(info, finderId)
+      .then(() => {
+        return this.finderProfileService.listprofile(finderId);
+      })
+      .then((profile) => {
+        res.json(profile);
+      })
       .catch((error) => {
         res.status(500).json(error);
       });
