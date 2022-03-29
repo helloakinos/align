@@ -3,43 +3,31 @@ class JobService {
     this.knex = knex;
   }
 
-  async JobProfile(finderId) {
-  //   console.log(`jobPreviewService's job profile method was called`);
-  //   try {
-  //     let JobProfile = await this.knex
-  //       .select("finder_id", "finder_name")
-  //       .from("finder");
-  //     return JobProfile;
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-  let profile = [];
-    if (typeof finderId !== "undefined") {
+  async JobProfile(jobId) {
+    let fulljob = [];
+    if (typeof jobId !== "undefined") {
       try {
-        let finderInfo = await this.knex
+        let jobInfo = await this.knex
           .select("*")
-          .from("finder")
-          .fullOuterJoin(
-            "finder_contact",
-            "finder.finder_id",
-            "finder_contact.finder_id",
-            "finder_name"
-          )
-          .where("finder.finder_id", finderId);
-        profile.push(finderInfo[0]);
-        if (finderInfo.length == 1) {
-          let finderCustom = await this.knex
+          .from("job")
+          .fullOuterJoin("finder", "job.finder_id", "finder.finder_id")
+          .where("job.job_id", jobId);
+
+        fulljob.push(jobInfo);
+        console.log(jobInfo);
+        if (jobInfo.length == 1) {
+          let jobContact = await this.knex
             .select("*")
-            .from("finder_customfield")
-            .where("finder_customfield.finder_id", finderId);
-          profile.push(finderCustom);
-          let finderJob = await this.knex
-            .select("job_title")
-            .from("job")
-            .where("job.finder_id", finderId);
-          profile.push(finderJob);
-          return profile;
+            .from("finder_contact")
+            .where("finder_contact.finder_id", jobInfo[0].finder_id);
+          fulljob.push(jobContact);
+          // let jobCustom = await this.knex
+          //   .select("*")
+          //   .from("finder_customfield")
+          //   .where("finder_customfield", jobInfo[0].finder_id);
+          // fulljob.push(jobCustom);
+          // console.log(jobCustom);
+          return fulljob;
         } else {
           console.log("Empty FinderProfile");
         }
@@ -47,7 +35,7 @@ class JobService {
         console.log("error reading profile from database: " + error);
       }
     }
-}
+  }
 }
 
 module.exports = JobService;
