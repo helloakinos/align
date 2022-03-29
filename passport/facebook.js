@@ -33,7 +33,7 @@ function facebookCallback(accessToken, refreshToken, profile, done) {
           });
       } else {
         // return user as an object
-        user.seeker_id = queryRow[0].id;
+        user.seeker_id = queryRow[0].seeker_id;
         console.log("Facebook new user:", user);
         return done(null, user);
       }
