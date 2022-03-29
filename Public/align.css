@@ -193,6 +193,10 @@ img{
     display: inline-block;
 }
 
+.joblist{
+    display:flex;
+}
+
 #connectButton{
     font-size:20px;
     font-weight:bold;

@@ -100,6 +100,27 @@ class FinderProfileService {
     }
   }
 
+  async addNewJob(info, finderId) {
+    console.log(
+      `add method called with job: ${info.jobTitle} and finderId: ${finderId}`
+    );
+    try {
+      await this.knex
+        .select("*")
+        .from("job")
+        .where("job.finder_id", finderId)
+        .insert({
+          finder_id: finderId,
+          job_title: info.jobTitle,
+          location: info.jobLocation,
+          job_description: info.jobDescription,
+        })
+        .into("job");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async updateProfile(info, finderId) {
     console.log(info);
     console.log(
