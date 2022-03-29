@@ -27,7 +27,7 @@ class FinderProfileService {
             .where("finder_customfield.finder_id", finderId);
           profile.push(finderCustom);
           let finderJob = await this.knex
-            .select("job_title")
+            .select("*")
             .from("job")
             .where("job.finder_id", finderId);
           profile.push(finderJob);
@@ -95,6 +95,27 @@ class FinderProfileService {
           customfield_content: info.infoContent,
         })
         .into("finder_customfield");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async addNewJob(info, finderId) {
+    console.log(
+      `add method called with job: ${info.jobTitle} and finderId: ${finderId}`
+    );
+    try {
+      await this.knex
+        .select("*")
+        .from("job")
+        .where("job.finder_id", finderId)
+        .insert({
+          finder_id: finderId,
+          job_title: info.jobTitle,
+          location: info.jobLocation,
+          job_description: info.jobDescription,
+        })
+        .into("job");
     } catch (error) {
       console.log(error);
     }

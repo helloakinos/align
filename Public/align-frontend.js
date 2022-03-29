@@ -156,6 +156,16 @@ var  profileCustomfieldEditTemplate = Handlebars.compile(
   `
 )
 
+var jobButtonTemplate = Handlebars.compile(
+  `
+  <div id="jobButton">
+    {{#if profile.[2].job_id}}
+    <button type="button" class="editjob btn bg-light" data-bs-toggle="modal" data-bs-target="#modaljobBoard">edit</button>
+    {{/if}}
+  </div>
+  `
+)
+
 
 const reloadName = (profile) => {
   console.log(`reload name function:`);
@@ -198,6 +208,10 @@ const reloadFinderCustomInfo = (profile) => {
 
 const reloadProfileCustomFieldEdit = (profile) => {
   $("#customFieldEdit").html(profileCustomfieldEditTemplate({profile}))
+}
+
+const reloadJobButton = (profile) => {
+  $('#jobButton').html(jobButtonTemplate({profile}))
 }
 
 $(() => {
@@ -273,6 +287,31 @@ $(() => {
       });
   });
 
+  $(document).on("click", "#SaveFinderJobPost", (e) => {
+    console.log("Save Finder Job Post button pressed");
+    e.preventDefault();
+    let newJobPost = {
+      jobTitle: $("input[name=newJobTitle]").val(),
+      jobLocation: $("input[name=newJobLocation]").val(),
+      jobDescription: $("textarea[name=newJobDetails]").val(),
+    };
+    console.log(newJobPost);
+    $("input[name=newJobTitle]").val("");
+    $("input[name=newJobLocation]").val("");
+    $("textarea[name=newJobDetails]").val("")
+    axios
+      .post("https://localhost:3000/api/newjobpost", {
+        newJobPost: newJobPost,
+      })
+      //set template
+      .then((res) => {
+        //addtemplate
+        reloadJobButton(res.data)
+
+        console.log(res.data);
+      });
+  });
+
   $(document).on("click", "#editFinderCustomField", (e) => {
     e.preventDefault();
     let infoArray = [];
@@ -311,6 +350,7 @@ $(() => {
         $(`div[data-id=${divId}]`).remove();
       });
   });
+
 });
 
 // Stopping logout button from appearing on signing up

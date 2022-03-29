@@ -19,6 +19,7 @@ class FProfileRouter {
 
     router.post("/api/newfinderprofile", this.postProfileInfo.bind(this));
     router.post("/api/newfindercustomfield", this.postCustomField.bind(this));
+    router.post("/api/newjobpost", this.postNewJob.bind(this));
     router.put("/api/finderprofile", this.putProfileInfo.bind(this));
     router.put("/api/editfindercustomfield", this.putCustomField.bind(this));
     router.delete(
@@ -82,6 +83,28 @@ class FProfileRouter {
       .then((profile) => {
         res.json(profile);
       })
+      .catch((error) => {
+        res.status(500).json(error);
+      });
+  }
+
+
+  postNewJob(req, res) {
+    let info = req.body.newJobPost;
+    let finderId = req.user.finder_id;
+    console.log("FProfile Router: POST Method");
+    console.log(`Current Finder ID: ${finderId}`);
+    console.log(`Job to be posted: ${info.jobTitle}`);
+    return this.finderProfileService
+      .addNewJob(info, finderId)
+
+      .then(() => {
+        return this.finderProfileService.listprofile(finderId);
+      })
+      .then((profile) => {
+        res.json(profile);
+      })
+
       .catch((error) => {
         res.status(500).json(error);
       });
