@@ -32,18 +32,25 @@ var seekerProfileEditCreateModalTemplate =
 // Handlebars template for main profile info
 var seekerProfileTemplate = Handlebars.compile(
   `
-    <div class="profileInfo" id="SeekerInfo">
-    <h2>Basic information</h2>
-    <hr>
-    <p style="display:inline-block;width:200px">Current Company: </p>
-    {{profile.[0].current_company}}
-    <br>
-    <p style="display:inline-block;width:200px">Mobile:</p>
-    {{profile.[0].mobile_number}}
-    <br>
-    <p style="display:inline-block;width:200px">Email:</p>
-    {{profile.[0].email1}}
-    </div>
+  <div class="profileInfo" id="SeekerInfo">
+  <h2>Basic information</h2>
+  <hr>
+  <p style="display:inline-block;width:200px">Current Company: </p>
+  {{profile.[0].current_company}}
+  <br>
+  <p style="display:inline-block;width:200px">Mobile:</p>
+  {{profile.[0].mobile_number}}
+  <br>
+  <p style="display:inline-block;width:200px">Home:</p>
+  {{profile.[0].home_number}}
+  <br>
+  <p style="display:inline-block;width:200px">Email:</p>
+  {{profile.[0].email1}}
+  <br>
+  <p style="display:inline-block;width:200px">Link:</p>
+  {{profile.[0].links}}
+ 
+</div>
     `
 );
 
