@@ -17,15 +17,17 @@
         <div class="impactFinderInfoLeft">
             {{!-- <h3 style="display:inline-block">{{finder_name}}</h3> --}}
             {{#if isCurrentUserBoolean}}
-                {{#if profile.[0].finder_name}}
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" >
-            Edit
-            </button>  
-                {{else}}
-                       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            Create
-            </button> 
-                {{/if}} 
+                <div id="changebutton">
+                    {{#if profile.[0].finder_name}}
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" >
+                Edit
+                </button>  
+                    {{else}}
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Create
+                </button> 
+                    {{/if}} 
+                </div>
             {{/if}}
             {{!-- Edit Form --}}
             <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -49,13 +51,13 @@
                                     <br>
                                     <input type="number" name="impactFinderSize" id="impactFinderSize" value="{{profile.[0].finder_size}}">
                                     <br>
-                                    <label for="impactFinderPhone">Phone</label>
+                                    <label for="impactFinderPhone">Telephone</label>
                                     <br>
-                                    <input type="number" name="impactFinderPhone" value="{{profile.[0].telephone_number}}"required></input>
+                                    <input type="number" name="impactFinderPhone" minlength="8" maxlength="8" value="{{profile.[0].telephone_number}}"required></input>
                                     <br>
                                     <label for="impactFinderPhone">Mobile</label>
                                     <br>
-                                    <input type="number" name="impactFinderMobile" value="{{profile.[0].mobile_number}}"required></input>
+                                    <input type="number" name="impactFinderMobile" minlength="8" maxlength="8" value="{{profile.[0].mobile_number}}"required></input>
                                     <br>
                                     <label for="impactFinderEmail">Email</label>
                                     <br>
@@ -64,11 +66,13 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                    {{#if profile.[0].finder_description}}
-                                    <button data-bs-dismiss="modal"  class="btn btn-primary" id="SaveProfileEdits">Save</button>
-                                    {{else}}
-                                    <button data-bs-dismiss="modal" class="btn btn-primary" id="CreateProfileEdits">Create</button>
-                                    {{/if}}
+                                    <div id="bottomButton">
+                                        {{#if profile.[0].finder_description}}
+                                        <button data-bs-dismiss="modal"  class="btn btn-primary" id="SaveProfileEdits">Save</button>
+                                        {{else}}
+                                        <button data-bs-dismiss="modal" class="btn btn-primary" id="CreateProfileEdits">Create</button>
+                                        {{/if}}
+                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -96,16 +100,18 @@
     </div>
     <div class="impactFinderInfo">
         <div class="impactFinderInfoRight">
-              <h2 style="display: inline-block;">More About {{profile.[0].finder_name}}</h2>
-              <hr>
             {{#if isCurrentUserBoolean}}
-                {{#if profile.[1]}}
-                <button type="button" class="editcustomfinder btn bg-light" data-bs-toggle="modal" data-bs-target="#modalCustomfieldsEdit">edit</button>
-                {{/if}}
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCustomfields" style="float:right;">
-                Add
-                </button> 
+                <div id="customFieldButton">
+                    {{#if profile.[1]}}
+                    <button type="button" class="editcustomfinder btn bg-light" data-bs-toggle="modal" data-bs-target="#modalCustomfieldsEdit">edit</button>
+                    {{/if}}
+                </div>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCustomfields" style="float:right;">
+                    Add
+                    </button>     
             {{/if}}
+              <h2 id="customFieldName" >More About {{profile.[0].finder_name}}</h2>
+              <hr>
               {{!-- =============add customfield modal========== --}}
             <div class="modal fade" id="modalCustomfields" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
                 <div class="modal-dialog">
@@ -145,16 +151,18 @@
                          <form id="finderCustomFieldEdit">
                             <h5 style="display:inline-block">Click 'edit' to change the fields on your profile</h5>
                             <br>
-                            {{#each profile.[1]}}
-                            <div class="customfielddiv" data-id="{{customfield_id}}">
-                                <label for="customeFill">
-                            </label>
-                                <input type="text" class="customFillTitleEdit" name="customFillTitleEdit" value="{{customfield_title}}">
-                            <br>
-                            <textarea type="text" class="customFillTitleEdit" name="customFillTextEdit" required>{{customfield_content}}</textarea>
-                            <button type="button" class="removecustomfinder btn bg-light" data-id="{{customfield_id}}">remove</button>
+                            <div id="customFieldEdit">
+                                {{#each profile.[1]}}
+                                <div class="customfielddiv" data-id="{{customfield_id}}">
+                                    <label for="customeFill">
+                                </label>
+                                    <input type="text" class="customFillTitleEdit" name="customFillTitleEdit" value="{{customfield_title}}">
+                                <br>
+                                <textarea type="text" class="customFillTitleEdit" name="customFillTextEdit" required>{{customfield_content}}</textarea>
+                                <button type="button" class="removecustomfinder btn bg-light" data-id="{{customfield_id}}">remove</button>
+                                </div>
+                                {{/each}}
                             </div>
-                            {{/each}}
                         </form>
                         </div>
                         <div class="modal-footer">
