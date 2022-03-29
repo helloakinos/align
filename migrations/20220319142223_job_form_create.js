@@ -4,11 +4,11 @@
  */
 exports.up = function(knex) {
     return knex.schema.createTable("job_form_create", function(table){
+        table.increments("jobapplicationid").primary()
         table.integer("seeker_id");
         table.foreign("seeker_id").references("seeker.seeker_id");
         table.integer("job_id").notNullable().unique().unsigned();;
-        // table.foreign("job_id").references("job.job_id");
-        table.primary(["seeker_id", "job_id"]);
+        table.foreign("job_id").references("job.job_id");
         table.string("question1");
         table.string("question2");
         table.string("question3");

@@ -9,19 +9,19 @@
       {
         job_id:1,
         finder_id: 1,
-        job_title:"Software Developer",
+        job_title:"Software Engineer",
         location:"HK"
       },
       {
         job_id:2,
         finder_id: 2,
-        job_title:"Volunteer",
+        job_title:"Community Director",
         location:"HK"
       },
       {
         job_id:3,
         finder_id: 3,
-        job_title:"Optician",
+        job_title:"Impact Maker",
         location:"HK"
       }
     ]);

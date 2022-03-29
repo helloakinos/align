@@ -51,7 +51,9 @@ $("#signupUserType").on("change", function () {
   }
 });
 
+
 // Handlebars template for Finder name
+
 var nameTemplate = Handlebars.compile(
   `<div class="impactFinderDiv impactFinderName">
       {{profile.[0].finder_name}}
@@ -85,7 +87,53 @@ var profileTemplate = Handlebars.compile(
   `
 );
 
+
+var buttonTemplate = Handlebars.compile(
+  `
+      <div id="changebutton">
+        {{#if profile.[0].finder_name}}
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" >
+            Edit
+          </button>  
+        {{else}}
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+          Create
+          </button> 
+        {{/if}} 
+      </div>
+  `
+)
+
+var bottomButtonTemplate = Handlebars.compile(
+  `
+  <div id="bottomButton">
+    {{#if profile.[0].finder_description}}
+    <button data-bs-dismiss="modal"  class="btn btn-primary" id="SaveProfileEdits">Save</button>
+    {{else}}
+    <button data-bs-dismiss="modal" class="btn btn-primary" id="CreateProfileEdits">Create</button>
+    {{/if}}
+  </div>
+  `
+)
 // Handlebars template for custom finderprofile info
+var customFieldNameTemplate  = Handlebars.compile(
+  `
+  <h2 id="customFieldName" style="display: inline-block;">More About {{profile.[0].finder_name}}</h2>
+  `
+)
+
+var customFieldButtonTemplate = Handlebars.compile(
+  `
+  <div id="customFieldButton">
+    {{#if profile.[1]}}
+    <button type="button" class="editcustomfinder btn bg-light" data-bs-toggle="modal" data-bs-target="#modalCustomfieldsEdit">edit</button>
+    {{/if}}
+  </div>
+  `
+)
+
+// Handlebars template for custom profile info
+
 var profileCustomfieldTemplate = Handlebars.compile(
   `{{#each profile.[1]}}
     <div>
@@ -94,6 +142,24 @@ var profileCustomfieldTemplate = Handlebars.compile(
     </div>
   {{/each}}`
 );
+
+var  profileCustomfieldEditTemplate = Handlebars.compile(
+  `
+  <div id="customFieldEdit">
+    {{#each profile.[1]}}
+    <div class="customfielddiv" data-id="{{customfield_id}}">
+        <label for="customeFill">
+    </label>
+        <input type="text" class="customFillTitleEdit" name="customFillTitleEdit" value="{{customfield_title}}">
+    <br>
+    <textarea type="text" class="customFillTitleEdit" name="customFillTextEdit" required>{{customfield_content}}</textarea>
+    <button type="button" class="removecustomfinder btn bg-light" data-id="{{customfield_id}}">remove</button>
+    </div>
+    {{/each}}
+  </div>
+  `
+)
+
 
 const reloadName = (profile) => {
   console.log(`reload name function:`);
@@ -107,11 +173,41 @@ const reloadFinderProfileInfo = (profile) => {
   $("#FinderInfo").html(profileTemplate({ profile }));
 };
 
+const reloadButton = (profile)=>{
+  console.log(`reload button function`)
+  console.log()
+  $('#changebutton').html(buttonTemplate({ profile }))
+}
+
+const reloadBottomButton = (profile)=>{
+  console.log(`reload bottom button function`)
+  $('#bottomButton').html(bottomButtonTemplate({ profile }))
+}
+
+const reloadCustomFieldName = (profile)=>{
+  console.log(`reload custom field name`)
+  $('#customFieldName').html(customFieldNameTemplate({profile}))
+
+}
+
+const reloadCustomFieldButton = (profile)=>{
+  console.log(`reload custom field button`)
+  $('#customFieldButton').html(customFieldButtonTemplate({profile}))
+
+}
+
 const reloadFinderCustomInfo = (profile) => {
   $("#FinderCustomField").html(profileCustomfieldTemplate({ profile }));
 };
 
+
 // event listeners for the buttons on the finder profile page
+
+const reloadProfileCustomFieldEdit = (profile) => {
+  $("#customFieldEdit").html(profileCustomfieldEditTemplate({profile}))
+}
+
+
 $(() => {
   $(document).on("click", "#SaveProfileEdits", (e) => {
     console.log("Save button pressed");
@@ -153,7 +249,10 @@ $(() => {
         profile: profileInfo,
       })
       .then((res) => {
+        reloadButton(res.data);
+        reloadBottomButton(res.data);
         reloadName(res.data);
+        reloadCustomFieldName(res.data);
         reloadFinderProfileInfo(res.data);
         console.log(res.data);
       });
@@ -167,12 +266,16 @@ $(() => {
       infoContent: $("textarea[name=customFillText]").val(),
     };
     console.log(customAdd);
+    $("input[name=customFillTitle]").val("");
+    $("textarea[name=customFillText]").val("")
     axios
       .post("https://localhost:3000/api/newfindercustomfield", {
         customInfo: customAdd,
       })
       .then((res) => {
+        reloadCustomFieldButton(res.data);
         reloadFinderCustomInfo(res.data);
+        reloadProfileCustomFieldEdit(res.data)
         console.log(res.data);
       });
   });
@@ -216,3 +319,8 @@ $(() => {
       });
   });
 });
+
+// Stopping logout button from appearing on signing up
+// $(".signupButton").on('click',()=>{
+//   let req.isAuthenticated()= false
+// })
