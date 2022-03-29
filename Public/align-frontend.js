@@ -51,6 +51,7 @@ $("#signupUserType").on("change", function () {
   }
 });
 
+// Handlebars template for main profile info
 var profileTemplate = Handlebars.compile(
   `
   <div class="profileInfo" id="FinderInfo">
@@ -75,13 +76,24 @@ var profileTemplate = Handlebars.compile(
   `
 );
 
-const reloadProfileInfo = (profile) => {
-  // code here
+// Handlebars template for custom profile info
+var profileCustomfieldTemplate = Handlebars.compile(
+  `{{#each profile.[1]}}
+  <div>
+      <h3>{{customfield_title}}</h3>
+      <p>{{customfield_content}}</p>
+  </div>
+  {{/each}}`
+);
 
+const reloadFinderProfileInfo = (profile) => {
   console.log(`reload profile function:`);
   console.log(profile);
-
   $("#FinderInfo").html(profileTemplate({ profile }));
+};
+
+const reloadFinderCustomInfo = (profile) => {
+  $("#FinderCustomField").html(profileCustomfieldTemplate({ profile }));
 };
 
 $(() => {
@@ -103,7 +115,7 @@ $(() => {
         profile: profileInfo,
       })
       .then((res) => {
-        reloadProfileInfo(res.data);
+        reloadFinderProfileInfo(res.data);
         console.log(res.data);
       });
   });
@@ -112,23 +124,78 @@ $(() => {
     console.log("Create button pressed");
     e.preventDefault();
     let profileInfo = {
-      finder_name: $("textarea[name=impactFinderName").val(),
+      finder_name: $("textarea[name=impactFinderName]").val(),
       finder_description: $("textarea[name=impactFinderInfo]").val(),
       finder_size: $("#impactFinderSize").val(),
       telephone_number: $("input[name=impactFinderPhone]").val(),
       mobile_number: $("input[name=impactFinderMobile]").val(),
       email: $("input[name=impactFinderEmail]").val(),
-      role: $("input[name=impactFinderRole").val(),
+      role: $("input[name=impactFinderRole]").val(),
     };
     axios
       .post("https://localhost:3000/api/newfinderprofile", {
         profile: profileInfo,
       })
       .then((res) => {
-        reloadProfileInfo(res.data);
+        reloadFinderProfileInfo(res.data);
         console.log(res.data);
       });
   });
 
-  $(document).on("click", "#AddFinderCustomField", (e) => {});
+  $(document).on("click", "#SaveFinderCustomField", (e) => {
+    console.log("Save customfield button pressed");
+    e.preventDefault();
+    let customAdd = {
+      infoTitle: $("input[name=customFillTitle]").val(),
+      infoContent: $("textarea[name=customFillText]").val(),
+    };
+    console.log(customAdd);
+    axios
+      .post("https://localhost:3000/api/newfindercustomfield", {
+        customInfo: customAdd,
+      })
+      .then((res) => {
+        reloadFinderCustomInfo(res.data);
+        console.log(res.data);
+      });
+  });
+
+  $(document).on("click", "#editFinderCustomField", (e) => {
+    e.preventDefault();
+    let infoArray = [];
+    $(".customfielddiv").each((i, obj) => {
+      console.log(`this is obj: `, obj);
+      let customEdit = {};
+      customEdit.customfieldId = $(obj).data("id");
+      customEdit.infoTitle = $(obj)
+        .children("input[name=customFillTitleEdit]")
+        .val();
+      customEdit.infoContent = $(obj)
+        .children("textarea[name=customFillTextEdit]")
+        .val();
+      infoArray.push(customEdit);
+    });
+    console.log(infoArray);
+    axios
+      .put("https://localhost:3000/api/editfindercustomfield", {
+        customInfo: infoArray,
+      })
+      .then((res) => {
+        reloadFinderCustomInfo(res.data);
+        console.log(res.data);
+      });
+  });
+
+  $(document).on("click", ".removecustomfinder", (e) => {
+    e.preventDefault();
+    let divId = $(event.target).data("id");
+    console.log(divId);
+    axios
+      .delete(`https://localhost:3000/api/deletefindercustomfield/${divId}`)
+      .then((res) => {
+        reloadFinderCustomInfo(res.data);
+        console.log(res.data);
+        $(`div[data-id=${divId}]`).remove();
+      });
+  });
 });

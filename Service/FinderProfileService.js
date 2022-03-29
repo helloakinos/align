@@ -80,9 +80,9 @@ class FinderProfileService {
     }
   }
 
-  async addcustom(infoTitle, infoContent, finderId) {
+  async addcustom(info, finderId) {
     console.log(
-      `add method called with infoTitle: ${infoTitle}, infoContent: ${infoContent} and finderId: ${finderId}`
+      `add method called with info: ${info} and finderId: ${finderId}`
     );
     try {
       await this.knex
@@ -91,8 +91,8 @@ class FinderProfileService {
         .where("finder_customfield.finder_id", finderId)
         .insert({
           finder_id: finderId,
-          customfield_title: infoTitle,
-          customfield_content: infoContent,
+          customfield_title: info.infoTitle,
+          customfield_content: info.infoContent,
         })
         .into("finder_customfield");
     } catch (error) {
@@ -139,34 +139,42 @@ class FinderProfileService {
     }
   }
 
-  async updateCustom(customfield_Id, customfieldInfo, finderId) {
+  async updateCustom(customInfo, finderId) {
     console.log(
-      `updateCustom method called with customfieldId: ${customfield_Id} with finderId: ${finderId}`
+      `updateCustom method called with customfieldId: ${customInfo} with finderId: ${finderId}`
     );
-    console.log(customfieldInfo);
-    try {
-      let customfields = await this.knex
-        .select("*")
-        .from("finder_customfield")
-        .where({
-          finder_id: finderId,
-          customfield_id: customfield_Id,
-        });
-      if (customfields.length === 1) {
-        return await this.knex("finder_customfield")
+    for (let i = 0; i < customInfo.length; i++) {
+      try {
+        console.log(customInfo[i]);
+        console.log(finderId);
+        console.log(customInfo[i].customfieldId);
+        let customfields = await this.knex
+          .select("*")
+          .from("finder_customfield")
           .where({
             finder_id: finderId,
-            customfield_id: customfield_Id,
-          })
-          .update({
-            customfield_title: customfieldInfo.customfield_Title,
-            customfield_content: customfieldInfo.customfield_Content,
+            customfield_id: customInfo[i].customfieldId,
           });
-      } else {
-        console.log(`Error: unable to update customfield`);
+        if (customfields.length == 1) {
+          console.log(`inside the update query if`);
+          await this.knex("finder_customfield")
+            .where({
+              finder_id: finderId,
+              customfield_id: customInfo[i].customfieldId,
+            })
+            .update({
+              customfield_id: customInfo[i].customfieldId,
+              customfield_title: customInfo[i].infoTitle,
+              customfield_content: customInfo[i].infoContent,
+            });
+          console.log(`Here I am done`);
+        } else {
+          console.log(`Error: unable to update particular customfield`);
+        }
+        console.log(`done looping`);
+      } catch (error) {
+        console.log(`there is an error: ${error}`);
       }
-    } catch (error) {
-      console.log(`there is an error: ${error}`);
     }
   }
 
