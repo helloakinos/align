@@ -2,10 +2,9 @@
 
 <br>
 <div class="firstRowOfSeekerProfile">    
-    <div class="impactSeekerDiv">
+    <div class="impactSeekerDiv" id="impactSeekerName">
         {{profile.[0].first_name}} {{profile.[0].surname}}
     </div>
-    {{!-- <div class="col-lg-1 col-md-3 col-sm-2"></div> --}}
     <div class="impactSeekerDiv">
         <button style="font-size:20px;font-weight:bold;background:#FFB545;color:#07665b;padding:5px;border-radius:10px;border:none">Connect with Impact Seeker</button>
     </div>
@@ -15,7 +14,11 @@
         <div class="impactSeekerInfoLeft">
             {{#if isCurrentUserBoolean}}
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="float:right;margin-right:5px;">
+                    {{#if profile.[0].first_name}}
                     Edit
+                    {{else}}
+                    Create
+                {{/if}}
                 </button>   
             {{/if}}
             {{!-- Edit Form --}}
@@ -28,9 +31,12 @@
                         </div>
                             <form id="saveProfile">
                                 <div class="modal-body">
-                                    <label for="impactSeekerInfo">{{profile.[0].seeker_name}} Name</label>
+                                    <label for="impactSeekerInfo">{{profile.[0].first_name}} First Name</label>
                                     <br>
-                                    <input type="text" name="impactSeekerName" value="{{profile.[0].seeker_name}}" required></input>
+                                    <input type="text" name="impactSeekerFirstName" value="{{profile.[0].first_name}}" required></input>
+                                    <label for="impactSeekerInfo">{{profile.[0].surname}} Surname</label>
+                                    <br>
+                                    <input type="text" name="impactSeekerSurname" value="{{profile.[0].surname}}" required></input>
                                     <br>
                                     <label for="impactSeekerHomeNumber">Home number: </label>
                                     <input type="number" name="impactSeekerHomeNumber" value="{{profile.[0].home_number}}"required></input>
@@ -41,13 +47,16 @@
                                     <label for="impactSeekerEmail">Email:</label>
                                     <input type="text" name="impactSeekerEmail" value="{{profile.[0].email1}}" required></input>
                                     <br>
+                                    <label for="impactSeekerLink">Link:</label>
+                                    <input type="text" name="impactSeekerLink" value="{{profile.[0].links}}"></input>
+                                    <br>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                     {{#if profile.[0].seeker_name}}
-                                    <button data-bs-dismiss="modal"  class="btn btn-primary" id="SaveProfileEdits">Save</button>
+                                    <button data-bs-dismiss="modal"  class="btn btn-primary" id="SaveSeekerProfileEdits">Save</button>
                                     {{else}}
-                                    <button data-bs-dismiss="modal" class="btn btn-primary" id="CreateProfileEdits">Create</button>
+                                    <button data-bs-dismiss="modal" class="btn btn-primary" id="CreateSeekerProfileEdits">Create</button>
                                     {{/if}}
                                 </div>
                             </form>
@@ -72,49 +81,86 @@
         <br>
         <div class="impactSeekerInfoLeft">
                 {{#if isCurrentUserBoolean}}
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCustomfields" style="float:right;">
+                   {{#if profile.[1]}}
+                <button type="button" class="editcustomseeker btn bg-light" data-bs-toggle="modal" data-bs-target="#modalCustomfieldsSeekerEdit">edit</button>
+                {{/if}}
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCustomfieldsSeeker" style="float:right;">
                 Add
                 </button> 
                 {{/if}}
-                <div class="modal fade" id="modalCustomfields" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+                <h2>More About {{profile.[0].seeker_name}}</h2>
+                <hr>
+
+                {{!-- =============add customfield modal========== --}}
+                <div class="modal fade" id="modalCustomfieldsSeeker" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel">Custom Field</h5>
+                            <h5 class="modal-title" id="staticBackdropLabel">Edit your Seeker profile</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
                             <div class="modal-body">
-                            <form id="finderCustomField">
+                            <form id="seekerCustomField">
                                 <h5 style="display:inline-block">Click'add' to an additional field to your profile</h5>
-                                <button class="btn btn-warning addButton" id="AddFinderCustomField">Add</button>
                                 <br>
                                 <label for="customeFill">
-                                    <input type="text id=customFillTitle" name="customFillTitle" placeholder="Custom Fill Title">
+                                    <input type="text" id="customfieldSeekerTitle" name="customfieldSeekerTitle" placeholder="Custom  Title">
                                 </label>
                                 <br>
-                                <textarea type="text" name="customFillText" placeholder="Custom Fill Area" required></textarea>
-                                
+                                <textarea type="text" name="customfieldSeekerContent" placeholder="Your text here" required></textarea>
                             </form>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCustomfields">Save </button>
+                                <button id="SaveSeekerCustomField" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCustomfieldsSeeker">Add </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div>
-                <h2>More About {{profile.[0].seeker_name}}</h2>
-                <hr>
-                {{#each profile.[1]}}
-                    <div style="margin-bottom:10px">
-                        <h4>{{customfield_title}}</h4>
-                        {{customfield_content}}
+                {{!-- =============edit customfield modal========== --}}
+                <div class="modal fade" id="modalCustomfieldsSeekerEdit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="staticBackdropLabelSeekerEdit">Edit your custom profile fields</h5>
+                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                         <form id="seekerCustomFieldEdit">
+                            <h5 style="display:inline-block">Click 'edit' to change the fields on your profile</h5>
+                            <br>
+                            {{#each profile.[1]}}
+                            <div class="customfielddiv" data-id="{{customfield_id}}">
+                                <label for="customeFill">
+                            </label>
+                                <input type="text" class="customFillTitleEditSeeker" name="customFillTitleEditSeeker" value="{{customfield_title}}">
+                            <br>
+                            <textarea type="text" class="customFillTitleEditSeeker" name="customFillTextEditSeeker" required>{{customfield_content}}</textarea>
+                            <button type="button" class="removecustomseeker btn bg-light" data-id="{{customfield_id}}">remove</button>
+                            </div>
+                            {{/each}}
+                        </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button id="editSeekerCustomField" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCustomfieldsSeekerEdit">Edit</button>
+                        </div>
                     </div>
-                {{/each}}
+                </div>
+                </div>
+                {{!-- ============= customfield data========== --}}
+                    <div id="SeekerCustomField">
+                    {{#each profile.[1]}}
+                        <div style="margin-bottom:10px">
+                            <h4>{{customfield_title}}</h4>
+                            <p>{{customfield_content}}</p>
+                        </div>
+                    {{/each}}
+                </div>
             </div>
-        </div>
     </div>
+   
+
     <div class="impactSeekerInfo">
         <div class="impactSeekerInfoRight">
         <div class="profileInfo">
@@ -208,6 +254,8 @@
             <p>{{profile.[3].[0].experience}}</p>
         </div>
         </div>
-    </div>
+        </div>
+    </div>  
 </div>
+
 {{>copyright}}
