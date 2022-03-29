@@ -88,7 +88,6 @@ class FProfileRouter {
       });
   }
 
-
   postNewJob(req, res) {
     let info = req.body.newJobPost;
     let finderId = req.user.finder_id;
