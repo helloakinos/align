@@ -51,30 +51,41 @@ $("#signupUserType").on("change", function () {
   }
 });
 
+
+var nameTemplate = Handlebars.compile(
+  `
+    <div class="impactFinderDiv impactFinderName">
+      {{profile.[0].finder_name}}
+      {{#if profile.[0].vetted}}
+      <i class="fas fa-check vetted"></i>
+      {{/if}}
+    </div>
+  `
+)
+
 // Handlebars template for main profile info
 var profileTemplate = Handlebars.compile(
   `
   <div class="profileInfo" id="FinderInfo">
-    <label for="impactFinderInfo">Impact Finder information</label>
-    <br>
-    <p>{{profile.[0].finder_description}}</p>
-    <p style="display:inline-block">Size:</p>
-    {{profile.[0].finder_size}}
-    <br>
-    <label for="impactFinderContact">Impact Finder Contact</label>
-    <br>
-    <p style="display:inline-block">Telephone:</p>
-    {{profile.[0].telephone_number}}
-    <br>
-    <p style="display:inline-block">Mobile:</p>
-    {{profile.[0].mobile_number}}
-    <br>
-    <p style="display:inline-block">Email:</p>
-    {{profile.[0].email}}
-    <br>
-  </div>
+  <h2>Basic information</h2>
+  <hr>
+  <p>{{profile.[0].finder_description}}</p>
+  <p style="display:inline-block;width:100px">Size:</p>
+  {{profile.[0].finder_size}}
+  <br>
+  <p style="display:inline-block;width:100px">Telephone:</p>
+  {{profile.[0].telephone_number}}
+  <br>
+   <p style="display:inline-block;width:100px">Mobile:</p>
+  {{profile.[0].mobile_number}}
+  <br>
+   <p style="display:inline-block;width:100px">Email:</p>
+  {{profile.[0].email}}
+  <br>
+</div>
   `
 );
+
 
 // Handlebars template for custom profile info
 var profileCustomfieldTemplate = Handlebars.compile(
@@ -85,6 +96,13 @@ var profileCustomfieldTemplate = Handlebars.compile(
   </div>
   {{/each}}`
 );
+
+const reloadName = (profile) => {
+  console.log(`reload name function:`);
+  console.log(profile);
+  $("#impactFinderName").html(nameTemplate({ profile }));
+};
+
 
 const reloadFinderProfileInfo = (profile) => {
   console.log(`reload profile function:`);
@@ -102,7 +120,7 @@ $(() => {
     console.log("Save button pressed");
     e.preventDefault();
     let profileInfo = {
-      finder_name: $("textarea[name=impactFinderName").val(),
+      finder_name: $("input[name=impactFinderName]").val(),
       finder_description: $("textarea[name=impactFinderInfo]").val(),
       finder_size: $("#impactFinderSize").val(),
       telephone_number: $("input[name=impactFinderPhone]").val(),
@@ -124,7 +142,7 @@ $(() => {
     console.log("Create button pressed");
     e.preventDefault();
     let profileInfo = {
-      finder_name: $("textarea[name=impactFinderName]").val(),
+      finder_name: $("input[name=impactFinderName]").val(),
       finder_description: $("textarea[name=impactFinderInfo]").val(),
       finder_size: $("#impactFinderSize").val(),
       telephone_number: $("input[name=impactFinderPhone]").val(),
@@ -137,6 +155,7 @@ $(() => {
         profile: profileInfo,
       })
       .then((res) => {
+        reloadName(res.data);
         reloadFinderProfileInfo(res.data);
         console.log(res.data);
       });

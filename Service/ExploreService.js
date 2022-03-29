@@ -31,7 +31,7 @@ class ExploreService {
     let job = []
     try {
       let allJobs = await this.knex
-        .select("job_title", "location", "finder_id")
+        .select("job_title", "location", "finder_id","job_id")
         .from("job")
         // .fullOuterJoin(
         //   "finder",
