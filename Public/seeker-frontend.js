@@ -90,6 +90,40 @@ var seekerProfileCustomfieldTemplate = Handlebars.compile(
     {{/each}}`
 );
 
+//Handlebars template for seeker education info
+var seekerEducation = Handlebars.compile(
+  `<div class="seekerEd">
+  <h2>Education background: </h2>
+  <hr>
+  <p style="display:inline-block;width:280px">Attained High School degree: </p>
+  {{#if profile.[2].[0].highschool_degree}}
+  <span>Yes</span>
+  {{else}}
+  <span>No</span>
+  {{/if}}
+  <br>
+  <p style="display:inline-block;width:280px">Attained Univeristy degree: </p>
+              {{#if profile.[2].[0].university_degree}}
+  <span>Yes</span>
+  {{else}}
+  <span>No</span>
+  {{/if}}
+  <br>
+  <p>Other certifications: <span>{{profile.[2].[0].other_certifications}}</span> </p>
+  </div>`
+);
+
+var seekerEdModal = Handlebars.compile(
+  `<div class="modal-footer seekerEdModal">
+  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+  {{#if profile.[2].[0].seeker_education_id}}
+      <button data-bs-toggle="modal" data-bs-target="#editEducation"  class="btn btn-primary" id="SaveEducation">Save</button>
+  {{else}}
+      <button data-bs-toggle="modal" data-bs-target="#editEducation" class="btn btn-primary" id="CreateEducation">Create</button>
+  {{/if}}
+</div>`
+);
+
 const reloadSeekerName = (profile) => {
   console.log(`reload seeker name function:`);
   console.log(profile);
@@ -122,6 +156,14 @@ const reloadSeekerProfileInfo = (profile) => {
 
 const reloadSeekerCustomInfo = (profile) => {
   $("#SeekerCustomField").html(seekerProfileCustomfieldTemplate({ profile }));
+};
+
+const reloadSeekerEd = (profile) => {
+  $(".seekerEd").html(seekerEducation({ profile }));
+};
+
+const reloadSeekerEdModal = (profile) => {
+  $(".seekerEdModal").html(seekerEdModal({ profile }));
 };
 
 // event listeners for the buttons on the seeker profile page
@@ -233,6 +275,44 @@ $(() => {
         reloadSeekerCustomModal(res.data);
         console.log(res.data);
         $(`div[data-id=${divId}]`).remove();
+      });
+  });
+
+  $(document).on("click", "#CreateEducation", (e) => {
+    console.log("Create education button pressed");
+    e.preventDefault();
+    let seekerEducation = {
+      university_degree: $("select[name=impactSeekerUniversityDegree]").val(),
+      highschool_degree: $("select[name=impactSeekerHighSchoolDegree]").val(),
+      other_certifications: $("textarea[name=OtherCertification]").val(),
+    };
+    axios
+      .post("https://localhost:3000/api/seekerNewEducation", {
+        seekerEd: seekerEducation,
+      })
+      .then((res) => {
+        reloadSeekerEd(res.data);
+        reloadSeekerEditCreateModal(res.data);
+        console.log(res.data);
+      });
+  });
+
+  $(document).on("click", "#SaveEducation", (e) => {
+    console.log("Save education button pressed");
+    e.preventDefault();
+    let seekerEducation = {
+      university_degree: $("select[name=impactSeekerUniversityDegree]").val(),
+      highschool_degree: $("select[name=impactSeekerHighSchoolDegree]").val(),
+      other_certifications: $("textarea[name=OtherCertification]").val(),
+    };
+    axios
+      .put("https://localhost:3000/api/seekerSaveEducation", {
+        seekerEd: seekerEducation,
+      })
+      .then((res) => {
+        reloadSeekerEd(res.data);
+        reloadSeekerEditCreateModal(res.data);
+        console.log(res.data);
       });
   });
 });

@@ -109,6 +109,25 @@ class SeekerProfileService {
     }
   }
 
+  async addEducation(seekerEd, seekerId) {
+    console.log(`add education seeker called for seekerId ${seekerId}`);
+    try {
+      await this.knex
+        .select("*")
+        .from("seeker_education")
+        .where("seeker_education.seeker_id", seekerId)
+        .insert({
+          seeker_id: seekerId,
+          university_degree: seekerEd.university_degree,
+          highschool_degree: seekerEd.highschool_degree,
+          other_certifications: seekerEd.other_certifications,
+        })
+        .into("seeker_education");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async updateProfile(seekerProfileInfo, seekerId) {
     console.log(seekerProfileInfo);
     console.log(
@@ -173,7 +192,6 @@ class SeekerProfileService {
               customfield_title: customInfo[i].infoTitle,
               customfield_content: customInfo[i].infoContent,
             });
-          console.log(`Here I am done`);
         } else {
           console.log(`Error: unable to update particular customfield`);
         }
@@ -181,6 +199,33 @@ class SeekerProfileService {
       } catch (error) {
         console.log(`there is an error: ${error}`);
       }
+    }
+  }
+
+  async updateEd(seekerEd, seekerId) {
+    console.log(
+      `update seeker education called with ${seekerEd} and seekerId ${seekerId}`
+    );
+    try {
+      let education = await this.knex
+        .select("*")
+        .from("seeker_education")
+        .where("seeker_education.seeker_id", seekerId);
+      if (education.length == 1) {
+        await this.knex("seeker_education")
+          .where("seeker_education.seeker_id", seekerId)
+          .update({
+            university_degree: seekerEd.university_degree,
+            highschool_degree: seekerEd.highschool_degree,
+            other_certifications: seekerEd.other_certifications,
+          });
+      } else {
+        console.log(
+          `error: could not find this seeker's education information`
+        );
+      }
+    } catch (error) {
+      console.log(`there is an error: ${error}`);
     }
   }
 

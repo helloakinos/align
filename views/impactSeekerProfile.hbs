@@ -172,14 +172,14 @@
         </div>
     </div>
 
-
+{{!-- Seeker education field --}}
     <div class="impactSeekerInfo">
         <div class="impactSeekerInfoRight">
             <div class="profileInfo">
                 {{#if isCurrentUserBoolean}}
                     <div id="seekerEductionButtons">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editEducation" style="float:right;margin-right:5px;">
-                            {{#if profile.[2]}}
+                            {{#if profile.[2].seeker_education_id}}
                                 Add
                             {{else}}
                                 Edit
@@ -187,6 +187,7 @@
                         </button>   
                     </div>
                 {{/if}}
+                {{!-- Seeker education modal --}}
                 <div class="modal fade" id="editEducation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -211,15 +212,15 @@
                                     </select>
                                     <br>
                                     <label for="impactSeekerOtherCertification">Other Certifications</label>
-                                    <textarea name="OtherCertification" value="{{profile.[2].[0].other_certifications}}" required></textarea>
+                                    <textarea name="OtherCertification" value="{{profile.[2].other_certifications}}"></textarea>
                                     <br>
                                 </div>
-                                <div class="modal-footer">
+                                <div class="modal-footer seekerEdModal">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                    {{#if profile.[0].seeker_name}}
-                                        <button data-bs-dismiss="modal"  class="btn btn-primary" id="SaveProfileEdits">Save</button>
+                                    {{#if profile.[2].[0].seeker_education_id}}
+                                        <button data-bs-toggle="modal" data-bs-target="#editEducation"  class="btn btn-primary" id="SaveEducation">Save</button>
                                     {{else}}
-                                        <button data-bs-dismiss="modal" class="btn btn-primary" id="CreateProfileEdits">Create</button>
+                                        <button data-bs-toggle="modal" data-bs-target="#editEducation" class="btn btn-primary" id="CreateEducation">Create</button>
                                     {{/if}}
                                 </div>
                             </form>
@@ -227,16 +228,26 @@
                     </div>
                 </div>
             </div>
+            <div class="seekerEd">
             <h2>Education background: </h2>
             <hr>
             <p style="display:inline-block;width:280px">Attained High School degree: </p>
-            {{profile.[2].[0].highschool_degree}}
+            {{#if profile.[2].[0].highschool_degree}}
+            <span>Yes</span>
+            {{else}}
+            <span>No</span>
+            {{/if}}
             <br>
             <p style="display:inline-block;width:280px">Attained Univeristy degree: </p>
-            {{profile.[2].[0].university_degree}}
+                        {{#if profile.[2].[0].university_degree}}
+            <span>Yes</span>
+            {{else}}
+            <span>No</span>
+            {{/if}}
             <br>
-            <p>Other certifications: </p>
-            {{profile.[2].[0].other_certifications}}
+            <p>Other certifications: <span>{{profile.[2].[0].other_certifications}}</span> </p>
+        
+            </div>
         </div>
         <br>
         <div class="impactSeekerInfoRight">
@@ -269,7 +280,7 @@
             <div>
         <h2>Experience: </h2>
         <hr>
-        <p>{{profile.[3].[0].experience}}</p>
+        <p>{{profile.[3].experience}}</p>
     </div>
 </div>
 

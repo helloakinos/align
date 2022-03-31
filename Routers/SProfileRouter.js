@@ -18,8 +18,10 @@ class SProfileRouter {
     );
     router.post("/api/newseekerprofile", this.postSeekerProfileInfo.bind(this));
     router.post("/api/newSeekerCustomfield", this.postCustomField.bind(this));
+    router.post("/api/seekerNewEducation", this.postSeekerEducation.bind(this));
     router.put("/api/seekerprofile", this.putProfileInfo.bind(this));
     router.put("/api/editSeekerCustomfield", this.putCustomField.bind(this));
+    router.put("/api/seekerSaveEducation", this.putSeekerEducation.bind(this));
     router.delete(
       "/api/deleteSeekerCustomfield/:id",
       this.deleteCustom.bind(this)
@@ -81,6 +83,23 @@ class SProfileRouter {
       });
   }
 
+  postSeekerEducation(req, res) {
+    let seekerEd = req.body.seekerEd;
+    let seekerId = req.user.seeker_id;
+    console.log(`Seeker Profile Router: POST for education`);
+    return this.seekerProfileService
+      .addEducation(seekerEd, seekerId)
+      .then(() => {
+        return this.seekerProfileService.listprofile(seekerId);
+      })
+      .then((profile) => {
+        res.json(profile);
+      })
+      .catch((error) => {
+        res.status(500).json(error);
+      });
+  }
+
   putProfileInfo(req, res) {
     let seekerInfo = req.body.seekerProfileInfo;
     let seekerId = req.user.seeker_id;
@@ -108,6 +127,26 @@ class SProfileRouter {
     );
     return this.seekerProfileService
       .updateCustom(infoSeeker, seekerId)
+      .then(() => {
+        return this.seekerProfileService.listprofile(seekerId);
+      })
+      .then((profile) => {
+        res.json(profile);
+      })
+      .catch((error) => {
+        res.status(500).json(error);
+      });
+  }
+
+  putSeekerEducation(req, res) {
+    let seekerEd = req.body.seekerEd;
+    let seekerId = req.user.seeker_id;
+    console.log("SeekerProfile Router: PUT Method");
+    console.log(
+      `Current Seeker ID: ${seekerId} and education info: ${seekerEd}`
+    );
+    return this.seekerProfileService
+      .updateEd(seekerEd, seekerId)
       .then(() => {
         return this.seekerProfileService.listprofile(seekerId);
       })
