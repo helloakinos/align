@@ -14,7 +14,7 @@ class ExploreService {
       console.log(error);
     }
   }
-  // Claire added this
+
   async allSeekers() {
     console.log(`SeekerPreviewService's allSeeker method was called`);
     try {
@@ -31,12 +31,7 @@ class ExploreService {
     let job = [];
     try {
       let allJobs = await this.knex.select("*").from("job");
-      // .fullOuterJoin(
-      //   "finder",
-      //   "job.finder_id",
-      //   "finder.finder_id"
-      // )
-      // .where("")
+
       return allJobs;
     } catch (error) {
       console.log(error);
