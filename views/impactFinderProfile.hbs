@@ -258,6 +258,42 @@
                     <button id="editJobPost" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modaljobBoardEdit">Edit</button>
                 </div>
             </div>
+
+                {{!-- ============= customfield data========== --}}
+            <div id="FinderCustomField">
+            {{#each profile.[1]}}
+            <div style="margin-bottom:10px">
+                <h4>{{customfield_title}}</h4>
+                <p>{{customfield_content}}</p>
+            </div>
+            {{/each}}
+            </div>
+
+
+
+
+
+
+
+
+
+        {{!-- job data --}}
+        <div class="jobList">
+            {{#each profile.[2]}}
+                <div class="col-lg-3 col-md-4 col-sm-12">
+                        <div class="card">
+                            <a href="/jobpage/{{job_id}}">
+                                <img src="/img/dummypic{{job_id}}.jpg" class="card-img-top">
+                                <div class="card-body">
+                                    <h3 class="card-title">{{job_title}}</h3>
+                                    <p class="cardtext">location: {{location}}</p>
+                                    <p class="cardtext">{{job_description}}</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+            {{/each}}
+
         </div>
     </div>
     {{!-- job data --}}
