@@ -163,9 +163,48 @@ var  profileCustomfieldEditTemplate = Handlebars.compile(
 var jobButtonTemplate = Handlebars.compile(
   `
   <div id="jobButton">
-    {{#if profile.[2].job_id}}
-    <button type="button" class="editjob btn bg-light" data-bs-toggle="modal" data-bs-target="#modaljobBoard">edit</button>
-    {{/if}}
+  {{#if profile.[2]}}
+      <button type="button" class="editjob btn bg-light" data-bs-toggle="modal" data-bs-target="#modaljobBoardEdit">edit</button>
+  {{/if}}
+  </div>
+  `
+)
+
+
+var jobBoardTemplate = Handlebars.compile(
+  `
+  <div id="jobList">
+    {{#each profile.[2]}}
+        <div class="col-lg-3 col-md-4 col-sm-12">
+            <div class="card">
+                {{!-- Edit this --}}
+                <a href="/jobApplicationForm">
+                    <img src="/img/dummypic{{job_id}}.jpg" class="card-img-top">
+                    <div class="card-body">
+                        <h3 class="card-title">{{job_title}}</h3>
+                        <p class="cardtext">location: {{location}}</p>
+                        <p class="cardtext">{{job_description}}</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    {{/each}}
+  </div>
+  `
+)
+
+var  jobBoardEditTemplate = Handlebars.compile(
+  `
+  <div id="jobBoardEdit">
+    {{#each profile.[2]}}
+        <div class="jobPostdiv" data-id="{{job_id}}">
+            <input type="text" class="jobTitleEdit" name="jobTitleEdit" value="{{job_title}}">
+            <input type="text" class="customFillTitleEdit" name="customFillTitleEdit" value="{{location}}">
+            <br>
+            <textarea type="text" class="jobTitleEdit" name="jobTextEdit" required>{{job_description}}</textarea>
+            <button type="button" class="removeJobPost btn bg-light" data-id="{{job_id}}">remove</button>
+        </div>
+    {{/each}}
   </div>
   `
 )
@@ -219,6 +258,14 @@ const reloadProfileCustomFieldEdit = (profile) => {
 
 const reloadJobButton = (profile) => {
   $('#jobButton').html(jobButtonTemplate({profile}))
+}
+
+const reloadJobBoard = (profile) => {
+  $('#jobList').html(jobBoardTemplate({profile}))
+}
+
+const reloadJobBoardTemplate = (profile) => {
+  $('#jobBoardEdit').html(jobBoardEditTemplate({profile}))
 }
 
 $(() => {
@@ -307,13 +354,40 @@ $(() => {
     $("textarea[name=newJobDetails]").val("")
     axios
       .post("https://localhost:3000/api/newjobpost", {
-        newJobPost: newJobPost,
+        newJobPost:newJobPost
       })
       //set template
       .then((res) => {
         //addtemplate
-        reloadJobButton(res.data)
+        reloadJobButton(res.data);
+        reloadJobBoard(res.data);
+        reloadJobBoardTemplate(res.data);
+        console.log(res.data);
+      });
+  });
 
+  $(document).on("click", "#editJobPost", (e) => {
+    e.preventDefault();
+    let infoArray = [];
+    $(".jobPostdiv").each((i, obj) => {
+      console.log(`this is obj: `, obj);
+      let jobEdit = {};
+      jobEdit.jobId = $(obj).data("id");
+      jobEdit.infoTitle = $(obj)
+        .children("input[name=jobTitleEdit]")
+        .val();
+      jobEdit.infoContent = $(obj)
+        .children("textarea[name=jobTextEdit]")
+        .val();
+      infoArray.push(jobEdit);
+    });
+    console.log(infoArray);
+    axios
+      .put("https://localhost:3000/api/editjobpost", {
+        newJobPost: infoArray,
+      })
+      .then((res) => {
+        reloadJobBoard(res.data);
         console.log(res.data);
       });
   });
@@ -358,8 +432,3 @@ $(() => {
   });
 
 });
-
-// Stopping logout button from appearing on signing up
-// $(".signupButton").on('click',()=>{
-//   let req.isAuthenticated()= false
-// })

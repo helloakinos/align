@@ -198,8 +198,9 @@ img {
   display: inline-block;
 }
 
-.joblist {
-  display: flex;
+
+#joblist{
+    display:flex;
 }
 
 #connectButton {

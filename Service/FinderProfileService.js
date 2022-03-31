@@ -121,6 +121,45 @@ class FinderProfileService {
     }
   }
 
+  async updateJob(newJobPost, finderId) {
+    console.log(
+      `updateJob method called with jobId: ${newJobPost} with finderId: ${finderId}`
+    );
+    for (let i = 0; i < newJobPost.length; i++) {
+      try {
+        console.log(newJobPost[i]);
+        console.log(finderId);
+        console.log(newJobPost[i].jobId);
+        let jobposts = await this.knex
+          .select("*")
+          .from("job")
+          .where({
+            finder_id: finderId,
+            job_id: newJobPost[i].jobId,
+          });
+        if (jobposts.length == 1) {
+          console.log(`inside the update query if`);
+          await this.knex("job")
+            .where({
+              finder_id: finderId,
+              job_id: newJobPost[i].jobId,
+            })
+            .update({
+              job_title: newJobPost[i].jobId,
+              location: newJobPost[i].infoTitle,
+              job_description: newJobPost[i].infoContent,
+            });
+          console.log(`Here I am done`);
+        } else {
+          console.log(`Error: unable to update particular customfield`);
+        }
+        console.log(`done looping`);
+      } catch (error) {
+        console.log(`there is an error: ${error}`);
+      }
+    }
+  }
+
   async updateProfile(info, finderId) {
     console.log(info);
     console.log(
