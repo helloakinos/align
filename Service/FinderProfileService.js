@@ -145,8 +145,8 @@ class FinderProfileService {
               job_id: newJobPost[i].jobId,
             })
             .update({
-              job_title: newJobPost[i].jobId,
-              location: newJobPost[i].infoTitle,
+              job_title: newJobPost[i].infoTitle,
+              location: newJobPost[i].infoLocation,
               job_description: newJobPost[i].infoContent,
             });
           console.log(`Here I am done`);
@@ -235,6 +235,32 @@ class FinderProfileService {
       } catch (error) {
         console.log(`there is an error: ${error}`);
       }
+    }
+  }
+  async removeJobPost(jobPost_Id, finderId) {
+    console.log(
+      `removeJobPost method called with jobPost_id: ${jobPost_Id} and finderId: ${finderId}`
+    );
+    try {
+      let jobPost = await this.knex
+        .select("*")
+        .from("job")
+        .where({
+          finder_id: finderId,
+          job_id: jobPost_Id,
+        });
+      if (jobPost.length === 1) {
+        return await this.knex("job")
+          .where({
+            finder_id: finderId,
+            job_id: jobPost_Id,
+          })
+          .del();
+      } else {
+        console.log(`error in selecting the correct job post`);
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 

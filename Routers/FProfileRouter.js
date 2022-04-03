@@ -24,9 +24,12 @@ class FProfileRouter {
     router.put("/api/finderprofile", this.putProfileInfo.bind(this));
     router.put("/api/editfindercustomfield", this.putCustomField.bind(this));
     router.delete(
+      "/api/deletejobpost/:id",
+      this.deleteJobPost.bind(this));
+    router.delete(
       "/api/deletefindercustomfield/:id",
-      this.deleteCustom.bind(this)
-    );
+      this.deleteCustom.bind(this));
+    
 
     return router;
   }
@@ -116,7 +119,7 @@ class FProfileRouter {
     console.log("FProfile Router: PUT Method");
     console.log(`Current Finder ID: ${finderId} and job: ${info}`);
     return this.finderProfileService
-      .updateProfile(info, finderId)
+      .updateJob(info, finderId)
       .then(() => {
         return this.finderProfileService.listprofile(finderId);
       })
@@ -164,6 +167,26 @@ class FProfileRouter {
         res.status(500).json(error);
       });
   }
+
+  deleteJobPost(req, res) {
+    let jobPost_Id = req.params.id;
+    let finderId = req.user.finder_id;
+    console.log("FProfile Router: DELETE Method");
+    console.log(`Current Finder ID: ${finderId}`);
+    console.log(`Current jobPostId: ${jobPost_Id}`);
+
+    return this.finderProfileService
+      .removeJobPost(jobPost_Id, finderId)
+      .then(() => {
+        return this.finderProfileService.listprofile(finderId);
+      })
+      .then((profile) => {
+        res.json(profile);
+      })
+      .catch((error) => {
+        res.status(500).json(error);
+      });
+    }
 
   deleteCustom(req, res) {
     let customfield_Id = req.params.id;
