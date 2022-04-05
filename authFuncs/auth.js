@@ -22,7 +22,6 @@ function isGuest(req, res, next) {
       return next();
     }
   }
-  console.log(`I am a guest`);
   res.locals.isGuest = true;
   return next();
 }

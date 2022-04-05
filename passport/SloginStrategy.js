@@ -1,11 +1,3 @@
-/**********************************************
- * Username and Password (Local Strategy)
- * ==================================
- * 1. Look at documentation
- * http://www.passportjs.org/packages/passport-local/
- * 2. Implement callback (verifies username and password)
- * 3. Specify strategy in route
- ***********************************************/
 const passport = require("passport");
 const development = require("../knexfile").development;
 const hashFunction = require("./hashFunction");
@@ -31,11 +23,10 @@ module.exports = new LocalStrategy(async (username, password, done) => {
     // otherwise, get the user
     const user = users[0];
 
-    console.log("User", user);
-    console.log("User password", user.password);
+    
     // check their password
     let result = await hashFunction.checkPassword(password, user.hash);
-    console.log("Does the check password function work here?", result);
+    
     // if you get something back, return the user
     if (result) {
       return done(null, user);

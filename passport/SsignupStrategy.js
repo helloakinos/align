@@ -4,10 +4,6 @@ const knex = require("knex")(development);
 const TABLE_NAME = "seeker_login";
 const LocalStrategy = require("passport-local").Strategy;
 module.exports = new LocalStrategy(async (username, password, done) => {
-  console.log("signing up");
-  console.log("Email", username);
-  console.log("Password", password);
-
   try {
     // get the user
     let users = await knex(TABLE_NAME).where({
@@ -33,8 +29,6 @@ module.exports = new LocalStrategy(async (username, password, done) => {
     let seekerId = await knex(TABLE_NAME).insert(newSeeker).returning("seeker_id");
     // assign that id to the user
     newSeeker.id = seekerId[0];
-    console.log("Newer user: ", newSeeker);
-    console.log(newSeeker);
     // done - pass back the user object
     done(null, newSeeker.id);
   } catch (error) {
