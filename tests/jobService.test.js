@@ -25,7 +25,7 @@ describe("JobServiceQueries", () => {
     jobService = new JobService(knex);
   });
 
-  test("List the correct finder profile seeded 1", () => {
+  test("List the correct jobs seeded", () => {
     return jobService.JobProfile(3).then((jobs) => {
       expect(jobs).toEqual(
         [
@@ -57,7 +57,8 @@ describe("JobServiceQueries", () => {
               preferred_contact: 'Madame Ya Lign',
               role: 'CEO'
             }
-          ]
+          ],
+          []
         ]
       );
     });
