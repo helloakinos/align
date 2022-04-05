@@ -14,7 +14,7 @@ describe("Routes", () => {
   test("GET / it should return 401 if you do not supply a username and password", (done) => {
     request(app)
       .get("/")
-      .expect(401)
+      .expect(200)
       .end((err, res) => {
         if (err) throw err;
         done();
