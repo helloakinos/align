@@ -17,7 +17,7 @@
             {{!-- <h3 style="display:inline-block">{{finder_name}}</h3> --}}
             {{#if isCurrentUserBoolean}}
                 <div id="changebutton">
-                    {{#if profile.[1].customfield_id}}
+                    {{#if profile.[0].finder_name}}
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" >
                             Edit
                         </button>  
@@ -244,7 +244,7 @@
                             {{#each profile.[2]}}
                                 <div class="jobPostdiv" data-id="{{job_id}}">
                                     <input type="text" class="jobTitleEdit" name="jobTitleEdit" value="{{job_title}}">
-                                    <input type="text" class="jobTitleEdit" name="jobTitleEdit" value="{{location}}">
+                                    <input type="text" class="jobTitleEdit" name="jobLocationEdit" value="{{location}}">
                                     <br>
                                     <textarea type="text" class="jobTextEdit" name="jobTextEdit" required>{{job_description}}</textarea>
                                     <button type="button" class="removeJobPost btn bg-light" data-id="{{job_id}}">remove</button>
@@ -266,7 +266,7 @@
             <div class="col-lg-3 col-md-4 col-sm-12">
                 <div class="card">
                     {{!-- Edit this --}}
-                    <a href="/jobApplicationForm">
+                    <a href="/jobPage/{{this.finder_id}}">
                         <img src="/img/dummypic{{job_id}}.jpg" class="card-img-top">
                         <div class="card-body">
                             <h3 class="card-title">{{job_title}}</h3>

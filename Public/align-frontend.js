@@ -196,15 +196,15 @@ var jobBoardTemplate = Handlebars.compile(
 var  jobBoardEditTemplate = Handlebars.compile(
   `
   <div id="jobBoardEdit">
-    {{#each profile.[2]}}
-        <div class="jobPostdiv" data-id="{{job_id}}">
-            <input type="text" class="jobTitleEdit" name="jobTitleEdit" value="{{job_title}}">
-            <input type="text" class="customFillTitleEdit" name="customFillTitleEdit" value="{{location}}">
-            <br>
-            <textarea type="text" class="jobTitleEdit" name="jobTextEdit" required>{{job_description}}</textarea>
-            <button type="button" class="removeJobPost btn bg-light" data-id="{{job_id}}">remove</button>
-        </div>
-    {{/each}}
+  {{#each profile.[2]}}
+      <div class="jobPostdiv" data-id="{{job_id}}">
+          <input type="text" class="jobTitleEdit" name="jobTitleEdit" value="{{job_title}}">
+          <input type="text" class="jobTitleEdit" name="jobLocationEdit" value="{{location}}">
+          <br>
+          <textarea type="text" class="jobTextEdit" name="jobTextEdit" required>{{job_description}}</textarea>
+          <button type="button" class="removeJobPost btn bg-light" data-id="{{job_id}}">remove</button>
+      </div>
+  {{/each}}
   </div>
   `
 )
@@ -376,6 +376,9 @@ $(() => {
       jobEdit.infoTitle = $(obj)
         .children("input[name=jobTitleEdit]")
         .val();
+      jobEdit.infoLocation = $(obj)
+        .children("input[name=jobLocationEdit]")
+        .val();
       jobEdit.infoContent = $(obj)
         .children("textarea[name=jobTextEdit]")
         .val();
@@ -418,9 +421,23 @@ $(() => {
       });
   });
 
+  $(document).on("click", ".removeJobPost", (e) => {
+    e.preventDefault();
+    let divId = $(e.target).data("id");
+    console.log(divId);
+    axios
+      .delete(`https://localhost:3000/api/deletejobpost/${divId}`)
+      .then((res) => {
+        reloadJobBoard(res.data);
+        reloadJobBoardTemplate(res.data);
+        console.log(res.data);
+        $(`div[data-id=${divId}]`).remove();
+      });
+  });
+
   $(document).on("click", ".removecustomfinder", (e) => {
     e.preventDefault();
-    let divId = $(event.target).data("id");
+    let divId = $(e.target).data("id");
     console.log(divId);
     axios
       .delete(`https://localhost:3000/api/deletefindercustomfield/${divId}`)

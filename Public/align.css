@@ -187,6 +187,18 @@ img{
     margin:0 5%;
 }
 
+.firstRowOfJobPage{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin:0 5%;
+}
+
+.impactFinderInfoDiv{
+    display: flex;
+    align-items:baseline;
+}
+
 .impactFinderDiv,.impactSeekerDiv{
     font-size:50px;
     padding:0px;
