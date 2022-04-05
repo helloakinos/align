@@ -104,10 +104,14 @@
                     {{#if profile.[1]}}
                         <button type="button" class="editcustomfinder btn bg-light" data-bs-toggle="modal" data-bs-target="#modalCustomfieldsEdit">edit</button>
                     {{/if}}
-                </div>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCustomfields" style="float:right;">
-                    Add
-                </button>     
+                    {{#if profile.[0]}}
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCustomfields" style="float:right;">
+                        Add
+                    </button>
+                    {{else}}
+                    <span style="float:right;">Please create a profile first.</span>
+                    {{/if}}
+                </div> 
             {{/if}}
             <h2 id="customFieldName" >More About {{profile.[0].finder_name}}</h2>
             <hr>
@@ -196,10 +200,14 @@
             {{#if profile.[2]}}
                 <button type="button" class="editjob btn bg-light" data-bs-toggle="modal" data-bs-target="#modaljobBoardEdit">edit</button>
             {{/if}}
+            {{#if profile.[0]}}
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modaljobBoard">
+            Add
+            </button>  
+            {{else}}
+            <span style="float:right;">Please create a profile first.</span> 
+            {{/if}}  
         </div>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modaljobBoard">
-        Add
-        </button>     
     {{/if}}
 
     <h2>Job Board</h2>

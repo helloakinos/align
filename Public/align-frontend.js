@@ -125,10 +125,17 @@ var customFieldNameTemplate  = Handlebars.compile(
 var customFieldButtonTemplate = Handlebars.compile(
   `
   <div id="customFieldButton">
-    {{#if profile.[1]}}
-    <button type="button" class="editcustomfinder btn bg-light" data-bs-toggle="modal" data-bs-target="#modalCustomfieldsEdit">edit</button>
-    {{/if}}
-  </div>
+  {{#if profile.[1]}}
+      <button type="button" class="editcustomfinder btn bg-light" data-bs-toggle="modal" data-bs-target="#modalCustomfieldsEdit">edit</button>
+  {{/if}}
+  {{#if profile.[0]}}
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCustomfields" style="float:right;">
+      Add
+  </button>
+  {{else}}
+  <span style="float:right;">Please create a profile first.</span>
+  {{/if}}
+</div> 
   `
 )
 
@@ -166,6 +173,13 @@ var jobButtonTemplate = Handlebars.compile(
   {{#if profile.[2]}}
       <button type="button" class="editjob btn bg-light" data-bs-toggle="modal" data-bs-target="#modaljobBoardEdit">edit</button>
   {{/if}}
+  {{#if profile.[0]}}
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modaljobBoard">
+    Add
+    </button>   
+  {{else}}
+    <span style="float:right;">Please create a profile first.</span> 
+  {{/if}}  
   </div>
   `
 )
@@ -313,7 +327,9 @@ $(() => {
         reloadBottomButton(res.data);
         reloadName(res.data);
         reloadCustomFieldName(res.data);
+        reloadCustomFieldButton(res.data)
         reloadFinderProfileInfo(res.data);
+        reloadJobButton(res.data);
         console.log(res.data);
       });
   });

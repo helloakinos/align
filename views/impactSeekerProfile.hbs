@@ -16,11 +16,11 @@
             {{#if isCurrentUserBoolean}}
                 <div id="seekerEditCreate">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="float:right;margin-right:5px;">
-                    {{#if profile.[0].first_name}}
-                        Edit
-                    {{else}}
-                        Create
-                    {{/if}}
+                        {{#if profile.[0].first_name}}
+                            Edit
+                        {{else}}
+                            Create
+                        {{/if}}
                     </button>   
                 </div>
             {{/if}}
@@ -93,9 +93,13 @@
                     {{#if profile.[1]}}
                         <button type="button" class="editcustomseeker btn bg-light" data-bs-toggle="modal" data-bs-target="#modalCustomfieldsSeekerEdit">edit</button>
                     {{/if}}
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCustomfieldsSeeker" style="float:right;">
-                    Add
-                    </button> 
+                    {{#if profile.[0]}}
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCustomfieldsSeeker" style="float:right;">
+                            Add
+                        </button> 
+                    {{else}}
+                        <span style="float:right;">Please create a profile first.</span> 
+                    {{/if}}
                 </div>
             {{/if}}
             <h2>More About {{profile.[0].seeker_name}}</h2>
@@ -178,13 +182,17 @@
             <div class="profileInfo">
                 {{#if isCurrentUserBoolean}}
                     <div id="seekerEductionButtons">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editEducation" style="float:right;margin-right:5px;">
-                            {{#if profile.[2].seeker_education_id}}
-                                Add
-                            {{else}}
-                                Edit
-                            {{/if}}
-                        </button>   
+                        {{#if profile.[0]}}
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editEducation" style="float:right;margin-right:5px;">
+                                {{#if profile.[2].[0].seeker_education_id}}
+                                    Edit
+                                {{else}}
+                                    Add
+                                {{/if}}
+                            </button> 
+                        {{else}}
+                            <span style="float:right;">Please create a profile first.</span> 
+                        {{/if}}
                     </div>
                 {{/if}}
                 {{!-- Seeker education modal --}}
@@ -200,19 +208,19 @@
                                     <label for="impactSeekerHighSchoolDegree">High School Degree</label>
                                     <br>
                                     <select id="impactSeekerHighSchoolDegree"   name="impactSeekerHighSchoolDegree">
-                                        <option value="true">Attained</option>
-                                        <option value="false">Not attained</option>
+                                        <option value="Yes">Attained</option>
+                                        <option value="No">Not attained</option>
                                     </select>
                                     <br>
                                     <label for="impactSeekerUniversityDegree">University Degree</label>
                                     <br>
                                     <select id="impactSeekerUniversityDegree"   name="impactSeekerUniversityDegree">
-                                        <option value="true">Attained</option>
-                                        <option value="false">Not attained</option>
+                                        <option value="Yes">Attained</option>
+                                        <option value="No">Not attained</option>
                                     </select>
                                     <br>
                                     <label for="impactSeekerOtherCertification">Other Certifications</label>
-                                    <textarea name="OtherCertification" value="{{profile.[2].other_certifications}}"></textarea>
+                                    <textarea name="OtherCertification" value="{{profile.[2].[0].other_certifications}}"></textarea>
                                     <br>
                                 </div>
                                 <div class="modal-footer seekerEdModal">
@@ -229,37 +237,39 @@
                 </div>
             </div>
             <div class="seekerEd">
-            <h2>Education background: </h2>
-            <hr>
-            <p style="display:inline-block;width:280px">Attained High School degree: </p>
-            {{#if profile.[2].[0].highschool_degree}}
-            <span>Yes</span>
-            {{else}}
-            <span>No</span>
-            {{/if}}
-            <br>
-            <p style="display:inline-block;width:280px">Attained Univeristy degree: </p>
-                        {{#if profile.[2].[0].university_degree}}
-            <span>Yes</span>
-            {{else}}
-            <span>No</span>
-            {{/if}}
-            <br>
-            <p>Other certifications: <span>{{profile.[2].[0].other_certifications}}</span> </p>
-        
+                <h2>Education background: </h2>
+                <hr>
+                <p style="display:inline-block;width:280px">Attained High School degree: </p>
+                {{#if profile.[2].[0].highschool_degree}}
+                    <span>{{profile.[2].[0].highschool_degree}}</span>
+                {{/if}}
+                    <br>
+                    <p style="display:inline-block;width:280px">Attained Univeristy degree: </p>
+                {{#if profile.[2].[0].university_degree}}
+                    <span>{{profile.[2].[0].university_degree}}</span>
+                {{/if}}
+                <br>
+                <p style="display:inline-block;width:280px">Other certifications:</p>
+                <span>{{profile.[2].[0].other_certifications}}</span>
             </div>
         </div>
         <br>
         <div class="impactSeekerInfoRight">
             <div class="profileInfo">        
                 {{#if isCurrentUserBoolean}}
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#seekerExperienceForm" style="float:right;">
-                    {{#if profile.[3]}}
-                    Edit    
-                    {{else}}
-                    Add
-                    {{/if}}
-                    </button> 
+                    <div id="seekerExperienceButton">
+                        {{#if profile.[0]}}
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#seekerExperienceForm" style="float:right;">
+                            {{#if profile.[3]}}
+                                Edit    
+                            {{else}}
+                                Add
+                            {{/if}}
+                            </button> 
+                        {{else}}
+                            <span style="float:right;">Please create a profile first.</span> 
+                        {{/if}}
+                    </div>
                 {{/if}}
                 <div class="modal fade" id="seekerExperienceForm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
                     <div class="modal-dialog">
@@ -268,27 +278,32 @@
                                 <h5 class="modal-title" id="staticBackdropLabel">Experience</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body seekerExTemplate">
                                 <form id="seekerExperience">
                                     <label for="seekerExperience">
-                                    <textarea id="seekerExperience" name="seekerExperience"></textarea>
+                                    <textarea id="seekerExperience" name="seekerExperience">{{profile.[3].[0].experience}}</textarea>
                                 </form>
                             </div>
-                            <div class="modal-footer">
+                            <div class="modal-footer" id="seekerExBottomButton">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                 {{#if profile.[3]}}
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#seekerExperienceForm" id="SaveExperience">Save </button>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#seekerExperienceForm" id="SaveExperience">Save</button>
                                 {{else}}
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#seekerExperienceForm" id="AddExperience">Add </button>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#seekerExperienceForm" id="AddExperience">Add</button>
                                 {{/if}}
                             </div>
                         </div>
                     </div>
                 </div>
-            <div>
-        <h2>Experience: </h2>
-        <hr>
-        <p>{{profile.[3].experience}}</p>
+                <div>
+                    <h2>Experience: </h2>
+                    <hr>
+                    <div id="seekerEx">
+                        <p>{{profile.[3].[0].experience}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {{>copyright}}
