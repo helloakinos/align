@@ -270,6 +270,13 @@ img {
   max-width: 80%;
 }
 
+#impactFinderJob {
+  margin: 0 5%;
+  border: 5px solid #07665b;
+  border-radius: 20px;
+  padding: 20px;
+}
+
 .impactFinderJobCurrent {
   margin: 0 1%;
   border: 5px solid #07665b;

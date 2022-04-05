@@ -35,7 +35,6 @@ class ViewRouter {
       isGuest,
       this.getJobApplicationForm.bind(this)
     );
-    // Claire added this
     router.get("/logout", function (req, res) {
       req.session.passport.user = null;
       res.redirect("/loginSignUp");

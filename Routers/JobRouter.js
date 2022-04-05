@@ -11,7 +11,6 @@ class JobRouter {
 
   router() {
     let router = this.express.Router();
-    // router.get("/job", this.getFinderProfile.bind(this));
     router.get(
       "/jobPage/:id",
       isGuest,
