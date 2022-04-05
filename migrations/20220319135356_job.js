@@ -4,7 +4,7 @@
  */
 exports.up = function (knex) {
   return knex.schema.createTable("job", function (table) {
-    table.increments("job_id");
+    table.increments("job_id").unique;
     table.integer("finder_id");
     table.foreign("finder_id").references("finder.finder_id");
     table.string("job_title");

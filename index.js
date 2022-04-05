@@ -17,7 +17,7 @@ const knexConfig = require("./knexfile").development;
 const knex = require("knex")(knexConfig);
 
 const passport = require("passport");
-// const flash = require("express-flash"); // this is a package that will allow you to render short flash messages on your login screens: wrong password, existing username etc.
+const flash = require("express-flash");
 const session = require("express-session");
 
 const app = express();
@@ -47,13 +47,9 @@ const JobService = require("./Service/JobService");
 app.use(cookieParser());
 app.set("view engine", "hbs");
 app.use(
-  // Creating a new session generates a new session id, stores that in a session cookie, and
   expressSession({
     secret: "secret",
-    // save the user
-    // if false, will not save session to browser
     resave: true,
-    // if saveUninitialized is false, session object will not be stored in sesion store
     saveUninitialized: true,
   })
 );
@@ -71,6 +67,7 @@ app.engine(
 app.use(express.static("Public"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
