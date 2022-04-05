@@ -52,6 +52,7 @@ Our interactive job board enables users view information on roles/opportunities 
 
 We successfully implemented a connect feature. Bringing a wrap to the core features we aimed to implement.
 Now, Seekers (those who are looking to make a difference) can choose to connect with Finder (those who have found ways to make a difference and are open to collaborators). This feature provides a view wherein the Finder can view seekers who have sought to connect and the Seeker's name becomes a direct link to the Seeker's profile
+As a safety feature, we ensure that you need to make a seeker profile first and log in before the connect button would work.
 
 ### Authentication/Security
 
