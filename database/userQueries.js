@@ -134,19 +134,6 @@ function signIn(req, res, next) {
     });
 }
 
-// function postUser(
-//   username,
-//   twitterId,
-//   facebookId,
-//   password
-// ) {
-//   return knex(TABLE_NAME).insert({
-//     username: username,
-//     twitter_id: twitterId,
-//     facebook_id: facebookId,
-//     password: password,
-//   });
-// }
 function deleteUserf(id) {
   return knex(TABLE_NAMEF)
     .where({ id: id })
@@ -283,23 +270,3 @@ module.exports = {
   getByGmailId: getByGmailId,
   postFacebook: postFacebook,
 };
-
-/**********************************************
- * Test Queries
- * ==================================
- ***********************************************/
-
-// deleteUser(1);
-
-// postUser(
-//   "sam",
-//   "twitter_id",
-//   "facebook_id",
-//   "password"
-// ).then((obj) => {
-//   console.log("inserted!");
-// });
-
-// getAllUsers();
-// verify("lesley", "password")
-// verify("lesley", "notpassword");
