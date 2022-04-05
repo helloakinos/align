@@ -12,10 +12,19 @@ class JobRouter {
   router() {
     let router = this.express.Router();
     // router.get("/job", this.getFinderProfile.bind(this));
-    router.get("/jobPage/:id", isGuest, this.getJobProfile.bind(this));
+    router.get(
+      "/jobPage/:id",
+      isGuest,
+      isCurrentUser,
+      this.getJobProfile.bind(this)
+    );
+    router.post(
+      "/api/newJobConnect",
+      isLoggedIn,
+      this.postJobConnect.bind(this)
+    );
     return router;
   }
-
 
   getJobProfile(req, res) {
     let isGuest = req.res.locals.isGuest;
@@ -29,8 +38,28 @@ class JobRouter {
       res.render("jobPage", {
         layout: "main",
         profile: JobProfile,
+        userData: userData,
       });
     });
+  }
+
+  postJobConnect(req, res) {
+    let userData = currentUserType(req.user);
+    let jobId = req.body.jobId;
+    this.jobService
+      .jobConnect(jobId, userData)
+      .then(() => {
+        this.jobService.JobProfile(jobId);
+      })
+      .then((JobProfile) => {
+        console.log(`Here starts the response`);
+
+        console.log(JobProfile);
+        res.json(JobProfile);
+      })
+      .catch((error) => {
+        res.status(500).json(error);
+      });
   }
 }
 
