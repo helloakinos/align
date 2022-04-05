@@ -6,9 +6,9 @@
     <div class="impactSeekerDiv" id="impactSeekerName">
         {{profile.[0].first_name}} {{profile.[0].surname}}
     </div>
-    <div class="impactSeekerDiv">
+    {{!-- <div class="impactSeekerDiv">
         <button style="font-size:20px;font-weight:bold;background:#FFB545;color:#07665b;padding:5px;border-radius:10px;border:none">Connect with Impact Seeker</button>
-    </div>
+    </div> --}}
 </div>
 <div class="impactSeeker">
     <div class="impactSeekerInfo">
@@ -241,12 +241,20 @@
                 <hr>
                 <p style="display:inline-block;width:280px">Attained High School degree: </p>
                 {{#if profile.[2].[0].highschool_degree}}
-                    <span>{{profile.[2].[0].highschool_degree}}</span>
+                    {{#if profile.[2].[0].highschool_degree}}
+                        <span>Yes</span>
+                    {{else}}
+                        <span>No</span>
+                    {{/if}}
                 {{/if}}
                     <br>
-                    <p style="display:inline-block;width:280px">Attained Univeristy degree: </p>
+                    <p style="display:inline-block;width:280px">Attained University degree: </p>
                 {{#if profile.[2].[0].university_degree}}
-                    <span>{{profile.[2].[0].university_degree}}</span>
+                    {{#if profile.[2].[0].university_degree}}
+                        <span>Yes</span>
+                    {{else}}
+                        <span>No</span>
+                    {{/if}}
                 {{/if}}
                 <br>
                 <p style="display:inline-block;width:280px">Other certifications:</p>

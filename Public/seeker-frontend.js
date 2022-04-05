@@ -122,12 +122,16 @@ var seekerEducation = Handlebars.compile(
     <hr>
     <p style="display:inline-block;width:280px">Attained High School degree: </p>
     {{#if profile.[2].[0].highschool_degree}}
-    <span>{{profile.[2].[0].highschool_degree}}</span>
+        <span>Yes</span>
+    {{else}}
+        <span>No</span>
     {{/if}}
-    <br>
-    <p style="display:inline-block;width:280px">Attained Univeristy degree: </p>
+        <br>
+        <p style="display:inline-block;width:280px">Attained University degree: </p>
     {{#if profile.[2].[0].university_degree}}
-    <span>{{profile.[2].[0].university_degree}}</span>
+        <span>Yes</span>
+    {{else}}
+        <span>No</span>
     {{/if}}
     <br>
     <p style="display:inline-block;width:280px">Other certifications:</p>
