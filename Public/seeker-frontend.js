@@ -315,4 +315,23 @@ $(() => {
         console.log(res.data);
       });
   });
+
+  $(document).on("click", "#AddExperience", (e) => {
+    console.log("Add experience button pressed");
+    e.preventDefault();
+    let seekerExperience = {
+      experience: $("select[name=impactSeekerUniversityDegree]").val(),
+      highschool_degree: $("select[name=impactSeekerHighSchoolDegree]").val(),
+      other_certifications: $("textarea[name=OtherCertification]").val(),
+    };
+    axios
+      .put("https://localhost:3000/api/seekerSaveEducation", {
+        seekerEd: seekerEducation,
+      })
+      .then((res) => {
+        reloadSeekerEd(res.data);
+        reloadSeekerEditCreateModal(res.data);
+        console.log(res.data);
+      });
+  });
 });
