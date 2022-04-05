@@ -51,7 +51,6 @@ $("#signupUserType").on("change", function () {
   }
 });
 
-
 // Handlebars template for Finder name
 
 var nameTemplate = Handlebars.compile(
@@ -87,7 +86,6 @@ var profileTemplate = Handlebars.compile(
   `
 );
 
-
 var buttonTemplate = Handlebars.compile(
   `
       <div id="changebutton">
@@ -102,7 +100,7 @@ var buttonTemplate = Handlebars.compile(
         {{/if}} 
       </div>
   `
-)
+);
 
 var bottomButtonTemplate = Handlebars.compile(
   `
@@ -114,13 +112,13 @@ var bottomButtonTemplate = Handlebars.compile(
     {{/if}}
   </div>
   `
-)
+);
 // Handlebars template for custom finderprofile info
-var customFieldNameTemplate  = Handlebars.compile(
+var customFieldNameTemplate = Handlebars.compile(
   `
   <h2 id="customFieldName" style="display: inline-block;">More About {{profile.[0].finder_name}}</h2>
   `
-)
+);
 
 var customFieldButtonTemplate = Handlebars.compile(
   `
@@ -137,7 +135,7 @@ var customFieldButtonTemplate = Handlebars.compile(
   {{/if}}
 </div> 
   `
-)
+);
 
 // Handlebars template for custom profile info
 
@@ -150,7 +148,7 @@ var profileCustomfieldTemplate = Handlebars.compile(
   {{/each}}`
 );
 
-var  profileCustomfieldEditTemplate = Handlebars.compile(
+var profileCustomfieldEditTemplate = Handlebars.compile(
   `
   <div id="customFieldEdit">
     {{#each profile.[1]}}
@@ -165,7 +163,7 @@ var  profileCustomfieldEditTemplate = Handlebars.compile(
     {{/each}}
   </div>
   `
-)
+);
 
 var jobButtonTemplate = Handlebars.compile(
   `
@@ -182,8 +180,7 @@ var jobButtonTemplate = Handlebars.compile(
   {{/if}}  
   </div>
   `
-)
-
+);
 
 var jobBoardTemplate = Handlebars.compile(
   `
@@ -192,7 +189,7 @@ var jobBoardTemplate = Handlebars.compile(
         <div class="col-lg-3 col-md-4 col-sm-12">
             <div class="card">
                 {{!-- Edit this --}}
-                <a href="/jobApplicationForm">
+                <a href="/jobPage/{{this.finder_id}}">
                     <img src="/img/dummypic{{job_id}}.jpg" class="card-img-top">
                     <div class="card-body">
                         <h3 class="card-title">{{job_title}}</h3>
@@ -205,9 +202,9 @@ var jobBoardTemplate = Handlebars.compile(
     {{/each}}
   </div>
   `
-)
+);
 
-var  jobBoardEditTemplate = Handlebars.compile(
+var jobBoardEditTemplate = Handlebars.compile(
   `
   <div id="jobBoardEdit">
   {{#each profile.[2]}}
@@ -221,8 +218,7 @@ var  jobBoardEditTemplate = Handlebars.compile(
   {{/each}}
   </div>
   `
-)
-
+);
 
 const reloadName = (profile) => {
   console.log(`reload name function:`);
@@ -236,51 +232,48 @@ const reloadFinderProfileInfo = (profile) => {
   $("#FinderInfo").html(profileTemplate({ profile }));
 };
 
-const reloadButton = (profile)=>{
-  console.log(`reload button function`)
-  console.log()
-  $('#changebutton').html(buttonTemplate({ profile }))
-}
+const reloadButton = (profile) => {
+  console.log(`reload button function`);
+  console.log();
+  $("#changebutton").html(buttonTemplate({ profile }));
+};
 
-const reloadBottomButton = (profile)=>{
-  console.log(`reload bottom button function`)
-  $('#bottomButton').html(bottomButtonTemplate({ profile }))
-}
+const reloadBottomButton = (profile) => {
+  console.log(`reload bottom button function`);
+  $("#bottomButton").html(bottomButtonTemplate({ profile }));
+};
 
-const reloadCustomFieldName = (profile)=>{
-  console.log(`reload custom field name`)
-  $('#customFieldName').html(customFieldNameTemplate({profile}))
+const reloadCustomFieldName = (profile) => {
+  console.log(`reload custom field name`);
+  $("#customFieldName").html(customFieldNameTemplate({ profile }));
+};
 
-}
-
-const reloadCustomFieldButton = (profile)=>{
-  console.log(`reload custom field button`)
-  $('#customFieldButton').html(customFieldButtonTemplate({profile}))
-
-}
+const reloadCustomFieldButton = (profile) => {
+  console.log(`reload custom field button`);
+  $("#customFieldButton").html(customFieldButtonTemplate({ profile }));
+};
 
 const reloadFinderCustomInfo = (profile) => {
   $("#FinderCustomField").html(profileCustomfieldTemplate({ profile }));
 };
 
-
 // event listeners for the buttons on the finder profile page
 
 const reloadProfileCustomFieldEdit = (profile) => {
-  $("#customFieldEdit").html(profileCustomfieldEditTemplate({profile}))
-}
+  $("#customFieldEdit").html(profileCustomfieldEditTemplate({ profile }));
+};
 
 const reloadJobButton = (profile) => {
-  $('#jobButton').html(jobButtonTemplate({profile}))
-}
+  $("#jobButton").html(jobButtonTemplate({ profile }));
+};
 
 const reloadJobBoard = (profile) => {
-  $('#jobList').html(jobBoardTemplate({profile}))
-}
+  $("#jobList").html(jobBoardTemplate({ profile }));
+};
 
 const reloadJobBoardTemplate = (profile) => {
-  $('#jobBoardEdit').html(jobBoardEditTemplate({profile}))
-}
+  $("#jobBoardEdit").html(jobBoardEditTemplate({ profile }));
+};
 
 $(() => {
   $(document).on("click", "#SaveProfileEdits", (e) => {
@@ -327,7 +320,7 @@ $(() => {
         reloadBottomButton(res.data);
         reloadName(res.data);
         reloadCustomFieldName(res.data);
-        reloadCustomFieldButton(res.data)
+        reloadCustomFieldButton(res.data);
         reloadFinderProfileInfo(res.data);
         reloadJobButton(res.data);
         console.log(res.data);
@@ -343,7 +336,7 @@ $(() => {
     };
     console.log(customAdd);
     $("input[name=customFillTitle]").val("");
-    $("textarea[name=customFillText]").val("")
+    $("textarea[name=customFillText]").val("");
     axios
       .post("https://localhost:3000/api/newfindercustomfield", {
         customInfo: customAdd,
@@ -351,7 +344,7 @@ $(() => {
       .then((res) => {
         reloadCustomFieldButton(res.data);
         reloadFinderCustomInfo(res.data);
-        reloadProfileCustomFieldEdit(res.data)
+        reloadProfileCustomFieldEdit(res.data);
         console.log(res.data);
       });
   });
@@ -367,10 +360,10 @@ $(() => {
     console.log(newJobPost);
     $("input[name=newJobTitle]").val("");
     $("input[name=newJobLocation]").val("");
-    $("textarea[name=newJobDetails]").val("")
+    $("textarea[name=newJobDetails]").val("");
     axios
       .post("https://localhost:3000/api/newjobpost", {
-        newJobPost:newJobPost
+        newJobPost: newJobPost,
       })
       //set template
       .then((res) => {
@@ -389,15 +382,11 @@ $(() => {
       console.log(`this is obj: `, obj);
       let jobEdit = {};
       jobEdit.jobId = $(obj).data("id");
-      jobEdit.infoTitle = $(obj)
-        .children("input[name=jobTitleEdit]")
-        .val();
+      jobEdit.infoTitle = $(obj).children("input[name=jobTitleEdit]").val();
       jobEdit.infoLocation = $(obj)
         .children("input[name=jobLocationEdit]")
         .val();
-      jobEdit.infoContent = $(obj)
-        .children("textarea[name=jobTextEdit]")
-        .val();
+      jobEdit.infoContent = $(obj).children("textarea[name=jobTextEdit]").val();
       infoArray.push(jobEdit);
     });
     console.log(infoArray);
@@ -463,5 +452,4 @@ $(() => {
         $(`div[data-id=${divId}]`).remove();
       });
   });
-
 });
