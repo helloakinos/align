@@ -15,7 +15,6 @@ var seekerProfileEditCreateTemplate =
     Create
 {{/if}}
 </button>   
-{{/if}}
 </div>`);
 
 // Handlebars template for edit/create button in modal

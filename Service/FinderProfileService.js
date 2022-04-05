@@ -105,17 +105,19 @@ class FinderProfileService {
       `add method called with job: ${info.jobTitle} and finderId: ${finderId}`
     );
     try {
-      await this.knex
-        .select("*")
-        .from("job")
-        .where("job.finder_id", finderId)
-        .insert({
-          finder_id: finderId,
-          job_title: info.jobTitle,
-          location: info.jobLocation,
-          job_description: info.jobDescription,
-        })
-        .into("job");
+      let jobs = await this.knex.select("*").from("job");
+      if (jobs.length > 0) {
+        await this.knex
+          .insert({
+            finder_id: finderId,
+            job_title: info.jobTitle,
+            location: info.jobLocation,
+            job_description: info.jobDescription,
+          })
+          .into("job");
+      } else {
+        console.log(`error adding job`);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -130,13 +132,10 @@ class FinderProfileService {
         console.log(newJobPost[i]);
         console.log(finderId);
         console.log(newJobPost[i].jobId);
-        let jobposts = await this.knex
-          .select("*")
-          .from("job")
-          .where({
-            finder_id: finderId,
-            job_id: newJobPost[i].jobId,
-          });
+        let jobposts = await this.knex.select("*").from("job").where({
+          finder_id: finderId,
+          job_id: newJobPost[i].jobId,
+        });
         if (jobposts.length == 1) {
           console.log(`inside the update query if`);
           await this.knex("job")
@@ -242,13 +241,10 @@ class FinderProfileService {
       `removeJobPost method called with jobPost_id: ${jobPost_Id} and finderId: ${finderId}`
     );
     try {
-      let jobPost = await this.knex
-        .select("*")
-        .from("job")
-        .where({
-          finder_id: finderId,
-          job_id: jobPost_Id,
-        });
+      let jobPost = await this.knex.select("*").from("job").where({
+        finder_id: finderId,
+        job_id: jobPost_Id,
+      });
       if (jobPost.length === 1) {
         return await this.knex("job")
           .where({

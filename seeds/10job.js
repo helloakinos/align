@@ -7,7 +7,6 @@ exports.seed = async function (knex) {
   await knex("job").del();
   await knex("job").insert([
     {
-      job_id: 1,
       finder_id: 1,
       job_title: "Community Manager",
       job_description:
@@ -15,7 +14,6 @@ exports.seed = async function (knex) {
       location: "HK",
     },
     {
-      job_id: 2,
       finder_id: 2,
       job_title: "Beach clean up",
       job_description:
@@ -23,7 +21,6 @@ exports.seed = async function (knex) {
       location: "HK",
     },
     {
-      job_id: 3,
       finder_id: 3,
       job_title: "Volunteer Optician",
       job_description:
