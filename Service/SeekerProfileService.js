@@ -40,6 +40,8 @@ class SeekerProfileService {
             .from("seeker_experience")
             .where("seeker_experience.seeker_id", seekerId);
           profile.push(seekerExperience);
+          console.log("Akin test check");
+          console.log(profile);
           return profile;
         } else {
           console.log("Unknown seeker");

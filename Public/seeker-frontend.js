@@ -19,6 +19,7 @@ var seekerProfileEditCreateTemplate =
   </div>
 `);
 
+
 // Handlebars template for edit/create button in modal
 var seekerProfileEditCreateModalTemplate =
   Handlebars.compile(`<div id="modalEditCreateProfile" class="modal-footer">

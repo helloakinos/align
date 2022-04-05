@@ -3,3 +3,7 @@ node_modules
 localhost.crt
 localhost.key
 seedsthatdontwork
+migrations
+Service
+seeds
+seedsthatdontwork
