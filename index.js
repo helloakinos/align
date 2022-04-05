@@ -4,13 +4,11 @@ require("dotenv").config();
 
 const express = require("express");
 const { engine } = require("express-handlebars");
-const msal = require("@azure/msal-node");
 require("./passport/microsoft");
 const cookieParser = require("cookie-parser");
 const expressSession = require("express-session");
 const methodOverride = require("method-override");
 const morgan = require("morgan");
-// const config = require('./config.js');
 
 const config = require("./config.js");
 const knexConfig = require("./knexfile").development;

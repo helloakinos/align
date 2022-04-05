@@ -87,4 +87,4 @@ Align is in development at this stage and will be workied on sparingly
 
 - Flash messages are currently not visible due to the login/signup form changing back to its original state. Displaying the failureflash on the original form would be ideal, if possible.
 
-- Expand "Connect" feature to include both Finder and Seeker profiles on top of the current Job functionality. 
+- Expand "Connect" feature to include both Finder and Seeker profiles on top of the current Job functionality. Include safeguards to ensure that those who did not create their profile yet, are not able to click on connect.

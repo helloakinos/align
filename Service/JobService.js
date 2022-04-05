@@ -14,7 +14,7 @@ class JobService {
           .where("job.job_id", jobId);
         fulljob.push(jobInfo);
         console.log(jobInfo);
-        if (jobInfo.length == 1) {
+        if (jobInfo.length >= 1) {
           let jobContact = await this.knex
             .select("*")
             .from("finder_contact")
