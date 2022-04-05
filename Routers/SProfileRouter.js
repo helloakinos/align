@@ -19,9 +19,11 @@ class SProfileRouter {
     router.post("/api/newseekerprofile", this.postSeekerProfileInfo.bind(this));
     router.post("/api/newSeekerCustomfield", this.postCustomField.bind(this));
     router.post("/api/seekerNewEducation", this.postSeekerEducation.bind(this));
+    router.post("/api/seekerExperience", this.postSeekerExperience.bind(this));
     router.put("/api/seekerprofile", this.putProfileInfo.bind(this));
     router.put("/api/editSeekerCustomfield", this.putCustomField.bind(this));
     router.put("/api/seekerSaveEducation", this.putSeekerEducation.bind(this));
+    router.put("/api/seekerSaveExperience", this.putSeekerExperience.bind(this));
     router.delete(
       "/api/deleteSeekerCustomfield/:id",
       this.deleteCustom.bind(this)
@@ -93,6 +95,25 @@ class SProfileRouter {
         return this.seekerProfileService.listprofile(seekerId);
       })
       .then((profile) => {
+        console.log(profile)
+        res.json(profile);
+      })
+      .catch((error) => {
+        res.status(500).json(error);
+      });
+  }
+
+  postSeekerExperience(req, res) {
+    let seekerEx = req.body.seekerEx;
+    let seekerId = req.user.seeker_id;
+    console.log(`Seeker Profile Router: POST for experience`);
+    return this.seekerProfileService
+      .addExperience(seekerEx, seekerId)
+      .then(() => {
+        return this.seekerProfileService.listprofile(seekerId);
+      })
+      .then((profile) => {
+        console.log(profile)
         res.json(profile);
       })
       .catch((error) => {
@@ -147,6 +168,26 @@ class SProfileRouter {
     );
     return this.seekerProfileService
       .updateEd(seekerEd, seekerId)
+      .then(() => {
+        return this.seekerProfileService.listprofile(seekerId);
+      })
+      .then((profile) => {
+        res.json(profile);
+      })
+      .catch((error) => {
+        res.status(500).json(error);
+      });
+  }
+
+  putSeekerExperience(req, res) {
+    let seekerEx = req.body.seekerEx;
+    let seekerId = req.user.seeker_id;
+    console.log("SeekerProfile Router: PUT Method");
+    console.log(
+      `Current Seeker ID: ${seekerId} and experience : ${seekerEx}`
+    );
+    return this.seekerProfileService
+      .updateEx(seekerEx, seekerId)
       .then(() => {
         return this.seekerProfileService.listprofile(seekerId);
       })

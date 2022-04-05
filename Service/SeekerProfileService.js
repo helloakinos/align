@@ -128,6 +128,23 @@ class SeekerProfileService {
     }
   }
 
+  async addExperience(seekerEx, seekerId) {
+    console.log(`add education seeker called for seekerId ${seekerId}`);
+    try {
+      await this.knex
+        .select("*")
+        .from("seeker_expereience")
+        .where("seeker_experience.seeker_id", seekerId)
+        .insert({
+          seeker_id: seekerId,
+          experience: seekerEx.experience,
+        })
+        .into("seeker_experience");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async updateProfile(seekerProfileInfo, seekerId) {
     console.log(seekerProfileInfo);
     console.log(
@@ -218,6 +235,31 @@ class SeekerProfileService {
             university_degree: seekerEd.university_degree,
             highschool_degree: seekerEd.highschool_degree,
             other_certifications: seekerEd.other_certifications,
+          });
+      } else {
+        console.log(
+          `error: could not find this seeker's education information`
+        );
+      }
+    } catch (error) {
+      console.log(`there is an error: ${error}`);
+    }
+  }
+
+  async updateEx(seekerEx, seekerId) {
+    console.log(
+      `update seeker experience called with ${seekerEx} and seekerId ${seekerId}`
+    );
+    try {
+      let experience = await this.knex
+        .select("*")
+        .from("seeker_experience")
+        .where("seeker_experience.seeker_id", seekerId);
+      if (experience.length == 1) {
+        await this.knex("seeker_experience")
+          .where("seeker_experience.seeker_id", seekerId)
+          .update({
+            experience: seekerEx.experience,
           });
       } else {
         console.log(

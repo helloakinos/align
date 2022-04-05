@@ -7,16 +7,17 @@ var seekerNameTemplate = Handlebars.compile(
 
 // Handlebars template for edit/create button on profile
 var seekerProfileEditCreateTemplate =
-  Handlebars.compile(`<div id="seekerEditCreate">
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="float:right;margin-right:5px;">
+  Handlebars.compile(`
+  <div id="seekerEditCreate">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="float:right;margin-right:5px;">
     {{#if profile.[0].first_name}}
-    Edit
+        Edit
     {{else}}
-    Create
-{{/if}}
-</button>   
-{{/if}}
-</div>`);
+        Create
+    {{/if}}
+    </button>   
+  </div>
+`);
 
 // Handlebars template for edit/create button in modal
 var seekerProfileEditCreateModalTemplate =
@@ -56,14 +57,18 @@ var seekerProfileTemplate = Handlebars.compile(
 
 // Handlebars template for custom profile info button
 var seekerCustomfieldButtonTemplate =
-  Handlebars.compile(`<div id="seekerCustomEdit">
-{{#if profile.[1]}}
-<button type="button" class="editcustomseeker btn bg-light" data-bs-toggle="modal" data-bs-target="#modalCustomfieldsSeekerEdit">edit</button>
-{{/if}}
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCustomfieldsSeeker" style="float:right;">
-Add
-</button> 
-</div>`);
+  Handlebars.compile(`
+      {{#if profile.[1]}}
+      <button type="button" class="editcustomseeker btn bg-light" data-bs-toggle="modal" data-bs-target="#modalCustomfieldsSeekerEdit">edit</button>
+    {{/if}}
+    {{#if profile.[0]}}
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCustomfieldsSeeker" style="float:right;">
+          Add
+      </button> 
+    {{else}}
+      <span style="float:right;">Please create a profile first.</span> 
+    {{/if}}
+  `);
 
 // Handlebars template for custom profile modal loop
 var seekerCustomModalTemplate = Handlebars.compile(`
@@ -90,27 +95,44 @@ var seekerProfileCustomfieldTemplate = Handlebars.compile(
     {{/each}}`
 );
 
+var  seekerEducationButton  = Handlebars.compile(
+  `
+  <div id="seekerEductionButtons">
+      {{#if profile.[0]}}
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editEducation" style="float:right;margin-right:5px;">
+              {{#if profile.[2].[0].seeker_education_id}}
+                  Edit
+              {{else}}
+                  Add
+              {{/if}}
+          </button> 
+      {{else}}
+          <span style="float:right;">Please create a profile first.</span> 
+      {{/if}}
+  </div>
+  `
+)
+
 //Handlebars template for seeker education info
 var seekerEducation = Handlebars.compile(
-  `<div class="seekerEd">
-  <h2>Education background: </h2>
-  <hr>
-  <p style="display:inline-block;width:280px">Attained High School degree: </p>
-  {{#if profile.[2].[0].highschool_degree}}
-  <span>Yes</span>
-  {{else}}
-  <span>No</span>
-  {{/if}}
-  <br>
-  <p style="display:inline-block;width:280px">Attained Univeristy degree: </p>
-              {{#if profile.[2].[0].university_degree}}
-  <span>Yes</span>
-  {{else}}
-  <span>No</span>
-  {{/if}}
-  <br>
-  <p>Other certifications: <span>{{profile.[2].[0].other_certifications}}</span> </p>
-  </div>`
+  `
+  <div class="seekerEd">
+    <h2>Education background: </h2>
+    <hr>
+    <p style="display:inline-block;width:280px">Attained High School degree: </p>
+    {{#if profile.[2].[0].highschool_degree}}
+    <span>{{profile.[2].[0].highschool_degree}}</span>
+    {{/if}}
+    <br>
+    <p style="display:inline-block;width:280px">Attained Univeristy degree: </p>
+    {{#if profile.[2].[0].university_degree}}
+    <span>{{profile.[2].[0].university_degree}}</span>
+    {{/if}}
+    <br>
+    <p style="display:inline-block;width:280px">Other certifications:</p>
+    <span>{{profile.[2].[0].other_certifications}}</span>
+  </div>
+  `
 );
 
 var seekerEdModal = Handlebars.compile(
@@ -123,6 +145,57 @@ var seekerEdModal = Handlebars.compile(
   {{/if}}
 </div>`
 );
+
+var seekerEx = Handlebars.compile(
+  `
+  <div id="seekerEx">
+    <p>{{profile.[3].[0].experience}}</p>
+  </div>
+  `
+)
+
+var seekerExperienceButton = Handlebars.compile(
+  `
+  <div id="seekerExperienceButton">
+    {{#if profile.[0]}}
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#seekerExperienceForm" style="float:right;">
+        {{#if profile.[3]}}
+        Edit    
+        {{else}}
+        Add
+        {{/if}}
+    </button> 
+    {{else}}
+        <span style="float:right;">Please create a profile first.</span> 
+    {{/if}}
+  </div>
+  `
+)
+
+var seekerExTemplate = Handlebars.compile(
+  `
+  <div class="modal-body seekerExTemplate">
+    <form id="seekerExperience">
+        <label for="seekerExperience">
+        <textarea id="seekerExperience" name="seekerExperience">{{profile.[3].[0].experience}}</textarea>
+    </form>
+  </div>
+  `
+)
+
+var seekerExBottomButtton = Handlebars.compile(
+  `
+  <div class="modal-footer" id="seekerExBottomButton">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+    {{#if profile.[3]}}
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#seekerExperienceForm" id="SaveExperience">Save</button>
+    {{else}}
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#seekerExperienceForm" id="AddExperience">Add</button>
+    {{/if}}
+  </div>
+  `
+)
+
 
 const reloadSeekerName = (profile) => {
   console.log(`reload seeker name function:`);
@@ -158,6 +231,10 @@ const reloadSeekerCustomInfo = (profile) => {
   $("#SeekerCustomField").html(seekerProfileCustomfieldTemplate({ profile }));
 };
 
+const reloadSeekerEdButton = (profile) =>{
+  $("#seekerEductionButtons").html(seekerEducationButton({profile}))
+}
+
 const reloadSeekerEd = (profile) => {
   $(".seekerEd").html(seekerEducation({ profile }));
 };
@@ -165,6 +242,24 @@ const reloadSeekerEd = (profile) => {
 const reloadSeekerEdModal = (profile) => {
   $(".seekerEdModal").html(seekerEdModal({ profile }));
 };
+
+const reloadSeekerEx = (profile) => {
+  $("#seekerEx").html(seekerEx({profile}))
+}
+
+const reloadSeekerExButton = (profile) =>  {
+  $("#seekerExperienceButton").html(seekerExperienceButton({profile}))
+}
+
+const reloadSeekerExModal = (profile) => {
+  $(".seekerExTemplate").html(seekerExTemplate({profile}))
+}
+
+const reloadSeekerButtomButton = (profile) => {
+  $("#seekerExBottomButton").html(seekerExBottomButtton({profile}))
+}
+
+
 
 // event listeners for the buttons on the seeker profile page
 $(() => {
@@ -210,6 +305,9 @@ $(() => {
         reloadSeekerProfileInfo(res.data);
         reloadSeekerEditCreate(res.data);
         reloadSeekerEditCreateModal(res.data);
+        reloadSeekerCustomButton(res.data);
+        reloadSeekerEdButton(res.data);
+        reloadSeekerExButton(res.data);
         console.log(res.data);
       });
   });
@@ -265,7 +363,7 @@ $(() => {
   });
   $(document).on("click", ".removecustomseeker", (e) => {
     e.preventDefault();
-    let divId = $(event.target).data("id");
+    let divId = $(e.target).data("id");
     console.log(divId);
     axios
       .delete(`https://localhost:3000/api/deleteSeekerCustomfield/${divId}`)
@@ -293,6 +391,8 @@ $(() => {
       .then((res) => {
         reloadSeekerEd(res.data);
         reloadSeekerEditCreateModal(res.data);
+        reloadSeekerEdButton(res.data)
+        reloadSeekerEdModal(res.data)
         console.log(res.data);
       });
   });
@@ -320,18 +420,35 @@ $(() => {
     console.log("Add experience button pressed");
     e.preventDefault();
     let seekerExperience = {
-      experience: $("select[name=impactSeekerUniversityDegree]").val(),
-      highschool_degree: $("select[name=impactSeekerHighSchoolDegree]").val(),
-      other_certifications: $("textarea[name=OtherCertification]").val(),
+      experience: $("textarea[name=seekerExperience]").val(),
     };
     axios
-      .put("https://localhost:3000/api/seekerSaveEducation", {
-        seekerEd: seekerEducation,
+      .post("https://localhost:3000/api/seekerExperience", {
+        seekerEx: seekerExperience,
       })
       .then((res) => {
-        reloadSeekerEd(res.data);
-        reloadSeekerEditCreateModal(res.data);
+        reloadSeekerEx(res.data);
+        reloadSeekerExButton(res.data)
+        reloadSeekerExModal(res.data)
+        reloadSeekerButtomButton(res.data)
         console.log(res.data);
       });
   });
+
+  $(document).on("click", "#SaveExperience", (e) => {
+    console.log("Save experience button pressed");
+    e.preventDefault();
+    let seekerExperience = {
+      experience: $("textarea[name=seekerExperience]").val()
+    };
+    axios
+      .put("https://localhost:3000/api/seekerSaveExperience", {
+        seekerEx: seekerExperience,
+      })
+      .then((res) => {
+        reloadSeekerEx(res.data);
+        console.log(res.data);
+      });
+  });
+
 });

@@ -108,7 +108,7 @@ class FinderProfileService {
       await this.knex
         .select("*")
         .from("job")
-        .where("job.finder_id", finderId)
+        // .where("job.finder_id", finderId)
         .insert({
           finder_id: finderId,
           job_title: info.jobTitle,
