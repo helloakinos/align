@@ -6,15 +6,15 @@
 
 // run the test with: --forceExit
 
-const FinderProfileService = require("../Service/FinderProfileService.js");
+const SeekerProfileService = require("../Service/SeekerProfileService.js");
 require("dotenv").config();
 
 const knex = require("knex")({
   client: "pg",
     connection: {
-      database: process.env.DB_NAME,
-      user: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
+      database: "yala",
+      user: "postgres",
+      password: "password",
     },
   });
 
@@ -22,143 +22,68 @@ describe("Databasequeries", () => {
   beforeEach(() => {
     jest.setTimeout(20000);
 
-    exploreService = new ExploreService(knex);
-  });
-
-  test("List all finders seeded", () => {
-    return exploreService.allFinders().then((finders) => {
-      expect(finders).toEqual(
-        [
-          { finder_id: 1, finder_name: 'Microsoft' },
-          { finder_id: 2, finder_name: 'poorhelp' },
-          { finder_id: 3, finder_name: 'animalsinneed' }
-        ]
-      );
-    });
+    seekerProfileService = new SeekerProfileService(knex);
   });
 
   test("List all seekers seeded", () => {
-    return exploreService.allSeekers().then((seekers) => {
+    return seekerProfileService.listprofile(1).then((seekers) => {
       expect(seekers).toEqual(
         [
-          { seeker_id: 1, first_name: 'Bella', surname: 'Asturo' },
-          { seeker_id: 2, first_name: 'Stella', surname: 'Bernas' },
-          { seeker_id: 3, first_name: 'christine', surname: 'claption' },
-          { seeker_id: 4, first_name: 'Dave', surname: 'Doolitle' },
-          { seeker_id: 5, first_name: 'Boris', surname: 'Bruin' },
-          { seeker_id: 6, first_name: 'Yu Li', surname: 'Mgoy' },
-          { seeker_id: 7, first_name: 'Stephano', surname: 'Align' },
-          { seeker_id: 8, first_name: 'Yasmine', surname: 'Yalla' },
-          { seeker_id: 9, first_name: 'Oliver', surname: 'Oldness' },
-          { seeker_id: 10, first_name: 'Jolene', surname: 'Desperado' },
-          { seeker_id: 11, first_name: 'Berry', surname: 'Blast' },
-          { seeker_id: 12, first_name: 'Oswald', surname: 'Oyeye' }
+          {
+            seeker_id: 1,
+            first_name: 'Bella',
+            surname: 'Asturo',
+            current_company: 'Xccelerate',
+            date_joined: null,
+            gender: 'Female',
+            cv_id: null,
+            favourite_finders: null,
+            favourite_jobs: null,
+            current_location: null,
+            mobile_number: 112345678,
+            home_number: 187654321,
+            email1: 'bella@test.com',
+            email2: null,
+            links: 'www.portfoliopage.com'
+          },
+          [
+            {
+              customfield_id: 1,
+              seeker_id: 1,
+              customfield_title: 'Person Project',
+              customfield_content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque egestas tincidunt tortor, in tincidunt magna vehicula in. Nam fringilla eu metus vitae malesuada. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque at mi tellus. Cras mollis lacinia pretium. Donec et tellus quis lorem convallis rhoncus. Aenean orci turpis, volutpat iaculis sapien vehicula, ultrices venenatis est. Etiam at magna eget metus vehicula rutrum ut eu dolor. Morbi cursus blandit dolor sed condimentum. Ut volutpat vestibulum lectus eu finibus. Nam scelerisque erat quam, quis varius neque semper a.'
+            },
+            {
+              customfield_id: 2,
+              seeker_id: 1,
+              customfield_title: 'Customfield Bouya',
+              customfield_content: 'Another crazy custom field filled with dummy text, enjoy'
+            },
+            {
+              customfield_id: 3,
+              seeker_id: 1,
+              customfield_title: 'Campaigns lead',
+              customfield_content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque egestas tincidunt tortor, in tincidunt magna vehicula in. Nam fringilla eu metus vitae malesuada. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque at mi tellus. Cras mollis lacinia pretium. Donec et tellus quis lorem convallis rhoncus. Aenean orci turpis, volutpat iaculis sapien vehicula, ultrices venenatis est. Etiam at magna eget metus vehicula rutrum ut eu dolor. Morbi cursus blandit dolor sed condimentum. Ut volutpat vestibulum lectus eu finibus. Nam scelerisque erat quam, quis varius neque semper a.'
+            }
+          ],
+          [
+            {
+              seeker_education_id: 1,
+              seeker_id: 1,
+              university_degree: true,
+              highschool_degree: true,
+              other_certifications: 'Black Smith Apprentice & Driving License'
+            }
+          ],
+          [
+            {
+              experience_id: 1,
+              seeker_id: 1,
+              experience: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque egestas tincidunt tortor, in tincidunt magna vehicula in. Nam fringilla eu metus vitae malesuada. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque at mi tellus. Cras mollis lacinia pretium. Donec et tellus quis lorem convallis rhoncus. Aenean orci turpis, volutpat iaculis sapien vehicula, ultrices venenatis est. Etiam at magna eget metus vehicula rutrum ut eu dolor. Morbi cursus blandit dolor sed condimentum. Ut volutpat vestibulum lectus eu finibus. Nam scelerisque erat quam, quis varius neque semper a Integer finibus eu turpis vitae hendrerit. Cras interdum leo sit amet purus fermentum interdum. Aenean molestie, tellus maximus consequat cursus, augue orci lobortis quam, vitae posuere sem metus vel sapien. Sed rhoncus arcu scelerisque lobortis eleifend. Fusce eleifend lectus vitae maximus porttitor. Integer dictum id diam vitae vestibulum. In tempor eget nunc at malesuada. Mauris porta auctor iaculis. Maecenas accumsan lobortis est, non euismod lectus dictum non. Duis congue consequat ex quis condimentum.Curabitur in auctor elit. Aenean quis commodo magna. Nulla condimentum libero leo, et dictum mauris sagittis id. Nam bibendum a lacus id dictum. Vestibulum non massa fringilla, dictum nunc quis, tincidunt purus. Pellentesque semper viverra hendrerit. Nunc auctor eleifend porta. Phasellus sed ante nibh. Morbi id velit nec ante tincidunt malesuada. Suspendisse eu rhoncus nibh, eu ornare nunc. Nam venenatis sagittis risus, at consequat magna maximus eu. Donec a orci volutpat, ullamcorper nisl a, vehicula ipsum. Quisque a viverra ex.Nulla velit lacus, placerat eu urna viverra, mattis pharetra tortor. Sed vel efficitur est. Ut tincidunt lorem sed quam blandit, eu posuere lacus eleifend. Fusce sagittis eros eu erat imperdiet fringilla. Nam eget varius mi. In hac habitasse platea dictumst. Etiam vitae orci magna. Morbi dui tellus, egestas ut vehicula nec, lobortis a nibh.'
+            }
+          ]
         ]
       );
     });
   });
-
-  test("List all jobs seeded", () => {
-    return exploreService.allSeekers().then((jobs) => {
-      expect(jobs).toEqual(
-        [
-          {
-            job_id: 1,
-            finder_id: 1,
-            job_title: 'Community Manager',
-            job_description: "As a Community Manager, you will help create and manage our brand voice and image. Your duties include creating and publishing content on all media platforms, reviewing social media and other marketing metrics to build and improve campaign strategies and crafting responses to customers' feedback and messages on various platforms.",
-            location: 'HK',
-            vetted: null,
-            number_of_seekers: null,
-            min_salary: null,
-            max_salary: null
-          },
-          {
-            job_id: 2,
-            finder_id: 2,
-            job_title: 'Beach clean up',
-            job_description: 'Pick up trash and improve marine life. Free beer afterwards',
-            location: 'HK',
-            vetted: null,
-            number_of_seekers: null,
-            min_salary: null,
-            max_salary: null
-          },
-          {
-            job_id: 3,
-            finder_id: 3,
-            job_title: 'Volunteer Optician',
-            job_description: "As a technical practitioner, you will design, fit and dispense lenses for the correction of clients' vision.",
-            location: 'HK',
-            vetted: null,
-            number_of_seekers: null,
-            min_salary: null,
-            max_salary: null
-          }
-        ]
-      );
-    });
-  });
-
-
-
-  // test("It should be able to return an empty array for a new user", () => {
-  //   return noteService.list("sam").then((notes) => {
-  //     expect(notes).toEqual([{ id: 1, content: "one" }]);
-  //   });
-  // });
-
-  // test("It should be able to add a note from a users note array", () => {
-  //   return noteService
-  //     .add("first note", "sam")
-  //     .then(() => noteService.list("sam"))
-  //     .then((notes) => {
-  //       expect(notes).toEqual([
-  //         { id: 1, content: "one" },
-  //         { id: 3, content: "first note" },
-  //       ]);
-  //     });
-  // });
-
-  // test("The service should be able to update a note", () => {
-  //   return noteService
-  //     .add("second note", "sam")
-  //     .then(() => noteService.update(3, "second good note", "sam"))
-  //     .then(() => noteService.list("sam"))
-  //     .then((notes) => {
-  //       expect(notes).toEqual([
-  //         { id: 1, content: "one" },
-  //         { id: 3, content: "second good note" },
-  //         { id: 4, content: "second note" },
-  //       ]);
-  //     });
-  // });
-
-  // test("The service should be able to remove a note", () => {
-  //   return noteService
-  //     .remove(1, "sam")
-  //     .then(() => noteService.list("sam"))
-  //     .then((notes) => {
-  //       expect(notes).toEqual([
-  //         { id: 3, content: "second good note" },
-  //         { id: 4, content: "second note" },
-  //       ]);
-  //     });
-  // });
-
-  // test("the service should throw and error for updating a non existing user.", () => {
-  //   return noteService.update(1, "note", "john").catch((err) => {
-  //     expect(err).toEqual(
-  //       new Error("Cannot update a note if the user doesn't exist!")
-  //     );
-  //   });
-  // });
-
-  // test("the service should throw an error for trying to remove a note from a non-existing user", () => {
-  //   return noteService.remove(1, "altaf").catch((err) => {
-  //     expect(err).toEqual(
-  //       new Error(`Cannot remove a note when the user doesn't exist!`)
-  //     );
-  //   });
-  // });
 });
