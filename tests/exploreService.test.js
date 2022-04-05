@@ -6,15 +6,15 @@
 
 // run the test with: --forceExit
 
-const FinderProfileService = require("../Service/FinderProfileService.js");
+const ExploreService = require("../Service/ExploreService.js");
 require("dotenv").config();
 
 const knex = require("knex")({
   client: "pg",
     connection: {
-      database: process.env.DB_NAME,
-      user: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
+      database: "yala",
+      user: "postgres",
+      password: "password",
     },
   });
 
@@ -59,7 +59,7 @@ describe("Databasequeries", () => {
   });
 
   test("List all jobs seeded", () => {
-    return exploreService.allSeekers().then((jobs) => {
+    return exploreService.allJobs().then((jobs) => {
       expect(jobs).toEqual(
         [
           {

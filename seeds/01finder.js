@@ -8,9 +8,9 @@ exports.seed = async function (knex) {
   await knex("finder").insert([
     {
       finder_id: 1,
-      finder_name: "environment",
+      finder_name: "Microsoft",
       vetted: true,
-      finder_description: "This project aims to help the environment",
+      finder_description: "Technology to change and improve lives",
       finder_size: 3,
     },
     {
